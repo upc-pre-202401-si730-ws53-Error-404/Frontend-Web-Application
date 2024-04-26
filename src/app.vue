@@ -9,7 +9,5 @@ export default {
 </script>
 
 <template>
-
   <toolbar-content></toolbar-content>
-
 </template>

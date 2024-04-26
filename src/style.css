@@ -50,9 +50,10 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: rgba(26, 26, 26, 0.3);
   cursor: pointer;
   transition: border-color 0.25s;
+  margin-right: 1em;
 }
 button:hover {
   border-color: #646cff;

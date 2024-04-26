@@ -1,35 +1,62 @@
 <script>
-import PvToolbar from "../../main.js";
 
 export default {
   name: "toolbar-content",
-  components: {PvToolbar}
 }
 </script>
 
 <template>
-<pv-toolbar style="border-radius: 3rem; padding: 1rem 1rem 1rem 1.5rem">
-  <template #start>
-    <div class="flex align-items-center gap-2">
-      <svg width="35" height="40" viewBox="0 0 35 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="..." fill="var(--text-color)" />
-        <path d="..." fill="var(--surface-card)" />
-      </svg>
-      <Button label="Files" text plain />
-      <Button label="Edit" text plain />
-      <Button label="View" text plain />
-    </div>
-  </template>
+  <pv-toolbar class="fixed-toolbar pv-toolbar" style=" padding: 1rem 1rem 1rem 1.5rem">
+    <template #start>
+      <span class="toolbar-section">
+        <img src="https://raw.githubusercontent.com/upc-pre-202401-si730-ws53-Error-404/TB1_AplicacionesWeb/main/resources/ChaquitacllaLogoNuevo.png" alt="Logo" style="width: 10rem; height: auto; border-radius: 10%; margin-right: 1rem" />
+      </span>
+    </template>
 
-  <template #end>
-    <div class="flex align-items-center gap-2">
-      <Button label="Share" severity="contrast" size="small" />
-      <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" style="width: 32px; height: 32px" />
-    </div>
-  </template>
-</pv-toolbar>
+    <template #center >
+        <div class="toolbar-section center-start ">
+        <pv-button class="bg-transparent mr-4">
+          <p>Control Panel</p>
+        </pv-button>
+        <pv-button>
+          <p>Register Crop</p>
+        </pv-button>
+      </div>
+
+    </template>
+
+    <template #end>
+      <span class="toolbar-section">
+        <i class="pi pi-user" style="font-size: 2rem"></i>
+        <p>Roberto Juarez</p>
+      </span>
+    </template>
+  </pv-toolbar>
 </template>
 
 <style scoped>
+.toolbar-section {
+  display: inline-block;
+  flex-direction: row;
+  justify-content: space-between;
 
+}
+
+.fixed-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.pv-toolbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--primary-main-green)
+}
+
+.center-start {
+  display: flex;
+  justify-content: flex-start;
+}
 </style>
