@@ -6,7 +6,7 @@ import Toolbar from "primevue/toolbar";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import Card from "primevue/card";
-
+import VueBarGraph from 'vue-bar-graph';
 
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
@@ -18,4 +18,5 @@ createApp(App)
     .component('pv-button', Button)
     .component('pv-input-text', InputText)
     .component('pv-card', Card)
+    .component('pv-bar-graph',VueBarGraph)
     .mount('#app')
