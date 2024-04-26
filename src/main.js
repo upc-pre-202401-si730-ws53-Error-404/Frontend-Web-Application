@@ -13,7 +13,7 @@ import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
 
 createApp(App)
-    .use(PrimeVue, {ripple: true})
+    .use(PrimeVue)
     .component('pv-toolbar',Toolbar)
     .component('pv-button', Button)
     .component('pv-input-text', InputText)

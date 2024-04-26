@@ -26,10 +26,10 @@ export default {
     </template>
 
     <template #end>
-      <span class="toolbar-section">
-        <i class="pi pi-user" style="font-size: 2rem"></i>
-        <p>Roberto Juarez</p>
-      </span>
+        <pv-button class="toolbar-section user" :Ripple="false" @click="">
+          <i class="pi pi-user " style="font-size: 2rem"></i>
+          <p class="ml-3" >Roberto Juarez</p>
+        </pv-button>
     </template>
   </pv-toolbar>
 </template>
@@ -39,8 +39,25 @@ export default {
   display: inline-block;
   flex-direction: row;
   justify-content: space-between;
-
 }
+
+
+.user {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  align-items: center;
+    font-size: 1rem;
+    padding: 0.5rem;
+    height: auto !important;
+    width: auto !important;
+  transform: none !important;
+}
+
+.user:active, .user:focus {
+  transform: none !important;
+}
+
 
 .fixed-toolbar {
   position: fixed;
