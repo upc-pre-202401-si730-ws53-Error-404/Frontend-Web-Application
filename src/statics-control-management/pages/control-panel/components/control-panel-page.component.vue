@@ -1,11 +1,20 @@
 <script>
 export default {
-  name: "control-panel-page"
+  name: "control-panel-page",
+  data() {
+    return {
+      items: [
+        { label: 'Statical reports', to: '/statical-reports' },
+        { label: 'Crop Registration', to: '/crop-registration' },
+        { label: 'Consultation forum', to: '/consultation-forum' },
+        { label: 'Crop History', to: '/crop-history' }
+      ]
+    }
+  }
 }
 </script>
 
 <template>
-
   <div class="main-container">
     <div class="left-container">
       <pv-card class="justify-content-center mt-2">
@@ -13,8 +22,8 @@ export default {
           <i class="pi pi-chart-bar icon-large"></i>
         </template>
         <template #footer>
-          <router-link to="/"  rel="noopener">
-            <pv-button class="button-green" label="Statical reports" />
+          <router-link :to="items[0].to"  rel="noopener">
+            <pv-button class="button-green" :label="items[0].label" />
           </router-link>
         </template>
       </pv-card>
@@ -56,7 +65,7 @@ export default {
     </div>
 
     <div class="right-container">
-      <p>Here the donut-graph</p>
+      <p>Here the donut-graph with SCB</p>
     </div>
   </div>
 
@@ -83,8 +92,8 @@ export default {
 }
 
 .button-green {
-  background-color: var(--primary-main-green); /* Ajusta este valor al tono de verde que prefieras */
-  color: white; /* Esto cambiará el color del texto del botón a blanco */
+  background-color: var(--primary-main-green);
+  color: white;
 }
 
 
