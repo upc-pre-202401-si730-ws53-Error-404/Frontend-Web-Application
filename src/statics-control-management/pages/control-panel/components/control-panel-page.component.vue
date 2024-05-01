@@ -1,6 +1,12 @@
 <script>
+import PieChartCropsComponent from "./pie-chart-crops.component.vue";
+import PieChartCrops from "./pie-chart-crops.component.vue";
 export default {
   name: "control-panel-page",
+  components :{
+    PieChartCrops,
+    PieChartCropsComponent
+  },
   data() {
     return {
       items: [
@@ -65,7 +71,14 @@ export default {
     </div>
 
     <div class="right-container">
-      <p>Here the donut-graph with SCB</p>
+      <pv-card>
+        <template #content>
+          <pie-chart-crops/>
+        </template>
+        <template #footer>
+          <span>Crops</span>
+        </template>
+      </pv-card>
     </div>
   </div>
 

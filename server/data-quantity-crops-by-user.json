@@ -1,0 +1,24 @@
+{
+  "RobertoJuarez": {
+    "crops": [
+        {
+            "name": "Tomato",
+            "percentage": 20
+        },
+        {
+            "name": "Potato",
+            "percentage": 50
+        },
+      {
+                "name": "Carrot",
+                "percentage": 20
+            },
+        {
+                    "name": "Onion",
+                    "percentage": 10
+                }
+
+    ]
+  }
+
+}
