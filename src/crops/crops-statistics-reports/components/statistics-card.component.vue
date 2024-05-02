@@ -13,6 +13,7 @@
 
 <script>
 import VueApexCharts from 'vue3-apexcharts'
+import { CropApiService } from '../services/crop-api.service.js';
 
 export default {
   name: 'PieChart',
@@ -22,7 +23,7 @@ export default {
   data() {
     return {
       chartOptions: {
-        labels: ['Label 1', 'Label 2', 'Label 3'], // Reemplaza esto con tus propias etiquetas
+        labels: [], // Las etiquetas se llenarán con los nombres de los cultivos
         responsive: [{
           breakpoint: 480,
           options: {
@@ -35,14 +36,32 @@ export default {
           }
         }]
       },
-      series: [44, 55, 13],
+      series: [],
     };
+  },
+  created() {
+    const cropsAPI = new CropApiService();
+    cropsAPI.getAll().then(response => {
+      const crops = response.data;
+      console.log(crops);
+      const cropCounts = {};
+
+      crops.forEach(crop => {
+        if (crop.name in cropCounts) {
+          cropCounts[crop.name]++;
+        } else {
+          cropCounts[crop.name] = 1;
+        }
+      });
+
+      this.chartOptions.labels = Object.keys(cropCounts);
+      this.series = Object.values(cropCounts);
+    });
   },
 };
 </script>
 
 <style scoped>
-
 h2{
   color: #4CAF50;
   font-size: 1.5rem;
@@ -50,5 +69,4 @@ h2{
   margin: 0;
   padding: 0;
 }
-
 </style>
