@@ -7,6 +7,8 @@ import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import Card from "primevue/card";
 import VueBarGraph from 'vue-bar-graph';
+import VueApexCharts from 'vue3-apexcharts'
+import ApexCharts from 'apexcharts'
 
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
@@ -16,6 +18,8 @@ import router from "./router/index.js";
 createApp(App)
     .use(router)
     .use(PrimeVue)
+    .use(VueApexCharts)
+    .component('apexchart', VueApexCharts)
     .component('pv-toolbar',Toolbar)
     .component('pv-button', Button)
     .component('pv-input-text', InputText)

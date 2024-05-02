@@ -9,6 +9,7 @@
     "preview": "../Frontend-Web-Application-develop/Frontend-Web-Application-develop/node_modules/.bin/vite preview"
   },
   "dependencies": {
+    "apexcharts": "^3.49.0",
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
     "json-server": "^1.0.0-alpha.23",
@@ -16,9 +17,11 @@
     "primeicons": "^7.0.0",
     "primevue": "^3.51.0",
     "vue": "^3.4.21",
+    "vue-apexcharts": "^1.6.2",
     "vue-bar-graph": "^2.0.0",
     "vue-chartjs": "^5.3.1",
     "vue-router": "^4.3.2",
+    "vue3-apexcharts": "^1.5.2",
     "vue3-chart-v2": "^0.8.3"
   },
   "devDependencies": {
