@@ -11,8 +11,10 @@ import VueBarGraph from 'vue-bar-graph';
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
+import router from "./router/index.js";
 
 createApp(App)
+    .use(router)
     .use(PrimeVue)
     .component('pv-toolbar',Toolbar)
     .component('pv-button', Button)
