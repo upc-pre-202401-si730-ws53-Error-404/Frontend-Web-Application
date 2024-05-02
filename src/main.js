@@ -12,6 +12,8 @@ import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
 import router from "./router/index.js";
+import IconField from "primevue/iconfield";
+import InputIcon from "primevue/inputicon";
 
 createApp(App)
     .use(router)
@@ -21,4 +23,6 @@ createApp(App)
     .component('pv-input-text', InputText)
     .component('pv-card', Card)
     .component('pv-bar-graph',VueBarGraph)
+    .component('pv-icon-field',IconField)
+    .component('pv-input-icon',InputIcon)
     .mount('#app')
