@@ -6,7 +6,7 @@ export default {
   data() {
     return {
       items: [
-        { label: 'Statical reports', to: '/crops-statistics-reports' },
+        { label: 'Statical reports', to: '/sowing-statistics-reports' },
         { label: 'Crop Registration', to: '/crop-registration' },
         { label: 'Consultation forum', to: '/consultation-forum' },
         { label: 'Crop History', to: '/crop-history' }

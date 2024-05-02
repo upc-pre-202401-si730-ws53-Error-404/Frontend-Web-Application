@@ -1,7 +1,7 @@
 <script>
 
 import ToolbarContent from "./public/components/toolbar-content.component.vue";
-import StaticalCard from "./crops/crops-statistics-reports/components/statistics-card.component.vue";
+import StaticalCard from "./crops/sowing-statistics-reports/components/statistics-card.component.vue";
 import ControlPanelPage
   from "./public/pages/control-panel/components/control-panel-page.component.vue";
 

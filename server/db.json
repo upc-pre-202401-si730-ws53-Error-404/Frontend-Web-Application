@@ -1,5 +1,5 @@
 {
-  "users":[
+  "users": [
     {
       "id": "1",
       "name": "John Doe",
@@ -39,46 +39,74 @@
   ],
   "sowings": [
     {
-      "id": 1,
-      "start_date": "2024-07-19",
-      "area_land": 100,
-      "user_id": 1,
-      "crop_id": 1
+        "id": 1,
+        "start_date": "2024-07-19",
+        "harvest_date": "2024-10-19",
+        "area_land": 500,
+        "user_id": 1,
+        "crop_id": 1,
+        "crop_name": "Lemon",
+        "phenological_phase": "Germination"
     },
     {
       "id": 2,
       "start_date": "2024-07-19",
+      "harvest_date": "2024-10-19",
       "area_land": 700,
       "user_id": 1,
-      "crop_id": 2
+      "crop_id": 2,
+      "crop_name": "Rice",
+      "phenological_phase": "Germination"
     },
     {
-      "id": 3,
-      "start_date": "2024-07-19",
-      "area_land": 1000,
-      "user_id": 1,
-      "crop_id": 1
+        "id": 3,
+        "start_date": "2024-07-19",
+        "harvest_date": "2024-10-19",
+        "area_land": 1000,
+        "user_id": 1,
+        "crop_id": 1,
+        "crop_name": "Lemon",
+        "phenological_phase": "Germination"
     },
     {
       "id": 4,
       "start_date": "2024-07-19",
+      "harvest_date": "2024-10-19",
       "area_land": 1200,
       "user_id": 1,
-      "crop_id": 2
+      "crop_id": 2,
+      "crop_name": "Rice",
+      "phenological_phase": "Germination"
     },
     {
       "id": 5,
       "start_date": "2024-07-19",
+      "harvest_date": "2024-10-19",
       "area_land": 1500,
       "user_id": 1,
-      "crop_id": 1
+      "crop_id": 1,
+      "crop_name": "Lemon",
+        "phenological_phase": "Germination"
     },
     {
       "id": 6,
       "start_date": "2024-09-19",
+      "harvest_date": "2024-12-19",
       "area_land": 200,
       "user_id": 1,
-      "crop_id": 2
+      "crop_id": 2,
+      "crop_name": "Rice",
+      "phenological_phase": "Germination"
+    },
+    {
+      "id": 7,
+      "start_date": "2024-09-19",
+      "harvest_date": "2024-12-19",
+      "area_land": 200,
+      "user_id": 1,
+      "crop_id": 2,
+      "crop_name": "Rice",
+      "phenological_phase": "Germination"
     }
   ],
   "crops": [
@@ -159,9 +187,9 @@
       "suggestion": "Water the crop for 30 minutes"
     }
   ],
-  "controls":[
+  "controls": [
     {
-      "id":1,
+      "id": 1,
       "sowing_id": 1,
       "date": "2024-07-25",
       "leave": "It presents two spots on the wrinkles",
@@ -193,7 +221,7 @@
       "soil": "The soil is moist"
     },
     {
-      "id":5,
+      "id": 5,
       "sowing_id": 1,
       "date": "2024-08-05",
       "leave": "It presents three spots",
@@ -251,7 +279,7 @@
     {
       "id": 2,
       "name": "Rice beetle",
-      "description":"This beetle feeds on stored rice grains, causing significant damage to warehouses and silos.",
+      "description": "This beetle feeds on stored rice grains, causing significant damage to warehouses and silos.",
       "solution": "In cases of severe infestations, it may be necessary to resort to the use of pesticides. Dosage and application recommendations provided by agricultural experts or local authorities should be followed."
     },
     {
@@ -432,7 +460,7 @@
       "id": 1,
       "questionId": 1,
       "userName": "Alexis Sanchez",
-      "content":  "In my experience, the best time to plant rice in Amazonas is early December. Rainfall is usually steady but not excessive, which creates optimal conditions for rice growth. In addition, planting at this time allows us to avoid periods of heavier rains that can cause waterlogging problems."
+      "content": "In my experience, the best time to plant rice in Amazonas is early December. Rainfall is usually steady but not excessive, which creates optimal conditions for rice growth. In addition, planting at this time allows us to avoid periods of heavier rains that can cause waterlogging problems."
     },
     {
       "id": 2,
@@ -444,7 +472,7 @@
       "id": 3,
       "questionId": 1,
       "userName": "Gino Peruzzi",
-      "content":  "In our area, we have found that the best time to plant rice is mid-January. During this period, rainfall is more stable and abundant, which ensures a constant supply of water for plant growth. In addition, planting in January allows us to avoid the risks associated with December's torrential rains and flash floods."
+      "content": "In our area, we have found that the best time to plant rice is mid-January. During this period, rainfall is more stable and abundant, which ensures a constant supply of water for plant growth. In addition, planting in January allows us to avoid the risks associated with December's torrential rains and flash floods."
     },
     {
       "id": 4,

@@ -5,7 +5,7 @@
         <h2>Most registered crops in the app</h2>
       </template>
       <template #content>
-        <apexchart type="pie" :options="chartOptions" :series="series"></apexchart>
+        <apexchart type="bar" :options="chartOptions" :series="series"></apexchart>
       </template>
     </pv-card>
   </div>
@@ -13,49 +13,58 @@
 
 <script>
 import VueApexCharts from 'vue3-apexcharts'
-import { CropApiService } from '../services/crop-api.service.js';
+import { StatisticsApiService } from '../services/statistics-api.service.js';
 
 export default {
-  name: 'PieChart',
+  name: 'BarChart',
   components: {
     apexchart: VueApexCharts,
   },
   data() {
     return {
       chartOptions: {
-        labels: [], // Las etiquetas se llenarán con los nombres de los cultivos
-        responsive: [{
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200
-            },
-            legend: {
-              position: 'bottom'
-            }
+        chart: {
+          type: 'bar'
+        },
+        colors: ['#F15B46', '#FEB019', '#FEB019', '#8D5B4C', '#F47560'], // Define los colores de las barras
+        plotOptions: {
+          bar: {
+            horizontal: true,
           }
-        }]
+        },
+        dataLabels: {
+          enabled: false
+        },
+        xaxis: {
+          categories: [],
+        },
+        tooltip: {
+          style: {
+            colors: ['#ff0000']
+          }
+        }
       },
-      series: [],
+      series: [{
+        data: []
+      }],
     };
   },
   created() {
-    const cropsAPI = new CropApiService();
-    cropsAPI.getAll().then(response => {
-      const crops = response.data;
-      console.log(crops);
+    const statisticsAPI = new StatisticsApiService();
+    statisticsAPI.getAllSowings().then(response => {
+      const sowings = response.data;
       const cropCounts = {};
 
-      crops.forEach(crop => {
-        if (crop.name in cropCounts) {
-          cropCounts[crop.name]++;
+      sowings.forEach(sowing => {
+        if (sowing.crop_name in cropCounts) {
+          cropCounts[sowing.crop_name]++;
         } else {
-          cropCounts[crop.name] = 1;
+          cropCounts[sowing.crop_name] = 1;
         }
       });
 
-      this.chartOptions.labels = Object.keys(cropCounts);
-      this.series = Object.values(cropCounts);
+      this.chartOptions.xaxis.categories = Object.keys(cropCounts);
+      this.series[0].data = Object.values(cropCounts);
     });
   },
 };
