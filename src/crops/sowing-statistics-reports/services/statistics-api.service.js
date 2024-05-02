@@ -4,11 +4,11 @@ import http from "../../../shared/services/http-common.js";
 export class StatisticsApiService {
 
     getAllSowings(){
-        return http.get('/crops-db/sowings')
+        return http.get('/crops/sowings')
     }
 
     getAllCrops() {
-        return http.get('/crops-db/crops');
+        return http.get('/crops/crops');
     }
 
 }
