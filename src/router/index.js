@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import StaticalCardComponent from "../crops/statical-reports/components/statical-card.component.vue";
+import StaticalCardComponent from "../crops/sowing-statistics-reports/components/statistics-card.component.vue";
 import ControlPanelPageComponent from "../public/pages/control-panel/components/control-panel-page.component.vue";
 
 const routes = [
-    { path: '/statical-reports', component: StaticalCardComponent },
+    { path: '/sowing-statistics-reports', component: StaticalCardComponent },
     { path: '/', component: ControlPanelPageComponent }
 ];
 

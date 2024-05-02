@@ -1,7 +1,7 @@
 <script>
 
 import ToolbarContent from "./public/components/toolbar-content.component.vue";
-import StaticalCard from "./crops/statical-reports/components/statical-card.component.vue";
+import StaticalCard from "./crops/sowing-statistics-reports/components/statistics-card.component.vue";
 import ControlPanelPage
   from "./public/pages/control-panel/components/control-panel-page.component.vue";
 
@@ -15,5 +15,4 @@ export default {
   <toolbar-content></toolbar-content>
   <router-view></router-view>
 
-  <!--  <statical-card></statical-card>-->
 </template>
