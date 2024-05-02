@@ -1,54 +1,54 @@
-
 <template>
   <div>
-    <pv-card class="pv-card-left">
-      <template #header class="bg-teal-300">
-        <h2>Number of Controls</h2>
+    <pv-card>
+      <template #header>
+        <h2>Most registered crops in the app</h2>
       </template>
-
-      <template #content >
-        <table>
-          <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Type Name</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="crop in crops" :key="crop.id">
-            <td>{{ crop.id }}</td>
-            <td>{{ crop.name }}</td>
-            <td>{{ crop.description }}</td>
-            <td>{{ crop.type_name }}</td>
-          </tr>
-          </tbody>
-        </table>
-      </template>
-
-      <template #footer>
-        <p>Percentage of quantity of controls per crop</p>
+      <template #content>
+        <apexchart type="pie" :options="chartOptions" :series="series"></apexchart>
       </template>
     </pv-card>
   </div>
 </template>
 
 <script>
-import { CropApiService } from '../services/crop-api.service.js';
+import VueApexCharts from 'vue3-apexcharts'
 
 export default {
-  name: 'statical-card',
+  name: 'PieChart',
+  components: {
+    apexchart: VueApexCharts,
+  },
   data() {
     return {
-      crops: [],
-      cropsAPI: new CropApiService(),
+      chartOptions: {
+        labels: ['Label 1', 'Label 2', 'Label 3'], // Reemplaza esto con tus propias etiquetas
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
+      },
+      series: [44, 55, 13],
     };
-  },
-  created() {
-    this.cropsAPI.getAll().then(response => {
-      this.crops = response.data;
-    });
   },
 };
 </script>
+
+<style scoped>
+
+h2{
+  color: #4CAF50;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+}
+
+</style>
