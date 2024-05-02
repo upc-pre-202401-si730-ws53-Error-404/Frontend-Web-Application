@@ -2,9 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import StaticalCardComponent from "../statical-reports/components/statical-card.component.vue";
 import ControlPanelPageComponent from "../statics-control-management/pages/control-panel/components/control-panel-page.component.vue";
+import myQueriesComponent from "../consultation-forum-management/pages/my-queries/my-queries.component.vue";
 
 const routes = [
     { path: '/statical-reports', component: StaticalCardComponent },
+    {path: '/consultation-forum',component: myQueriesComponent},
     { path: '/', component: ControlPanelPageComponent }
 ];
 

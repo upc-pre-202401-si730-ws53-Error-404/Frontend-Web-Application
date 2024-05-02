@@ -50,8 +50,8 @@ export default {
           <i class="pi pi-comments icon-large"></i>
         </template>
         <template #footer>
-          <router-link to="/"  rel="noopener">
-            <pv-button class="button-green" label="Consultation forum" />
+          <router-link :to="items[2].to"  rel="noopener">
+            <pv-button class="button-green" :label="items[2].label" />
           </router-link>
         </template>
       </pv-card>

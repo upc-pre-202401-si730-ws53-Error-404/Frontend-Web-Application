@@ -6,7 +6,9 @@ export default {
 
 <template>
 <pv-card>
-
+<template #header>
+  <p>Works!</p>
+</template>
 </pv-card>
 
 </template>
