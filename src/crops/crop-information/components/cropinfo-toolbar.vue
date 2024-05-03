@@ -5,7 +5,13 @@
       return {
         title: "Crop Information",
         buttons: ["General Information", "Crop Care", "Controls", "Diseases or Pests", "Products Used"],
-        routes: ["/general-information", "/crop-care", "/controls", "/diseases-or-pests", "/products-used"],
+        routes: [
+          "/crop-information/general-information",
+          "/crop-information/crop-care",
+          "/crop-information/controls",
+          "/crop-information/diseases-or-pests",
+          "/crop-information/products-used"
+        ],
         activeButton: 0
       };
     },
