@@ -1,17 +1,13 @@
 <script>
-import PieChartCropsComponent from "./pie-chart-crops.component.vue";
-import PieChartCrops from "./pie-chart-crops.component.vue";
 export default {
   name: "control-panel-page",
   components :{
-    PieChartCrops,
-    PieChartCropsComponent
   },
   data() {
     return {
       items: [
-        { label: 'Statical reports', to: '/statical-reports' },
-        { label: 'Crop Registration', to: '/crop-registration' },
+        { label: 'Statical reports', to: '/sowing-statistics-reports' },
+        { label: 'Crop Registration', to: '/crop-list-and-registration' },
         { label: 'Consultation forum', to: '/consultation-forum' },
         { label: 'Crop History', to: '/crop-history' }
       ]
@@ -39,8 +35,8 @@ export default {
           <i class="pi pi-clipboard icon-large"></i>
         </template>
         <template #footer>
-          <router-link to="/"  rel="noopener">
-            <pv-button class="button-green" label="Crop Registration" />
+          <router-link :to="items[1].to"  rel="noopener">
+            <pv-button class="button-green" :label="items[1].label" />
           </router-link>
         </template>
       </pv-card>
@@ -61,8 +57,8 @@ export default {
           <i class="pi pi-history icon-large"></i>
         </template>
         <template #footer>
-          <router-link to="/"  rel="noopener">
-            <pv-button class="button-green" label="Crop History" />
+          <router-link :to="items[3].to"  rel="noopener">
+            <pv-button class="button-green" :label="items[3].label" />
           </router-link>
         </template>
       </pv-card>
@@ -73,7 +69,6 @@ export default {
     <div class="right-container">
       <pv-card>
         <template #content>
-          <pie-chart-crops/>
         </template>
         <template #footer>
           <span>Crops</span>
