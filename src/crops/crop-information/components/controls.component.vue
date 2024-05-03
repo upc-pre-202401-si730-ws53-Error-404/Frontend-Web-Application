@@ -1,5 +1,4 @@
 <script>
-
 import CustomTable from "./custom-table.component.vue";
 
 export default {

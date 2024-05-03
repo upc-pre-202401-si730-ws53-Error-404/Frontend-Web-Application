@@ -7,6 +7,8 @@ import CropListAndRegistrationManagementComponent
 import GeneralInformationComponent from "../crops/crop-information/components/general-information.component.vue";
 import CropCareComponent from "../crops/crop-information/components/crop-care.component.vue";
 import ControlsComponent from "../crops/crop-information/components/controls.component.vue";
+import DiseasesOrPestsComponent from "../crops/crop-information/components/diseases-or-pests.component.vue";
+import ProductsUsedComponent from "../crops/crop-information/components/products-used.component.vue";
 
 const routes = [
     { path: '/sowing-statistics-reports', component: StaticalCardComponent },
@@ -15,7 +17,9 @@ const routes = [
     { path: '/', redirect: '/control-panel'},
     { path:'/general-information',component: GeneralInformationComponent},
     { path:'/crop-care',component: CropCareComponent},
-    { path:'/controls',component: ControlsComponent}
+    { path:'/controls',component: ControlsComponent},
+    { path:'/diseases-or-pests',component: DiseasesOrPestsComponent},
+    { path:'/products-used',component: ProductsUsedComponent}
 ];
 
 const router = createRouter({
