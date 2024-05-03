@@ -93,10 +93,15 @@ export default {
     },
 
     deleteSowing() {
+      console.log('Deleting sowing with ID:', this.sowing.id);
+
       this.sowingService.delete(this.sowing.id)
           .then(() => {
             this.sowings = this.sowings.filter((s) => s.id !== this.sowing.id);
             this.sowing = {};
+          })
+          .catch((error) => {
+            console.error('Error deleting sowing:', error);
           });
     },
   },
@@ -155,7 +160,7 @@ export default {
         <template #body="slotProps">
           <pv-button icon="pi pi-pencil" outlined rounded class="mr-2" @click="onEditItemEventHandler(slotProps.data)" />
           <pv-button icon="pi pi-trash" outlined rounded severity="danger" @click="onDeleteItemEventHandler(slotProps.data)" />
-          <router-link :to="{ name: 'general-information', params: { sowingData: slotProps.data } }">
+          <router-link to='crop-information'>
             <pv-button icon="pi pi-eye" outlined rounded class="mr-2"/>
           </router-link>
         </template>
