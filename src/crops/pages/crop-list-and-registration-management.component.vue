@@ -124,7 +124,7 @@ export default {
   <div>
     <pv-toolbar class="mb-4">
       <template #end>
-        <pv-button label="New" icon="pi pi-plus" severity="success" class="mr-2" @click="onNewItemEventHandler" />
+        <pv-button label="New" icon="pi pi-plus" severity="success" class="mr-2 green-button" @click="onNewItemEventHandler" />
       </template>
     </pv-toolbar>
     <pv-data-table
@@ -192,6 +192,10 @@ export default {
 .p-datatable .p-datatable-thead > tr > th {
   background-color: #007bff;
   color: #ffffff;
+}
+h2 {
+  margin-top: 100px;
+  color: black;
 }
 
 </style>
