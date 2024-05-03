@@ -109,5 +109,10 @@ button:focus-visible {
 
 .title{
   color: black;
-  margin-top: 100px;
+  margin-top: 150px;
+}
+
+.new-button {
+  background-color: var(--primary-main-green);
+  color: var(--primary-main-white);
 }
