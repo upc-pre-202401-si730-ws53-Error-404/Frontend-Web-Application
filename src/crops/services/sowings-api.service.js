@@ -17,7 +17,17 @@ export class SowingsApiService{
     }
 
     delete(id) {
-        return http.delete(`/crops/sowings/${id}`);
+        console.log('Sending delete request for sowing with ID:', id);
+
+        return http.delete(`/crops/sowings/${id}`)
+            .then((response) => {
+                console.log('Delete request successful:', response);
+                return response;
+            })
+            .catch((error) => {
+                console.error('Error in delete request:', error);
+                throw error;
+            });
     }
 
     findByTitle(title) {

@@ -93,10 +93,15 @@ export default {
     },
 
     deleteSowing() {
+      console.log('Deleting sowing with ID:', this.sowing.id);
+
       this.sowingService.delete(this.sowing.id)
           .then(() => {
             this.sowings = this.sowings.filter((s) => s.id !== this.sowing.id);
             this.sowing = {};
+          })
+          .catch((error) => {
+            console.error('Error deleting sowing:', error);
           });
     },
   },

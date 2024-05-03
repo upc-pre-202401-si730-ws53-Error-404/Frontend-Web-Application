@@ -20,7 +20,6 @@ import DialogService from "primevue/dialogservice";
 import ConfirmationService from "primevue/confirmationservice";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import Calendar from "primevue/calendar";
 import ConfirmDialog from "primevue/confirmdialog";
 import Row from "primevue/row";
 import Textarea from "primevue/textarea";
@@ -39,6 +38,7 @@ import Checkbox from "primevue/checkbox";
 import Rating from "primevue/rating";
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
+import Calendar from "primevue/calendar";
 
 createApp(App)
     .use(router)
@@ -71,5 +71,5 @@ createApp(App)
     .component('pv-float-label', FloatLabel)
     .component('pv-checkbox', Checkbox)
     .component('pv-rating', Rating)
-    .component('pv-calendar', Calendar)
+    .component('pv-calendar',Calendar)
     .mount('#app')
