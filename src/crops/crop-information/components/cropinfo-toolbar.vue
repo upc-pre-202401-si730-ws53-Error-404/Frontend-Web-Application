@@ -5,6 +5,7 @@
       return {
         title: "Crop Information",
         buttons: ["General Information", "Crop Care", "Controls", "Diseases or Pests", "Products Used"],
+        routes: ["/general-information", "/crop-care", "/controls", "/diseases-or-pests", "/products-used"],
         activeButton: 0
       };
     },
@@ -20,9 +21,8 @@
   <div class="container">
     <h1 class="title">{{ title }}</h1>
     <div class="buttons">
-      <router-link to='/general-information'>
+      <router-link v-for="(button, index) in buttons" :key="index" :to="routes[index]">
         <button
-            v-for="(button, index) in buttons"
             :key="index"
             :class="{ active: activeButton === index }"
             @click="selectButton(index)"
@@ -30,7 +30,6 @@
           {{ button }}
         </button>
       </router-link>
-
     </div>
     <div class="line"></div>
   </div>
