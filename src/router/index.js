@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import CropListAndRegistrationManagementComponent
     from "../crops/pages/crop-list-and-registration-management.component.vue";
-import myQueriesComponent from "../crops/pages/my-queries.component.vue";
+import myQueriesComponent from "../forum/pages/my-queries.component.vue";
 import ControlPanelPageComponent from "../public/pages/control-panel/components/control-panel-page.component.vue";
 
 function StaticalCardComponent() {

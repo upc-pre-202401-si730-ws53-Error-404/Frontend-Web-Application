@@ -9,6 +9,7 @@
     <pv-calendar v-model="newQuery.date" :showIcon="true" />
     <template #footer>
       <pv-button class="pv-button" label="Submit" @click="submitQuery" />
+      <pv-button class="pv-button" label="Cancel" @click="onCancel" />
     </template>
   </pv-dialog>
 </template>
@@ -45,11 +46,15 @@ export default {
     const onHide = () => {
       emit('close');
     };
+    const onCancel = () => {
+      emit('cancel');
+    };
 
     return {
       newQuery,
       submitQuery,
       onHide,
+      onCancel,
     };
   },
 };

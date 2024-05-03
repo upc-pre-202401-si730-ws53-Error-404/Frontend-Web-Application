@@ -1,7 +1,7 @@
 <template>
   <div class="main-container p-mt-md-5 p-mt-sm-2">
     <h1>Consultation Forum</h1>
-    <pv-button class="pv-button" label="Ask your colleagues!" @click="openNewQuery" />
+    <pv-button class="pv-button " label="Ask your colleagues!" @click="openNewQuery" />
     <new-consultation-component :visible="showNewQuery" @close="showNewQuery = false" @new-query="addNewQuery" />
     <pv-data-table class="pv-data-table" :class="{ 'dialog-open': showNewQuery }" :value="questions">
       <pv-column v-for="col in columns" :key="col.field" :field="col.field" :header="col.header"></pv-column>
