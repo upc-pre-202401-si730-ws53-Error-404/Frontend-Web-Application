@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import StaticalCardComponent from "../crops/components/statistics-card.component.vue";
+import StaticalCardComponent from "../crops/components/crops-amount-stats-card.component.vue";
+import CropsStatisticsComponent from "../crops/pages/crops-statistics.component.vue";
 import ControlPanelPageComponent from "../public/pages/control-panel/components/control-panel-page.component.vue";
 import CropListAndRegistrationManagementComponent
     from "../crops/pages/crop-list-and-registration-management.component.vue";
@@ -11,7 +12,8 @@ import DiseasesOrPestsComponent from "../crops/crop-information/components/disea
 import ProductsUsedComponent from "../crops/crop-information/components/products-used.component.vue";
 
 const routes = [
-    { path: '/sowing-statistics-reports', component: StaticalCardComponent },
+
+    { path: '/sowing-statistics-reports', component: CropsStatisticsComponent },
     { path: '/control-panel', component: ControlPanelPageComponent},
     { path:'/crop-list-and-registration',component: CropListAndRegistrationManagementComponent},
     { path: '/', redirect: '/control-panel'},
@@ -20,6 +22,7 @@ const routes = [
     { path:'/controls',component: ControlsComponent},
     { path:'/diseases-or-pests',component: DiseasesOrPestsComponent},
     { path:'/products-used',component: ProductsUsedComponent}
+
 ];
 
 const router = createRouter({

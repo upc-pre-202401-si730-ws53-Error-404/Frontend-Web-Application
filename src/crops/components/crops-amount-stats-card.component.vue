@@ -1,22 +1,21 @@
-
 <script>
 import VueApexCharts from 'vue3-apexcharts'
 import {StatisticsApiService} from '../services/statistics-api.service.js';
 
 export default {
-  name: 'BarChart',
+  name: 'crops-amount-stats-card',
   components: {
     apexchart: VueApexCharts,
   },
   data() {
     return {
-      showInfo: false,
+      showDialog: false,
       mostRegisteredCrop: '',
       chartOptions: {
         chart: {
           type: 'bar'
         },
-        colors: ['#F15B46', '#FEB019', '#FEB019', '#8D5B4C', '#F47560'], // Define los colores de las barras
+        colors: ['#F15B46', '#FEB019', '#FEB019', '#8D5B4C', '#F47560'],
         plotOptions: {
           bar: {
             horizontal: true,
@@ -55,37 +54,38 @@ export default {
 
       this.chartOptions.xaxis.categories = Object.keys(cropCounts);
       this.series[0].data = Object.values(cropCounts);
-      this.mostRegisteredCrop = this.chartOptions.xaxis.categories[0]; // Asume que el cultivo más registrado es el primero en la lista
+      this.mostRegisteredCrop = this.chartOptions.xaxis.categories[0];
     });
   },
+  methods: {
+    openDialog() {
+      this.showDialog = true;
+    },
+    closeDialog() {
+      this.showDialog = false;
+    }
+  }
 };
 </script>
 
 <template>
   <div class="card-container">
-    <pv-card class="green-background padded-card">
+    <pv-card class="bg padded-card">
       <template #header>
         <h2>Most registered crops in the app</h2>
       </template>
       <template #content>
         <apexchart :options="chartOptions" :series="series" type="bar"></apexchart>
-        <button @click="showInfo = !showInfo">Wanna know more?</button>
-        <div v-if="showInfo">
-          <h3>Most registered crop</h3>
-          <p>{{ mostRegisteredCrop }}</p>
-        </div>
+        <button @click="openDialog">Wanna know more?</button>
       </template>
     </pv-card>
-    <pv-card class="green-background padded-card">
-      <template #content>
-        <apexchart :options="chartOptions" :series="series" type="bar"></apexchart>
-        <button @click="showInfo = !showInfo">Wanna know more?</button>
-        <div v-if="showInfo">
-          <h3>Most registered crop</h3>
-          <p>{{ mostRegisteredCrop }}</p>
-        </div>
-      </template>
-    </pv-card>
+    <div v-if="showDialog" class="dialog-overlay">
+      <div class="dialog">
+        <h3>Most registered crop</h3>
+        <p>{{ mostRegisteredCrop }}</p>
+        <button @click="closeDialog">Close</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -96,14 +96,14 @@ export default {
 }
 
 h2 {
-  color: #000000;
+  color: #ffff;
   font-size: 1.5rem;
   font-weight: 500;
   margin: 0;
   padding: 0;
 }
 
-.green-background {
+.bg {
   background-color: #005f40;
 }
 
@@ -111,10 +111,33 @@ h2 {
   margin-top: 40px;
   margin-left: 40px;
   padding: 20px;
+  border-radius: 15px;
 }
 
 button {
   display: block;
-  margin: 20px auto;
+  background-color: white;
+  color: black;
+  margin: auto;
+  border: 2px solid black;
+}
+
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dialog {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 5px;
 }
 </style>
