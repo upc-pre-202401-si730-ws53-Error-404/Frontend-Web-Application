@@ -1,24 +1,7 @@
-<template>
-  <div>
-    <pv-card class="green-background padded-card">
-      <template #header>
-        <h2>Most registered crops in the app</h2>
-      </template>
-      <template #content>
-        <apexchart type="bar" :options="chartOptions" :series="series"></apexchart>
-        <button @click="showInfo = !showInfo">Wanna know more?</button>
-        <div v-if="showInfo">
-          <h3>Most registered crop</h3>
-          <p>{{ mostRegisteredCrop }}</p>
-        </div>
-      </template>
-    </pv-card>
-  </div>
-</template>
 
 <script>
 import VueApexCharts from 'vue3-apexcharts'
-import { StatisticsApiService } from '../services/statistics-api.service.js';
+import {StatisticsApiService} from '../services/statistics-api.service.js';
 
 export default {
   name: 'BarChart',
@@ -78,7 +61,40 @@ export default {
 };
 </script>
 
+<template>
+  <div class="card-container">
+    <pv-card class="green-background padded-card">
+      <template #header>
+        <h2>Most registered crops in the app</h2>
+      </template>
+      <template #content>
+        <apexchart :options="chartOptions" :series="series" type="bar"></apexchart>
+        <button @click="showInfo = !showInfo">Wanna know more?</button>
+        <div v-if="showInfo">
+          <h3>Most registered crop</h3>
+          <p>{{ mostRegisteredCrop }}</p>
+        </div>
+      </template>
+    </pv-card>
+    <pv-card class="green-background padded-card">
+      <template #content>
+        <apexchart :options="chartOptions" :series="series" type="bar"></apexchart>
+        <button @click="showInfo = !showInfo">Wanna know more?</button>
+        <div v-if="showInfo">
+          <h3>Most registered crop</h3>
+          <p>{{ mostRegisteredCrop }}</p>
+        </div>
+      </template>
+    </pv-card>
+  </div>
+</template>
+
 <style scoped>
+.card-container {
+  display: flex;
+  justify-content: space-between;
+}
+
 h2 {
   color: #000000;
   font-size: 1.5rem;
@@ -92,7 +108,9 @@ h2 {
 }
 
 .padded-card {
-  padding: 20px; /* Ajusta este valor según tus necesidades */
+  margin-top: 40px;
+  margin-left: 40px;
+  padding: 20px;
 }
 
 button {
