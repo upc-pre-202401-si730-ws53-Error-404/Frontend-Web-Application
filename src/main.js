@@ -19,6 +19,7 @@ import DialogService from "primevue/dialogservice";
 import ConfirmationService from "primevue/confirmationservice";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
+import Calendar from "primevue/calendar";
 import ConfirmDialog from "primevue/confirmdialog";
 import Row from "primevue/row";
 import Textarea from "primevue/textarea";
@@ -66,4 +67,5 @@ createApp(App)
     .component('pv-float-label', FloatLabel)
     .component('pv-checkbox', Checkbox)
     .component('pv-rating', Rating)
+    .component('pv-calendar', Calendar)
     .mount('#app')
