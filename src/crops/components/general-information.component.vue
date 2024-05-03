@@ -3,20 +3,24 @@
     name: 'GeneralInformation',
     data() {
       return {
+        cropName: null,
         rows: [
           ['Crop Name', 'Rice'],
           ['Date Created', '19/02/2024'],
           ['Planted Area (m2)', '100']
         ]
       };
-    }
+    },
+    mounted() {
+      this.cropName = this.$route
+    },
   };
 </script>
 
 <template>
   <div class="container">
     <div class="image-container">
-      <img src="../assets/rice.png" alt="Image" />
+      <img src="" alt="Crop Image" />
     </div>
     <div class="labels-container">
       <div class="row" v-for="(row, index) in rows" :key="index">
