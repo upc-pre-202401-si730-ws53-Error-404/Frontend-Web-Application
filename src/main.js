@@ -10,6 +10,7 @@ import VueBarGraph from 'vue-bar-graph';
 import VueApexCharts from 'vue3-apexcharts'
 import ApexCharts from 'apexcharts'
 
+import 'primevue/resources/themes/saga-blue/theme.css';
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'

@@ -12,6 +12,7 @@ export default {
 </script>
 
 <template>
+
   <toolbar-content></toolbar-content>
   <router-view></router-view>
 

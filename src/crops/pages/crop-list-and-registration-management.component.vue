@@ -116,6 +116,7 @@ export default {
 </script>
 
 <template>
+
   <div>
     <h2>
       List of Crops in Progress
@@ -146,11 +147,12 @@ export default {
             </pv-input-icon>
             <pv-input-text v-model="filters['global'].value" placeholder="Search..." />
           </pv-icon-field>
+          <pv-button label="Add Crop" icon="pi pi-plus" severity="success" class="mr-2 button-brown" @click="onNewItemEventHandler" />
         </div>
       </template>
-      <pv-column field="crop_name" header="Crop" style="min-width:12rem"></pv-column>
-      <pv-column field="start_date" header="Planted Date" style="min-width:16rem"></pv-column>
-      <pv-column field="harvest_date" header="Harvest Date" style="min-width:16rem"></pv-column>
+      <pv-column field="crop_name" header="Crop" style="min-width:8rem"></pv-column>
+      <pv-column field="start_date" header="Planted Date" style="min-width:15rem"></pv-column>
+      <pv-column field="harvest_date" header="Harvest Date" style="min-width:15rem"></pv-column>
       <pv-column field="phenological_phase" header="Phenological Phase" style="min-width:12rem"></pv-column>
       <pv-column field="area_land" header="Planted Area" style="min-width:10rem"></pv-column>
 
@@ -159,7 +161,7 @@ export default {
           <pv-button icon="pi pi-pencil" outlined rounded class="mr-2" @click="onEditItemEventHandler(slotProps.data)" />
           <pv-button icon="pi pi-trash" outlined rounded severity="danger" @click="onDeleteItemEventHandler(slotProps.data)" />
           <router-link :to="{ name: '', params: { sowingData: slotProps.data } }">
-            <pv-button icon="pi pi-eye" outlined rounded class="mr-2" />
+            <pv-button icon="pi pi-eye" outlined rounded class="mr-2"/>
           </router-link>
         </template>
       </pv-column>
@@ -177,12 +179,8 @@ export default {
 </template>
 
 <style scoped>
-.p-datatable .p-datatable-tbody > tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-.p-datatable .p-datatable-tbody > tr:nth-child(odd) {
-  background-color: #ffffff;
+.position{
+  padding-top: 4rem;
 }
 
 .p-datatable .p-datatable-tbody > tr:hover {
@@ -197,5 +195,6 @@ h2 {
   margin-top: 100px;
   color: black;
 }
+
 
 </style>

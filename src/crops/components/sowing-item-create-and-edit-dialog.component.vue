@@ -42,22 +42,22 @@ export default {
     <div class="p-fluid">
       <div class="field mt-5">
         <pv-float-label>
-          <label for="crop_name">Name</label>
+          <label for="crop_name">Crop Name</label>
           <pv-input-text id="crop_name" v-model="entity.crop_name" :class="{'p-invalid':!entity.crop_name}"/>
           <small v-if="!entity.crop_name" class="p-invalid">Name is required.</small>
         </pv-float-label>
       </div>
       <div class="p-field mt-5">
         <pv-float-label>
-          <label for="area_land">Area</label>
+          <label for="area_land">Area(m2)</label>
           <input id="area_land" v-model="entity.area_land" class="p-inputtext p-component" type="number"/>
         </pv-float-label>
       </div>
     </div>
     <template #footer>
       <div class="flex justify-content-end">
-        <pv-button type="button" :label="getSubmitLabel()" class="p-button-text" icon="pi pi-check" @click="onSave"/>
-        <pv-button type="button" label="Cancel" severity="secondary" class="p-button-text" icon="pi pi-times" @click="onCancel"/>
+        <pv-button type="button" :label="getSubmitLabel()" class="p-button-text button-green" icon="pi pi-check" @click="onSave"/>
+        <pv-button type="button" label="Cancel" severity="secondary" class="p-button-text button-brown" icon="pi pi-times" @click="onCancel"/>
       </div>
     </template>
   </pv-dialog>
