@@ -3,6 +3,7 @@
 import CustomTable from "./custom-table.component.vue";
 
 export default {
+  name: 'CropCare',
   components: {CustomTable},
   data() {
     return {

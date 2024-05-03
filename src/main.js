@@ -37,7 +37,8 @@ import InputNumber from "primevue/inputnumber";
 import FloatLabel from "primevue/floatlabel";
 import Checkbox from "primevue/checkbox";
 import Rating from "primevue/rating";
-
+import TabView from 'primevue/tabview';
+import TabPanel from 'primevue/tabpanel';
 
 createApp(App)
     .use(router)
@@ -46,6 +47,8 @@ createApp(App)
     .use(ConfirmationService)
     .component('apexchart', VueApexCharts)
     .component('pv-toolbar',Toolbar)
+    .component('pv-tab-view',TabView)
+    .component('pv-tab-panel',TabPanel)
     .component('pv-button', Button)
     .component('pv-input-text', InputText)
     .component('pv-card', Card)
