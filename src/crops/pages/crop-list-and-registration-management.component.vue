@@ -123,11 +123,6 @@ export default {
     </h2>
   </div>
   <div>
-    <pv-toolbar class="mb-4">
-      <template #end>
-        <pv-button label="New" icon="pi pi-plus" severity="success" class="mr-2 green-button" @click="onNewItemEventHandler" />
-      </template>
-    </pv-toolbar>
     <pv-data-table
         ref="dt"
         :value="sowings"
