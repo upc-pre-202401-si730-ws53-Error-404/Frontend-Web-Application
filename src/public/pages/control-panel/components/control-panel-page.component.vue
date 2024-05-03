@@ -1,17 +1,26 @@
 <script>
+import {CropsRecomendationApiService} from "../../../../crops/services/crops-recomendation-api.service.js";
+
 export default {
   name: "control-panel-page",
-  components :{
-  },
   data() {
     return {
       items: [
         { label: 'Statical reports', to: '/sowing-statistics-reports' },
-        { label: 'Crop Registration', to: '/crop-registration' },
+        { label: 'Crop Registration', to: '/crop-list-and-registration' },
         { label: 'Consultation forum', to: '/consultation-forum' },
         { label: 'Crop History', to: '/crop-history' }
-      ]
+      ],
+      recommendedCrop: null
     }
+  },
+  created() {
+    const cropsRecomendationService = new CropsRecomendationApiService();
+    cropsRecomendationService.getAllCrops().then(response => {
+      const crops = response.data;
+      const randomIndex = Math.floor(Math.random() * crops.length);
+      this.recommendedCrop = crops[randomIndex];
+    });
   }
 }
 </script>
@@ -35,8 +44,8 @@ export default {
           <i class="pi pi-clipboard icon-large"></i>
         </template>
         <template #footer>
-          <router-link to="/"  rel="noopener">
-            <pv-button class="button-green" label="Crop Registration" />
+          <router-link :to="items[1].to"  rel="noopener">
+            <pv-button class="button-green" :label="items[1].label" />
           </router-link>
         </template>
       </pv-card>
@@ -46,8 +55,8 @@ export default {
           <i class="pi pi-comments icon-large"></i>
         </template>
         <template #footer>
-          <router-link to="/"  rel="noopener">
-            <pv-button class="button-green" label="Consultation forum" />
+          <router-link :to="items[2].to"  rel="noopener">
+            <pv-button class="button-green" :label="items[2].label" />
           </router-link>
         </template>
       </pv-card>
@@ -57,8 +66,8 @@ export default {
           <i class="pi pi-history icon-large"></i>
         </template>
         <template #footer>
-          <router-link to="/"  rel="noopener">
-            <pv-button class="button-green" label="Crop History" />
+          <router-link :to="items[3].to"  rel="noopener">
+            <pv-button class="button-green" :label="items[3].label" />
           </router-link>
         </template>
       </pv-card>
@@ -67,11 +76,12 @@ export default {
     </div>
 
     <div class="right-container">
-      <pv-card>
+      <pv-card class="card-crop-control">
         <template #content>
-        </template>
-        <template #footer>
-          <span>Crops</span>
+          <h2>Season's crop recommendation</h2>
+          <h3>{{ recommendedCrop?.name }}</h3>
+          <img :src="recommendedCrop?.image" alt="Crop image" class="fixed-size-image">
+          <p>{{ recommendedCrop?.description }}</p>
         </template>
       </pv-card>
     </div>
@@ -103,6 +113,15 @@ export default {
   background-color: var(--primary-main-green);
   color: white;
 }
-
+.fixed-size-image {
+  width: 300px;
+  height: 300px;
+  border-radius:25px;
+}
+.card-crop-control{
+  background-color: var(--primary-main-green);
+  color: #ffffff;
+  border-radius: 25px;
+}
 
 </style>

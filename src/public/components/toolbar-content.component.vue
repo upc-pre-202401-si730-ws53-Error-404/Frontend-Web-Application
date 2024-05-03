@@ -15,12 +15,16 @@ export default {
 
     <template #center >
         <div class="toolbar-section center-start ">
-        <pv-button class="bg-transparent mr-4">
-          <p>Control Panel</p>
-        </pv-button>
-        <pv-button>
-          <p>Register Crop</p>
-        </pv-button>
+          <router-link to="control-panel">
+            <pv-button class="bg-transparent mr-4">
+              <p>Control Panel</p>
+            </pv-button>
+          </router-link>
+          <router-link to="crop-list-and-registration">
+            <pv-button class="bg-transparent mr-4">
+              <p>Crop Registration</p>
+            </pv-button>
+          </router-link>
       </div>
 
     </template>
@@ -64,6 +68,7 @@ export default {
   top: 0;
   left: 0;
   right: 0;
+  z-index: 1000;
 }
 
 .pv-toolbar {
