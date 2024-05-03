@@ -155,7 +155,7 @@ export default {
         <template #body="slotProps">
           <pv-button icon="pi pi-pencil" outlined rounded class="mr-2" @click="onEditItemEventHandler(slotProps.data)" />
           <pv-button icon="pi pi-trash" outlined rounded severity="danger" @click="onDeleteItemEventHandler(slotProps.data)" />
-          <router-link :to="{ name: '', params: { sowingData: slotProps.data } }">
+          <router-link :to="{ name: 'general-information', params: { sowingData: slotProps.data } }">
             <pv-button icon="pi pi-eye" outlined rounded class="mr-2"/>
           </router-link>
         </template>

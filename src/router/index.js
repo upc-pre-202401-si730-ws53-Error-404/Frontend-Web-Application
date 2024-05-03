@@ -23,7 +23,7 @@ const routes = [
         component: CropInformationComponent,
         children: [
             { path: '', component: GeneralInformationComponent }, // Default child route
-            { path: 'general-information', component: GeneralInformationComponent },
+            { path: 'general-information', name:'general-information',component: GeneralInformationComponent },
             { path: 'crop-care', component: CropCareComponent },
             { path: 'controls', component: ControlsComponent },
             { path: 'diseases-or-pests', component: DiseasesOrPestsComponent },
