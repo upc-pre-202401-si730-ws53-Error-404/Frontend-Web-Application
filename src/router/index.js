@@ -10,6 +10,8 @@ import CropCareComponent from "../crops/crop-information/components/crop-care.co
 import ControlsComponent from "../crops/crop-information/components/controls.component.vue";
 import DiseasesOrPestsComponent from "../crops/crop-information/components/diseases-or-pests.component.vue";
 import ProductsUsedComponent from "../crops/crop-information/components/products-used.component.vue";
+import HistoryTableComponent from "../crops/components/history-table.component.vue";
+
 
 const routes = [
 
@@ -21,7 +23,8 @@ const routes = [
     { path:'/crop-care',component: CropCareComponent},
     { path:'/controls',component: ControlsComponent},
     { path:'/diseases-or-pests',component: DiseasesOrPestsComponent},
-    { path:'/products-used',component: ProductsUsedComponent}
+    { path:'/products-used',component: ProductsUsedComponent},
+    { path: '/crop-history', component: HistoryTableComponent }
 
 ];
 
