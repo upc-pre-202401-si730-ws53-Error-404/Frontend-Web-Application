@@ -40,6 +40,7 @@ export default {
           category: '',
           date: new Date(),
         };
+        emit('close');
       });
     };
 
@@ -64,25 +65,25 @@ export default {
 <style scoped>
 
 ::v-deep .pv-dialog {
-  background-color: #343a40; /* Color de fondo oscuro */
-  color: #f8f9fa; /* Color de texto claro */
-  margin-top: 20px; /* Margen superior */
-  border-radius: 10px; /* Bordes redondeados */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor del diálogo */
-  z-index: 1000; /* Asegura que el diálogo se muestre por encima de otros elementos */
-  border: 2px solid #007bff; /* Borde azul */
-  opacity: 1; /* Asegura que el diálogo no sea transparente */
+  background-color: #343a40;
+  color: #f8f9fa;
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  border: 2px solid #007bff;
+  opacity: 1;
 }
 
 .pv-dialog .pv-input-text {
-  background-color: #495057; /* Color de fondo oscuro para los campos de entrada */
-  color: #f8f9fa; /* Color de texto claro para los campos de entrada */
-  border: none; /* Sin bordes */
+  background-color: #495057;
+  color: #f8f9fa;
+  border: none;
 }
 
 .pv-dialog .pv-button {
-  background-color: #007bff; /* Color de fondo del botón */
-  color: #ffffff; /* Color de texto del botón */
+  background-color: #007bff;
+  color: #ffffff;
   border: none;
   padding: 10px 20px;
   text-align: center;
@@ -95,7 +96,7 @@ export default {
 }
 
 .pv-dialog .pv-button:hover {
-  background-color: #0069d9; /* Color de fondo del botón al pasar el mouse */
+  background-color: #0069d9;
   color: white;
 }
 </style>
