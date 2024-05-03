@@ -11,7 +11,7 @@
 <template>
   <div class="container">
     <cropinfo-toolbar class="toolbar"></cropinfo-toolbar>
-    <general-information></general-information>
+    <router-view/>
   </div>
 
 </template>

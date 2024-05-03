@@ -20,14 +20,17 @@
   <div class="container">
     <h1 class="title">{{ title }}</h1>
     <div class="buttons">
-      <button
-          v-for="(button, index) in buttons"
-          :key="index"
-          :class="{ active: activeButton === index }"
-          @click="selectButton(index)"
-      >
-        {{ button }}
-      </button>
+      <router-link to='/general-information'>
+        <button
+            v-for="(button, index) in buttons"
+            :key="index"
+            :class="{ active: activeButton === index }"
+            @click="selectButton(index)"
+        >
+          {{ button }}
+        </button>
+      </router-link>
+
     </div>
     <div class="line"></div>
   </div>
