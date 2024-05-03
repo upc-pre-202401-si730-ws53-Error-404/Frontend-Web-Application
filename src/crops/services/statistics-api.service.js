@@ -7,8 +7,7 @@ export class StatisticsApiService {
         return http.get('/crops/sowings')
     }
 
-    getAllCrops() {
-        return http.get('/crops/crops');
+    getAllControls(){
+        return http.get('/crops/controls')
     }
-
 }
