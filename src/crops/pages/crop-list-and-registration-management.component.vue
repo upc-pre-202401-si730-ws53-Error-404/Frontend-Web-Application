@@ -116,12 +116,18 @@ export default {
 </script>
 
 <template>
-  <div class="position">
-    <div class="text-color">
-      <h2>
-        List of Crops in Progress
-      </h2>
-    </div>
+
+  <div>
+    <h2>
+      List of Crops in Progress
+    </h2>
+  </div>
+  <div>
+    <pv-toolbar class="mb-4">
+      <template #end>
+        <pv-button label="New" icon="pi pi-plus" severity="success" class="mr-2 green-button" @click="onNewItemEventHandler" />
+      </template>
+    </pv-toolbar>
     <pv-data-table
         ref="dt"
         :value="sowings"
@@ -175,6 +181,19 @@ export default {
 <style scoped>
 .position{
   padding-top: 4rem;
+}
+
+.p-datatable .p-datatable-tbody > tr:hover {
+  background-color: #d1e8ff;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  background-color: #007bff;
+  color: #ffffff;
+}
+h2 {
+  margin-top: 100px;
+  color: black;
 }
 
 
