@@ -1,8 +1,8 @@
 <script>
+import {CropsRecomendationApiService} from "../../../../crops/services/crops-recomendation-api.service.js";
+
 export default {
   name: "control-panel-page",
-  components :{
-  },
   data() {
     return {
       items: [
@@ -10,8 +10,17 @@ export default {
         { label: 'Crop Registration', to: '/crop-list-and-registration' },
         { label: 'Consultation forum', to: '/consultation-forum' },
         { label: 'Crop History', to: '/crop-history' }
-      ]
+      ],
+      recommendedCrop: null
     }
+  },
+  created() {
+    const cropsRecomendationService = new CropsRecomendationApiService();
+    cropsRecomendationService.getAllCrops().then(response => {
+      const crops = response.data;
+      const randomIndex = Math.floor(Math.random() * crops.length);
+      this.recommendedCrop = crops[randomIndex];
+    });
   }
 }
 </script>
@@ -67,11 +76,12 @@ export default {
     </div>
 
     <div class="right-container">
-      <pv-card>
+      <pv-card class="card-crop-control">
         <template #content>
-        </template>
-        <template #footer>
-          <span>Crops</span>
+          <h2>Season's crop recommendation</h2>
+          <h3>{{ recommendedCrop?.name }}</h3>
+          <img :src="recommendedCrop?.image" alt="Crop image" class="fixed-size-image">
+          <p>{{ recommendedCrop?.description }}</p>
         </template>
       </pv-card>
     </div>
@@ -103,6 +113,15 @@ export default {
   background-color: var(--primary-main-green);
   color: white;
 }
-
+.fixed-size-image {
+  width: 300px;
+  height: 300px;
+  border-radius:25px;
+}
+.card-crop-control{
+  background-color: var(--primary-main-green);
+  color: #ffffff;
+  border-radius: 25px;
+}
 
 </style>

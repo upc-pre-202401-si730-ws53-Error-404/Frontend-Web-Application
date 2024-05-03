@@ -14,11 +14,13 @@ import 'primevue/resources/themes/saga-blue/theme.css';
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
+import 'primevue/resources/themes/saga-blue/theme.css';
 import router from "./router/index.js";
 import DialogService from "primevue/dialogservice";
 import ConfirmationService from "primevue/confirmationservice";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
+import Calendar from "primevue/calendar";
 import ConfirmDialog from "primevue/confirmdialog";
 import Row from "primevue/row";
 import Textarea from "primevue/textarea";
@@ -41,7 +43,6 @@ import Calendar from "primevue/calendar";
 createApp(App)
     .use(router)
     .use(PrimeVue, {ripple: true})
-    .use(VueApexCharts)
     .use(DialogService)
     .use(ConfirmationService)
     .component('apexchart', VueApexCharts)
