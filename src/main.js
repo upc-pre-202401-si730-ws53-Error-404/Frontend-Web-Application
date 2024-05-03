@@ -13,6 +13,7 @@ import ApexCharts from 'apexcharts'
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
+import 'primevue/resources/themes/saga-blue/theme.css';
 import router from "./router/index.js";
 import DialogService from "primevue/dialogservice";
 import ConfirmationService from "primevue/confirmationservice";
@@ -39,7 +40,6 @@ import Rating from "primevue/rating";
 createApp(App)
     .use(router)
     .use(PrimeVue, {ripple: true})
-    .use(VueApexCharts)
     .use(DialogService)
     .use(ConfirmationService)
     .component('apexchart', VueApexCharts)
