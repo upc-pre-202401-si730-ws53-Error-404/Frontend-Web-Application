@@ -3,7 +3,7 @@
     <h1>Consultation Forum</h1>
     <pv-button class="pv-button" label="Ask your colleagues!" @click="openNewQuery" />
     <new-consultation-component :visible="showNewQuery" @close="showNewQuery = false" @new-query="addNewQuery" />
-    <pv-data-table class="pv-data-table" :value="questions">
+    <pv-data-table class="pv-data-table" :class="{ 'dialog-open': showNewQuery }" :value="questions">
       <pv-column v-for="col in columns" :key="col.field" :field="col.field" :header="col.header"></pv-column>
     </pv-data-table>
   </div>
@@ -91,6 +91,7 @@ h1 {
   transition-duration: 0.4s;
   cursor: pointer;
 }
+
 
 .pv-button:hover {
   background-color: #0069d9; /* Color de fondo del botón al pasar el mouse */
