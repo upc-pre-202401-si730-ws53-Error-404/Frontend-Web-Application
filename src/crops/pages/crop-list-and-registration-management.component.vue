@@ -18,10 +18,12 @@ export default {
       sowingService: null,
       createAndEditDialogIsVisible: false,
       isEdit: false,
-      submitted: false
+      submitted: false,
+      selectedSowingId: null,
     }
   },
   methods:{
+
     initFilters() {
       this.filters = {global: {value: null, matchMode: FilterMatchMode.CONTAINS}};
     },
@@ -65,7 +67,11 @@ export default {
       this.createAndEditDialogIsVisible = false;
       this.isEdit = false;
     },
-
+    viewSowing(id) {
+      this.selectedSowingId = id;
+      console.log('Selected sowing id:', this.selectedSowingId);
+      this.$router.push({ name: 'crop-information', params: { id: this.selectedSowingId }});
+    },
     createSowing() {
       this.sowing.id = 0;
       this.sowing.start_date = new Date();
@@ -105,6 +111,7 @@ export default {
           });
     },
   },
+
   created(){
     this.sowingService = new SowingsApiService();
 
@@ -116,7 +123,8 @@ export default {
         });
 
     this.initFilters();
-  }
+  },
+
 }
 </script>
 
@@ -160,9 +168,7 @@ export default {
         <template #body="slotProps">
           <pv-button icon="pi pi-pencil" outlined rounded class="mr-2" @click="onEditItemEventHandler(slotProps.data)" />
           <pv-button icon="pi pi-trash" outlined rounded severity="danger" @click="onDeleteItemEventHandler(slotProps.data)" />
-          <router-link to='crop-information'>
-            <pv-button icon="pi pi-eye" outlined rounded class="mr-2"/>
-          </router-link>
+          <pv-button icon="pi pi-eye" outlined rounded class="mr-2" @click="viewSowing(slotProps.data.id)"/>
         </template>
       </pv-column>
     </pv-data-table>
@@ -179,7 +185,7 @@ export default {
 </template>
 
 <style scoped>
-.position{
+.position {
   padding-top: 4rem;
 }
 
@@ -191,6 +197,7 @@ export default {
   background-color: #007bff;
   color: #ffffff;
 }
+
 h2 {
   margin-top: 100px;
   color: black;

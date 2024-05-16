@@ -1,26 +1,48 @@
 <script>
-  export default {
-    name: 'GeneralInformation',
-    data() {
-      return {
-        cropName: null,
-        rows: [
-          ['Crop Name', 'Rice'],
-          ['Date Created', '19/02/2024'],
-          ['Planted Area (m2)', '100']
-        ]
-      };
-    },
-    mounted() {
-      this.cropName = this.$route
-    },
-  };
+import { SowingsApiService } from "../services/sowings-api.service.js";
+
+export default {
+  name: 'GeneralInformation',
+  props: ['sowingId'],
+  data() {
+    return {
+      sowing: null,
+      rows: []
+    };
+  },
+  watch: {
+    sowingId: {
+      immediate: true,
+      handler(newVal, oldVal) {
+        console.log('sowingId changed from', oldVal, 'to', newVal);
+        this.loadSowing();
+      }
+    }
+  },
+  methods: {
+    loadSowing() {
+      if (!this.sowingId) {
+        return;
+      }
+      const sowingService = new SowingsApiService();
+      sowingService.getById(this.sowingId)
+          .then((response) => {
+            this.sowing = response.data;
+            this.rows = [
+              ['Crop Name', this.sowing.crop_name],
+              ['Date Created', this.sowing.start_date],
+              ['Planted Area (m2)', this.sowing.area_land]
+            ];
+          });
+    }
+  }
+};
 </script>
 
 <template>
   <div class="container">
     <div class="image-container">
-      <img src="" alt="Crop Image" />
+      <img :src="sowing?.crop_info?.image" alt="Crop Image" />
     </div>
     <div class="labels-container">
       <div class="row" v-for="(row, index) in rows" :key="index">
@@ -28,19 +50,13 @@
              :class="{ 'grey-label': columnIndex % 2 === 0, 'green-label': columnIndex % 2 !== 0 }">
           {{ label }}
         </div>
-        <!-- Add a separator between rows -->
         <div class="separator" v-if="index < rows.length - 1"></div>
       </div>
     </div>
   </div>
   <div class="description">
     <p>
-      Rice (Oryza sativa) is an annual herbaceous crop that
-      requires well-drained soils and abundant water for growth.
-      It is grown in a variety of climatic conditions and its growth
-      cycle includes stages such as germination, flowering and grain maturation.
-      The mature grains are harvested and can be processed into refined white
-      rice or brown rice. It is an important staple food worldwide.
+      {{ sowing?.crop_info?.description }}
     </p>
   </div>
 </template>
