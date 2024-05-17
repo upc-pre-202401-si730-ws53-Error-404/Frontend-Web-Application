@@ -1,32 +1,32 @@
 <script>
 import CustomTable from "./custom-table.component.vue";
+import { SowingsApiService } from '../services/sowings-api.service.js';
+import { DiseasesApiService } from '../services/diseases-api.service.js';
 
 export default {
-  name: "DiseasesOrPests",
+  name: 'DiseasesOrPests',
   components: {CustomTable},
+  props: ['sowingId'],
   data() {
-
     return {
-      date: null,
       tableHeaders: ['Name', 'Description', 'Solution'],
-      tableData: [
-        [
-          'Bacterial Stain',
-          'Bacterial disease that causes necrotic spots on leaves, stems and panicles of rice. It can cause seedling death and reduce crop yield.',
-          'Copper-based fungicides can help control rice bacterial spot. Dosage and application recommendations provided by agricultural experts or local authorities should be followed.'
-        ],
-        [
-          'Rice Beetle',
-          'This beetle feeds on stored rice grains, causing significant damage to warehouses and silos.',
-          'In cases of severe infestations, it may be necessary to resort to the use of pesticides. Dosage and application recommendations provided by agricultural experts or local authorities should be followed.'
-        ],
-        [
-          'Rice Moth',
-          'The larvae of this moth feed on rice leaves and stems, creating galleries and causing considerable crop damage.',
-          'In cases of severe infestations, specific insecticides may be applied. Dosage and application recommendations provided by agricultural experts or local authorities should be followed.'
-        ]
-      ]
+      tableData: []
     };
+  },
+  created() {
+    const sowingsAPI = new SowingsApiService();
+    const diseasesAPI = new DiseasesApiService();
+    sowingsAPI.getAll().then(response => {
+      const sowings = response.data;
+      const selectedSowing = sowings.find(sowing => Number(sowing.id) === Number(this.sowingId));
+      if (selectedSowing) {
+        diseasesAPI.getAll().then(response => {
+          const diseases = response.data;
+          const selectedDiseases = diseases.filter(disease => Number(disease.crop_id) === Number(selectedSowing.crop_id));
+          this.tableData = selectedDiseases.map(disease => [disease.name, disease.description, disease.solution]);
+        });
+      }
+    });
   }
 };
 </script>
@@ -37,7 +37,5 @@ export default {
   </div>
 </template>
 
-
 <style scoped>
 </style>
-

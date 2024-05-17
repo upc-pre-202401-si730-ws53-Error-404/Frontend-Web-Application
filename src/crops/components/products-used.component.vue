@@ -1,22 +1,36 @@
 <script>
 import CustomTable from "./custom-table.component.vue";
+import { ProductsApiService } from '../services/products-api.service.js';
 
 export default {
   name: "ProductsUsed",
   components: {CustomTable},
+  props: {
+    sowingId: {
+      type: Number,
+      required: true
+    }
+  },
   data() {
-
     return {
-      date: null,
+      products: [],
       tableHeaders: ['Date', 'Type', 'Name', 'Quantity'],
-      tableData: [
-        ['25/07/2024', 'Fertilizer', 'Aminofol Plus', '10 Kg'],
-        ['25/07/2024', 'Pesticide', 'Beta-Baytroide', '10 Kg'],
-        ['25/07/2024', 'Fertilizer', 'Antracol', '2 L'],
-        ['25/07/2024', 'Fungicide', 'Aminofol Plus', '15 Kg'],
-        ['25/07/2024', 'Pesticide', 'Beta-Baytroide', '10 Kg']
-      ]
     };
+  },
+  created() {
+    const productsAPI = new ProductsApiService();
+    productsAPI.getAll()
+        .then(response => {
+          this.products = response.data.filter(product => product.sowing_id === this.sowingId);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+  },
+  computed: {
+    tableData() {
+      return this.products.map(product => [product.date, product.type, product.name, product.quantity]);
+    }
   }
 };
 </script>
@@ -27,7 +41,5 @@ export default {
   </div>
 </template>
 
-
 <style scoped>
 </style>
-

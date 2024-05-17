@@ -1,22 +1,25 @@
 <script>
-
 import CustomTable from "./custom-table.component.vue";
+import { CaresApiService } from '../services/cares-api.service.js';
 
 export default {
   name: 'CropCare',
   components: {CustomTable},
+  props: ['sowingId'],
   data() {
     return {
       date: null,
       tableHeaders: ['Date', 'Suggestion'],
-      tableData: [
-        ['25/07/2024', 'Water the crop for 30 min'],
-        ['05/08/2024', 'Water the crop for 30 min'],
-        ['15/08/2024', 'Water the crop for 30 min'],
-        ['10/09/2024', 'Water the crop for 30 min'],
-        ['15/09/2024', 'Water the crop for 30 min']
-      ]
+      tableData: []
     };
+  },
+  created() {
+    const caresAPI = new CaresApiService();
+    caresAPI.getAll().then(response => {
+      const cares = response.data;
+      const filteredCares = cares.filter(care => Number(care.sowing_id) === Number(this.sowingId));
+      this.tableData = filteredCares.map(care => [care.date, care.suggestion]);
+    });
   }
 };
 </script>

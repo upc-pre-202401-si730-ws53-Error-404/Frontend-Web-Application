@@ -1,22 +1,27 @@
 <script>
 import CustomTable from "./custom-table.component.vue";
+import { SowingsApiService } from '../services/sowings-api.service.js';
 
 export default {
+  name: 'Controls',
   components: {CustomTable},
-  name:'Controls',
+  props: ['sowingId'],
   data() {
-
     return {
       date: null,
-      tableHeaders: ['Date', 'Condition of Leaves', 'Stem Condition', 'Soil Moisture'],
-      tableData: [
-        ['25/07/2024', 'It presents two spots or wrinkles.', 'It presents lesions and discoloration.', 'The soil is very wet.'],
-        ['05/08/2024', 'No stains or wrinkles.', 'It has four perforations.', 'The soil is adequately moist.'],
-        ['15/08/2024', 'It presents five spots or wrinkles.', 'No lesions or perforations.', 'The soil is dry.'],
-        ['10/09/2024', 'No stains or wrinkles.', 'It presents lesions and discoloration.', 'The soil is adequately moist.'],
-        ['15/09/2024', 'It presents three spots or wrinkles.', 'It presents discoloration.', 'The soil is adequately moist.']
-      ]
+      tableHeaders: ['Date', 'Leave', 'Stem', 'Soil'],
+      tableData: []
     };
+  },
+  created() {
+    const sowingsAPI = new SowingsApiService();
+    sowingsAPI.getAll().then(response => {
+      const sowings = response.data;
+      const selectedSowing = sowings.find(sowing => Number(sowing.id) === Number(this.sowingId));
+      if (selectedSowing && selectedSowing.controls) {
+        this.tableData = selectedSowing.controls.map(control => [control.date, control.leave, control.stem, control.soil]);
+      }
+    });
   }
 };
 </script>
@@ -26,7 +31,6 @@ export default {
     <custom-table class="table" :headers="tableHeaders" :data="tableData" />
   </div>
 </template>
-
 
 <style scoped>
 </style>

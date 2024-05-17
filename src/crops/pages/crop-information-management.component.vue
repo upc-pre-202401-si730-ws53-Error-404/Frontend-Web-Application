@@ -33,16 +33,16 @@ export default {
         <general-information :sowing-id="selectedSowingId"/>
       </pv-tab-panel>
       <pv-tab-panel header="Crop Care">
-        <crop-care/>
+        <crop-care :sowing-id="selectedSowingId"/>
       </pv-tab-panel>
       <pv-tab-panel header="Controls">
-        <controls/>
+        <controls :sowing-id="selectedSowingId"/>
       </pv-tab-panel>
       <pv-tab-panel header="Diseases or Pest">
-        <diseases-or-pests/>
+        <diseases-or-pests :sowing-id="selectedSowingId"/>
       </pv-tab-panel>
       <pv-tab-panel header="Products Used">
-        <products-used/>
+        <products-used :sowing-id="Number(selectedSowingId)"/>
       </pv-tab-panel>
     </pv-tab-view>
   </div>
