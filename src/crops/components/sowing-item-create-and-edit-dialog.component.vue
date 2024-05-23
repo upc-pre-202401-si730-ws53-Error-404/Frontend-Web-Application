@@ -32,7 +32,6 @@ export default {
 </script>
 
 <template>
-  <!-- Create / Update Dialog -->
   <pv-dialog v-bind:visible="visible" :modal="true" :style="getDialogStyle()" class="p-fluid" :header="entityName">
     <template #header>
       <div class="flex justify-content-start">
