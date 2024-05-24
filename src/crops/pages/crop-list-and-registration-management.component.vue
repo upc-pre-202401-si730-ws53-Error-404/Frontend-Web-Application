@@ -32,7 +32,7 @@ export default {
     },
 
     onNewItemEventHandler() {
-      this.sowing = {};
+      this.sowing = { area_land: 50 };
       this.submitted = false;
       this.isEdit = false;
       this.createAndEditDialogIsVisible = true;
@@ -58,6 +58,9 @@ export default {
     onSavedEventHandler(item) {
       this.submitted = true;
       if (this.sowing.crop_name.trim()) {
+        if (this.sowing.area_land <= 0) {
+          this.sowing.area_land = 50;
+        }
         if (item.id) {
           this.updateSowing();
         } else {
@@ -73,20 +76,24 @@ export default {
       this.$router.push({ name: 'crop-information', params: { id: this.selectedSowingId }});
     },
     createSowing() {
-      this.sowing.id = 0;
-      this.sowing.start_date = new Date();
-      this.sowing.harvest_date = new Date();
-      this.sowing.user_id = 1;
-      this.sowing.crop_id = this.sowing.crop_name === "Rice"? 2: 1;
-      this.sowing.phenological_phase = "Germination";
-      this.sowing = Sowing.fromDisplayableSowing(this.sowing);
-      console.log(this.sowing);
-      this.sowingService.create(this.sowing)
-          .then((response) => {
-            this.sowing = Sowing.toDisplayableSowing(response.data);
-            this.sowings.push(this.sowing);
-          });
-    },
+  this.sowing.id = 0;
+
+  let currentDate = new Date();
+  this.sowing.start_date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()).toISOString().split('T')[0];
+
+  let harvestDate = new Date(currentDate.setMonth(currentDate.getMonth() + 4));
+  this.sowing.harvest_date = new Date(harvestDate.getFullYear(), harvestDate.getMonth(), harvestDate.getDate()).toISOString().split('T')[0];
+
+  this.sowing.user_id = 1;
+  this.sowing.phenological_phase = "Germination";
+  this.sowing = Sowing.fromDisplayableSowing(this.sowing);
+  console.log(this.sowing);
+  this.sowingService.create(this.sowing)
+      .then((response) => {
+        this.sowing = Sowing.toDisplayableSowing(response.data);
+        this.sowings.push(this.sowing);
+      });
+},
 
     updateSowing() {
       this.sowing = Sowing.fromDisplayableSowing(this.sowing);
@@ -162,7 +169,7 @@ export default {
       <pv-column field="start_date" header="Planted Date" style="min-width:15rem"></pv-column>
       <pv-column field="harvest_date" header="Harvest Date" style="min-width:15rem"></pv-column>
       <pv-column field="phenological_phase" header="Phenological Phase" style="min-width:12rem"></pv-column>
-      <pv-column field="area_land" header="Planted Area" style="min-width:10rem"></pv-column>
+      <pv-column field="area_land" header="Planted Area (m2)" style="min-width:10rem"></pv-column>
 
       <pv-column header="Actions" :exportable="false" style="min-width:8rem">
         <template #body="slotProps">
