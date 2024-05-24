@@ -98,7 +98,19 @@ export default {
       this.createAndEditDialogIsVisible = false;
       this.isEdit = false;
     },
-
+    confirmDeleteQuestion(item){
+      this.$confirm.require({
+        message:          `Are you sure you want to delete this Question?`,
+        header:           'Delete Question',
+        icon:             'pi pi-exclamation-triangle',
+        rejectClass:      'button-cancel',
+        rejectLabel:      'Cancel',
+        acceptLabel:      'Delete',
+        acceptClass:      'button-delete',
+        accept:           () => this.onDeleteItemEventHandler(item),
+        reject:           () => {}
+      });
+    },
     getAllQuestions(){
       this.forumService.getAllQuestions().then((response) =>{
         console.log(response.data);
@@ -117,6 +129,8 @@ export default {
 </script>
 
 <template>
+  <pv-toast/>
+  <pv-confirm-dialog/>
   <div>
     <h2 style="color:black;">Consultation Forum</h2>
     <pv-button class="pv-button button-brown" label="Ask your colleagues!" @click="onNewItemEventHandler" />
@@ -128,7 +142,7 @@ export default {
         <user-question-list
             :data-source="questions"
             :on-edit-item-event-handler="onEditItemEventHandler"
-            :on-delete-item-event-handler="onDeleteItemEventHandler"
+            :confirm-delete-question="confirmDeleteQuestion"
         />
       </pv-tab-panel>
 
@@ -146,5 +160,8 @@ export default {
 </template>
 
 <style scoped>
-
+.delete-button {
+  background-color: red !important;
+  border-color: red !important;
+}
 </style>

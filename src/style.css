@@ -81,6 +81,18 @@ button:focus-visible {
     color: var(--primary-main-white);
 }
 
+.button-cancel {
+  background-color: #f8f9fa;
+  color: #495057;
+  border: 1px solid #ced4da;
+}
+
+
+.button-delete {
+  background-color: #ff4d4d;
+  color: var(--primary-main-white);
+}
+
 #app {
   max-width: 1280px;
   padding: 2rem;
