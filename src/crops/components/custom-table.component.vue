@@ -1,4 +1,4 @@
-
+Mira, esta es una tabla que se utiliza de forma general para controls y products, sin embargo, quiero una tabla personalizada para ambos, que tengan un boton para eliminar aquel control o producto de esa tabla de forma de acuerdo:"
 
 <script>
 export default {
@@ -59,4 +59,4 @@ export default {
 .custom-table-row:not(:last-child) {
   margin-bottom: 10px;
 }
-</style>
+</style>"

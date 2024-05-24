@@ -1,12 +1,9 @@
 <script>
-
 const defaultStyle = { width: '450px'};
 
 export default {
-  name: "sowing-item-create-and-edit-dialog",
+  name: "product-create-and-edit-dialog",
   props: { entity: null, visible: Boolean, entityName: '', edit: Boolean, size: 'default' },
-
-
   methods: {
     onSave() {
       this.$emit('saved', this.entity);
@@ -26,13 +23,12 @@ export default {
       dialogStyle = this.size === 'large' ? { width: '900px'} : defaultStyle;
       return dialogStyle;
     }
-
   }
 }
 </script>
 
 <template>
-  <pv-dialog v-bind:visible="visible" :modal="true" :style="getDialogStyle()" class="p-fluid" :header="entityName">
+  <pv-dialog :visible="visible" :modal="true" :style="getDialogStyle()" :closable="false" @hide="onCancel">
     <template #header>
       <div class="flex justify-content-start">
         <div>{{ getHeaderTitle() }}</div>
@@ -41,15 +37,23 @@ export default {
     <div class="p-fluid">
       <div class="field mt-5">
         <pv-float-label>
-          <label for="crop_name">Crop Name</label>
-          <pv-input-text id="crop_name" v-model="entity.crop_name" :class="{'p-invalid':!entity.crop_name}"/>
-          <small v-if="!entity.crop_name" class="p-invalid">Name is required.</small>
+          <label for="type">Type</label>
+          <pv-input-text id="type" v-model="entity.type" :class="{'p-invalid':!entity.type}"/>
+          <small v-if="!entity.type" class="p-invalid">Type is required.</small>
         </pv-float-label>
       </div>
       <div class="p-field mt-5">
         <pv-float-label>
-          <label for="area_land">Area(m2)</label>
-          <input id="area_land" v-model="entity.area_land" class="p-inputtext p-component" type="number"/>
+          <label for="name">Name</label>
+          <pv-input-text id="name" v-model="entity.name" :class="{'p-invalid':!entity.name}"/>
+          <small v-if="!entity.name" class="p-invalid">Name is required.</small>
+        </pv-float-label>
+      </div>
+      <div class="p-field mt-5">
+        <pv-float-label>
+          <label for="quantity">Quantity</label>
+          <pv-input-text id="quantity" v-model="entity.quantity" :class="{'p-invalid':!entity.quantity}"/>
+          <small v-if="!entity.quantity" class="p-invalid">Quantity is required.</small>
         </pv-float-label>
       </div>
     </div>
@@ -60,10 +64,7 @@ export default {
       </div>
     </template>
   </pv-dialog>
-
-
 </template>
 
 <style scoped>
-
 </style>

@@ -15,12 +15,12 @@ export default {
 
     <template #center >
         <div class="toolbar-section center-start ">
-          <router-link to="control-panel">
+          <router-link to="/control-panel">
             <pv-button class="bg-transparent mr-4">
               <p>Control Panel</p>
             </pv-button>
           </router-link>
-          <router-link to="crop-list-and-registration">
+          <router-link to="/crop-list-and-registration">
             <pv-button class="bg-transparent mr-4">
               <p>Crop Registration</p>
             </pv-button>
