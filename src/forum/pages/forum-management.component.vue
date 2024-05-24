@@ -160,8 +160,5 @@ export default {
 </template>
 
 <style scoped>
-.delete-button {
-  background-color: red !important;
-  border-color: red !important;
-}
+
 </style>
