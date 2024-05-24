@@ -2,6 +2,8 @@ import { createApp } from 'vue'
 import './style.css'
 import App from './app.vue'
 import PrimeVue from "primevue/config";
+import ToastService from "primevue/toastservice";
+
 import Toolbar from "primevue/toolbar";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
@@ -14,7 +16,7 @@ import 'primevue/resources/themes/saga-blue/theme.css';
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
-import 'primevue/resources/themes/saga-blue/theme.css';
+
 import router from "./router/index.js";
 import DialogService from "primevue/dialogservice";
 import ConfirmationService from "primevue/confirmationservice";
@@ -40,10 +42,12 @@ import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import Calendar from "primevue/calendar";
 
+
 createApp(App)
     .use(router)
     .use(PrimeVue, {ripple: true})
     .use(DialogService)
+    .use(ToastService)
     .use(ConfirmationService)
     .component('apexchart', VueApexCharts)
     .component('pv-toolbar',Toolbar)
