@@ -9,7 +9,7 @@ export default {
   props:{
     dataSource: Array,
     onEditItemEventHandler: Function,
-    onDeleteItemEventHandler: Function
+    confirmDeleteQuestion: Function
   },
   data(){
     return{
@@ -68,21 +68,12 @@ export default {
       <pv-column header="Actions" :exportable="false" style="min-width:8rem">
         <template #body="slotProps">
           <pv-button icon="pi pi-pencil" outlined rounded class="mr-2" @click="onEditItemEventHandler(slotProps.data)" />
-          <pv-button icon="pi pi-trash" outlined rounded severity="danger" @click="onDeleteItemEventHandler(slotProps.data)" />
+          <pv-button icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDeleteQuestion(slotProps.data)" />
           <pv-button icon="pi pi-comments" outlined rounded class="mr-2" @click="rowClick($event,slotProps.data)"/>
         </template>
       </pv-column>
     </pv-data-table>
   </div>
-
-<!--  <question-item-create-and-edit-dialog
-      :entity="question"
-      :visible="createAndEditDialogIsVisible"
-      entityName="Question"
-      :edit="isEdit"
-      v-on:canceled="onCanceledEventHandler"
-      v-on:saved="onSavedEventHandler($event)"
-  />-->
 
   <div v-if="isQuestionSelected" class="position-relative">
     <div class="position-absolute top-0 start-0 mt-2 ms-2">
