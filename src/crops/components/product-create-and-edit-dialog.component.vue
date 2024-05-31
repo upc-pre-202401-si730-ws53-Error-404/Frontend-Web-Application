@@ -37,23 +37,23 @@ export default {
     <div class="p-fluid">
       <div class="field mt-5">
         <pv-float-label>
-          <label for="type">Type</label>
+          <label for="type">{{$t('type')}}</label>
           <pv-input-text id="type" v-model="entity.type" :class="{'p-invalid':!entity.type}"/>
-          <small v-if="!entity.type" class="p-invalid">Type is required.</small>
+          <small v-if="!entity.type" class="p-invalid">{{$t('typeRequired')}}</small>
         </pv-float-label>
       </div>
       <div class="p-field mt-5">
         <pv-float-label>
-          <label for="name">Name</label>
+          <label for="name">{{$t('name')}}</label>
           <pv-input-text id="name" v-model="entity.name" :class="{'p-invalid':!entity.name}"/>
-          <small v-if="!entity.name" class="p-invalid">Name is required.</small>
+          <small v-if="!entity.name" class="p-invalid">{{$t('nameRequired')}}</small>
         </pv-float-label>
       </div>
       <div class="p-field mt-5">
         <pv-float-label>
-          <label for="quantity">Quantity</label>
+          <label for="quantity">{{$t('quantity')}}</label>
           <pv-input-text id="quantity" v-model="entity.quantity" :class="{'p-invalid':!entity.quantity}"/>
-          <small v-if="!entity.quantity" class="p-invalid">Quantity is required.</small>
+          <small v-if="!entity.quantity" class="p-invalid">{{$t('quantityRequired')}}</small>
         </pv-float-label>
       </div>
     </div>

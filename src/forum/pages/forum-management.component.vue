@@ -132,7 +132,7 @@ export default {
   <pv-toast/>
   <pv-confirm-dialog/>
   <div>
-    <h2 style="color:black;">Consultation Forum</h2>
+    <h2 style="color:black;">{{$t('consultationForum')}}</h2>
     <pv-button class="pv-button button-brown" label="Ask your colleagues!" @click="onNewItemEventHandler" />
     <pv-tab-view>
       <pv-tab-panel header="Community">
@@ -158,6 +158,7 @@ export default {
       v-on:saved="onSavedEventHandler($event)"
   />
 </template>
+
 
 <style scoped>
 

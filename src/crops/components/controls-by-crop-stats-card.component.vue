@@ -69,18 +69,18 @@ export default {
   <div class="card-container">
     <pv-card class="bg padded-card">
       <template #header>
-        <h2>Most controlled crops in the app</h2>
+        <h2>{{$t('mostControlledCrops')}}</h2>
       </template>
       <template #content>
         <apexchart :options="chartOptions" :series="series" type="pie"></apexchart>
-        <button @click="openDialog">Show crop with most controls</button>
+        <button @click="openDialog">{{$t('showCropWithMostControls')}}</button>
       </template>
     </pv-card>
     <div v-if="showDialog" class="dialog-overlay">
       <div class="dialog">
-        <h3>Crop with most controls</h3>
+        <h3>{{$t('showCropWithMostControls')}}</h3>
         <p>{{ mostControlledCrop }}</p>
-        <button @click="closeDialog">Close</button>
+        <button @click="closeDialog">{{$t('close')}}</button>
       </div>
     </div>
   </div>

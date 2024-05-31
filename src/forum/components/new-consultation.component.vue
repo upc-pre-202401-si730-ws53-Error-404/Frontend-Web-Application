@@ -1,7 +1,7 @@
 <template>
   <pv-dialog class="pv-dialog" :visible="visible" @hide="onHide">
     <template #header>
-      <h2>New Consultation</h2>
+      <h2>{{$t('newConsultation')}}</h2>
     </template>
     <pv-input-text class="pv-input-text" v-model="newQuery.userName" placeholder="User Name" />
     <pv-input-text class="pv-input-text" v-model="newQuery.ask" placeholder="Question" />
@@ -13,6 +13,7 @@
     </template>
   </pv-dialog>
 </template>
+
 
 <script>
 import { ref } from 'vue';
