@@ -6,7 +6,7 @@ export default {
   data() {
     return {
       items: [
-        { label: 'Statical reports', to: '/sowing-statistics-reports' },
+        { label: 'Statistical Reports', to: '/sowing-statistics-reports' },
         { label: 'Crop Registration', to: '/crop-list-and-registration' },
         { label: 'Consultation forum', to: '/consultation-forum' },
         { label: 'Crop History', to: '/crop-history' }
@@ -78,7 +78,7 @@ export default {
     <div class="right-container">
       <pv-card class="card-crop-control">
         <template #content>
-          <h2>Season's crop recommendation</h2>
+          <h2>{{$t('seasonCropRecommendation')}}</h2>
           <h3>{{ recommendedCrop?.name }}</h3>
           <img :src="recommendedCrop?.image" alt="Crop image" class="fixed-size-image">
           <p>{{ recommendedCrop?.description }}</p>

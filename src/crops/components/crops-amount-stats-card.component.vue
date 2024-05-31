@@ -72,18 +72,18 @@ export default {
   <div class="card-container">
     <pv-card class="bg padded-card">
       <template #header>
-        <h2>Most registered crops in the app</h2>
+        <h2>{{$t('mostRegisteredCrops')}}</h2>
       </template>
       <template #content>
         <apexchart :options="chartOptions" :series="series" type="bar"></apexchart>
-        <button @click="openDialog">Wanna know more?</button>
+        <button @click="openDialog">{{$t('wannaKnowMore')}}</button>
       </template>
     </pv-card>
     <div v-if="showDialog" class="dialog-overlay">
       <div class="dialog">
-        <h3>Most registered crop</h3>
+        <h3>{{$t('wannaKnowMore')}}</h3>
         <p>{{ mostRegisteredCrop }}</p>
-        <button @click="closeDialog">Close</button>
+        <button @click="closeDialog">{{$t('close')}}</button>
       </div>
     </div>
   </div>

@@ -12,7 +12,7 @@ export default {
 </script>
 
 <template>
-  <h1>Welcome to the Statistic Control Panel, Roberto Juarez</h1>
+  <h1>{{$t('welcomeStatistics')}}, Roberto Juarez</h1>
   <div class="flex-container">
     <crops-amount-stats-card />
     <controls-by-crop-stats />

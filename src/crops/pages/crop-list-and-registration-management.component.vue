@@ -135,11 +135,12 @@ export default {
 }
 </script>
 
+
 <template>
 
   <div>
     <h2>
-      List of Crops in Progress
+      {{$t('listCrops')}}
     </h2>
   </div>
   <div>

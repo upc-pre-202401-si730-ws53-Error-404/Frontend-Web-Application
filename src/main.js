@@ -41,7 +41,8 @@ import Rating from "primevue/rating";
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import Calendar from "primevue/calendar";
-
+import SelectButton from "primevue/selectbutton";
+import i18n from "./i18n.js";
 
 createApp(App)
     .use(router)
@@ -49,6 +50,7 @@ createApp(App)
     .use(DialogService)
     .use(ToastService)
     .use(ConfirmationService)
+    .use(i18n)
     .component('apexchart', VueApexCharts)
     .component('pv-toolbar',Toolbar)
     .component('pv-tab-view',TabView)
@@ -77,4 +79,5 @@ createApp(App)
     .component('pv-rating', Rating)
     .component('pv-calendar',Calendar)
     .component('pv-text-area',Textarea)
+    .component('pv-select-button',SelectButton)
     .mount('#app')

@@ -1,6 +1,6 @@
 <template>
   <div class="main-container p-mt-md-5 p-mt-sm-2">
-    <h1>Consultation Forum</h1>
+    <h1>{{$t('consultationForum')}}</h1>
     <pv-button class="pv-button " label="Ask your colleagues!" @click="openNewQuery" />
     <new-consultation-component :visible="showNewQuery" @close="closeDialog" @cancel="closeDialog" @new-query="addNewQuery" />
     <pv-data-table class="pv-data-table" :class="{ 'dialog-open': showNewQuery }" :value="questions">
@@ -8,6 +8,8 @@
     </pv-data-table>
   </div>
 </template>
+
+
 
 <script>
 import { ref } from 'vue';

@@ -41,13 +41,13 @@ export default {
     <div class="p-fluid">
       <div class="field mt-5">
         <pv-float-label>
-          <label for="category">Category</label>
+          <label for="category">{{$t('categoryQuestion')}}</label>
           <pv-input-text id="category" v-model="entity.category" :class="{'p-invalid':!entity.category}"/>
         </pv-float-label>
       </div>
       <div class="field mt-5">
         <pv-float-label>
-          <label for="ask">Ask</label>
+          <label for="ask">{{$t('askQuestion')}}</label>
           <pv-text-area id="ask" v-model="entity.ask" :class="{'p-invalid':!entity.ask}"/>
         </pv-float-label>
       </div>
@@ -61,6 +61,7 @@ export default {
   </pv-dialog>
 
 </template>
+
 
 <style scoped>
 
