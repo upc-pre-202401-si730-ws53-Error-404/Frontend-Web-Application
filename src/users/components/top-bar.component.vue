@@ -1,15 +1,15 @@
 <script>
 export default {
-  name: "login"
+  name: "top-bar.component"
 }
 </script>
 
 <template>
   <div>
-    <h1>Login</h1>
+    <h1>Top Bar</h1>
   </div>
 </template>
 
 <style scoped>
-
+  
 </style>
