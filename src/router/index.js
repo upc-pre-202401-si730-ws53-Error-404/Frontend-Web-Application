@@ -7,12 +7,12 @@ import CropInformationManagementComponent from "../crops/pages/crop-information-
 import CropListAndRegistrationManagementComponent from "../crops/pages/crop-list-and-registration-management.component.vue";
 import HistoryTableComponent from "../crops/components/history-table.component.vue";
 import ForumManagementComponent from "../forum/pages/forum-management.component.vue";
-import LoginComponent from "../users/pages/login.component.vue";
+import SignInComponent from "../users/components/sign-in.component.vue";
 
 
 const routes = [
     { path: '/', redirect: '/login'},
-    { path: '/login', component: LoginComponent },
+    { path: '/login', component: SignInComponent },
     { path: '/sowing-statistics-reports', component: CropsStatisticsComponent },
     { path: '/control-panel', component: ControlPanelPageComponent},
     { path:'/crop-list-and-registration',component: CropListAndRegistrationManagementComponent},

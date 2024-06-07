@@ -1,17 +1,11 @@
 class User {
-    constructor(id, name, email, password) {
+    constructor(id, firstName, lastName, email, password,subscriptionId,cityId) {
         this.id = id;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.membership = membership;
+        this.subscriptionId = subscriptionId;
+        this.cityId = cityId;
     }
-
-    // Método para obtener la información del usuario
-    getUserInfo() {
-        return {
-            id: this.id,
-            name: this.name,
-            email: this.email,
-        };
-    }
+}
