@@ -4,6 +4,16 @@ import LanguageSwitcher from "./language-switcher.component.vue";
 export default {
   name: "toolbar-content",
   components: {LanguageSwitcher},
+
+  data() {
+    return {
+      isLoggedIn: false,
+    };
+  },
+    methods: {
+      login() { this.isLoggedIn = true; },
+      logout() { this.isLoggedIn = false; },
+    },
 }
 </script>
 
