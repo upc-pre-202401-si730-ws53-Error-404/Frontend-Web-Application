@@ -1,14 +1,25 @@
 <script>
+import {UsersApiService} from "../service/users-api.service.js";
+
 export default {
   data() {
     return {
-      memberships: [
-        { id: 1, name: "Básica", description: "Acceso limitado a las características básicas.", price: "$5/mes" },
-        { id: 2, name: "Estándar", description: "Acceso a todas las características estándar.", price: "$10/mes" },
-        { id: 3, name: "Premium", description: "Acceso ilimitado a todas las características.", price: "$20/mes" },
-      ],
+      memberships: [],
       selectedMembership: null,
+      colors: ["#005F40", "#9D7C58", "#9A5D4E"]
     };
+  },
+  created() {
+    const usersService = new UsersApiService();
+
+    usersService.getAll()
+        .then(response => {
+          console.log('Data received from server:', response.data);
+          this.memberships = response.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
   },
   computed: {
     selectedMembershipDetails() {
@@ -18,6 +29,9 @@ export default {
   methods: {
     selectMembership(id) {
       this.selectedMembership = id;
+    },
+    confirmSelection() {
+      this.$router.push('/user-profile-edit');
     }
   }
 };
@@ -25,26 +39,31 @@ export default {
 
 <template>
   <div class="membership-selector">
-    <h1>Selecciona tu Membresía</h1>
+    <h1>Select your subscription</h1>
     <div class="memberships">
-      <div
-          v-for="membership in memberships"
+      <pv-card
+          v-for="(membership, index) in memberships"
           :key="membership.id"
           class="membership-option"
           :class="{ selected: selectedMembership === membership.id }"
-          @click="selectMembership(membership.id)"
+          @click.native="selectMembership(membership.id)"
+          :style="{ backgroundColor: colors[index % colors.length], color: '#fff' }"
       >
-        <h2>{{ membership.name }}</h2>
-        <p>{{ membership.description }}</p>
-        <p><strong>{{ membership.price }}</strong></p>
-      </div>
+        <template #title>
+          <h2>{{ membership.name }}</h2>
+        </template>
+        <template #content>
+          <p>{{ membership.description }}</p>
+          <p><strong>$ {{ membership.price }} /month</strong></p>
+        </template>
+      </pv-card>
     </div>
-    <div>selectdMembershipDetails.type</div>
     <div v-if="selectedMembership" class="selected-details">
-      <h2>Membresía Seleccionada</h2>
+      <h2>Subscription selected</h2>
       <p><strong>{{ selectedMembershipDetails.name }}</strong></p>
       <p>{{ selectedMembershipDetails.description }}</p>
-      <p><strong>{{ selectedMembershipDetails.price }}</strong></p>
+      <p><strong>${{ selectedMembershipDetails.price }}</strong></p>
+      <button class="confirm-button" @click="confirmSelection">Confirm</button>
     </div>
   </div>
 </template>
@@ -61,6 +80,7 @@ export default {
 .membership-option {
   border: 1px solid #ccc;
   padding: 20px;
+  border-radius: 20px;
   width: 200px;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -72,7 +92,18 @@ export default {
 .membership-option:hover {
   background-color: #f9f9f9;
 }
-.selected-details {
-  margin-top: 20px;
+.membership-selector {
+  text-align: center;
+  color: #000;
+}
+.confirm-button {
+   background-color: #005F40;
+   color: #fff;
+   border: none;
+   padding: 10px 20px;
+   cursor: pointer;
+ }
+.confirm-button:hover {
+  background-color: #004D33;
 }
 </style>

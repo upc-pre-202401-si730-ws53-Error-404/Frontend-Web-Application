@@ -1,10 +1,8 @@
 import http from "../../shared/services/http-common.js";
 
-export class ProductsApiService {
-    getAllUsers() {
-        return http.get("/users/users");
-    }
-    getAllSubscriptions(){
+export class UsersApiService {
+
+   getAll(){
         return http.get("/users/subscriptions")
     }
 }

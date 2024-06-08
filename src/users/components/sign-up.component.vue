@@ -1,9 +1,24 @@
 <script>
+import { useRouter } from 'vue-router';
+
 export default {
-  name: "sign-up"
+  name: "sign-up",
+  setup() {
+    const router = useRouter();
+    const handleSignup = () => {
+      router.push('/membership-selector');
+    };
+    return {
+      handleSignup
+    };
+  },
+  methods: {
+    handleSignIn() {
+      this.$emit('toggle', true);
+    }
+  }
 }
 </script>
-
 <template>
   <div class="register-container">
     <pv-card class="register-card">
@@ -50,8 +65,8 @@ export default {
             />
           </div>
           <div class="button-container">
+            <button type="button" class="auth-button" @click="handleSignIn">Sign in</button>
             <button type="submit" class="auth-button">Sign up</button>
-            <button type="button" class="auth-button">Sign in</button>
           </div>
         </form>
       </template>

@@ -1,6 +1,23 @@
+<!-- sign-in.component.vue -->
 <script>
+import { useRouter } from 'vue-router';
+
 export default {
-  name: "sign-in"
+  name: "sign-in",
+  setup() {
+    const router = useRouter();
+    const handleLogin = () => {
+      router.push('/control-panel');
+    };
+    return {
+      handleLogin
+    };
+  },
+  methods: {
+    handleSignUp() {
+      this.$emit('toggle', false);
+    }
+  }
 }
 </script>
 
@@ -33,7 +50,7 @@ export default {
           </div>
           <div class="button-container">
             <button type="submit" class="auth-button">Sign in</button>
-            <button type="button" class="auth-button">Sign up</button>
+            <button type="button" class="auth-button" @click="handleSignUp">Sign up</button>
           </div>
         </form>
       </template>

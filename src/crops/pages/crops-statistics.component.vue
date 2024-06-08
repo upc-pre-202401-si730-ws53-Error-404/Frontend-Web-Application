@@ -4,6 +4,7 @@ import CropsAmountStatsCard from '/src/crops/components/crops-amount-stats-card.
 import ControlsByCropStats from '/src/crops/components/controls-by-crop-stats-card.component.vue';
 
 export default {
+  name: "crops-statistics",
   components: {
     CropsAmountStatsCard,
     ControlsByCropStats
