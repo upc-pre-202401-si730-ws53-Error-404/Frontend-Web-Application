@@ -56,7 +56,12 @@ export default {
       this.boolName = false;
     },
     saveEmailChange(newEmail) {
-      this.boolEmail = true;
+      const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+      if (emailRegex.test(newEmail)) {
+        this.boolEmail = true;
+      } else {
+        alert('Please enter a valid email address');
+      }
     },
     changeEmail() {
       this.boolEmail = false;
@@ -85,6 +90,7 @@ export default {
     signOut() {
       this.$router.push('/authentication');
     },
+
     updateCities(event) {
       const selectedCountry = this.countries.find(country => country.name === event.value);
       this.cities = selectedCountry.cities;
