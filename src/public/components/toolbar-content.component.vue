@@ -4,6 +4,16 @@ import LanguageSwitcher from "./language-switcher.component.vue";
 export default {
   name: "toolbar-content",
   components: {LanguageSwitcher},
+
+  data() {
+    return {
+      isLoggedIn: false,
+    };
+  },
+    methods: {
+      login() { this.isLoggedIn = true; },
+      logout() { this.isLoggedIn = false; },
+    },
 }
 </script>
 
@@ -33,10 +43,12 @@ export default {
 
     <template #end>
       <language-switcher/>
-      <pv-button class="toolbar-section user" :Ripple="false" @click="">
+      <router-link to="/user-profile-edit">
+        <pv-button class="toolbar-section user" :Ripple="false">
           <i class="pi pi-user " style="font-size: 2rem"></i>
           <p class="ml-3" >Roberto Juarez</p>
         </pv-button>
+      </router-link>
     </template>
   </pv-toolbar>
 </template>

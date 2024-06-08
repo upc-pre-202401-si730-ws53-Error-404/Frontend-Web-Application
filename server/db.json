@@ -243,5 +243,39 @@
       "name": "Beta-Baytroide",
       "quantity": "20 kg"
     }
+  ],
+
+  "users": [
+    {
+      "id": 1,
+      "name": "Juan",
+      "last_name": "Lopez",
+      "email": "2024-07-25",
+      "password": "Fertilizer",
+      "membership": 1
+    },
+    {
+      "id": 2,
+      "name": "Juan",
+      "last_name": "Lopez",
+      "email": "2024-07-25",
+      "password": "Fertilizer",
+      "membership": 1
+    },
+    {
+      "id": 3,
+      "name": "Juan",
+      "last_name": "Lopez",
+      "email": "2024-07-25",
+      "password": "Fertilizer",
+      "membership": 2
+    },
+    {
+      "id": 4,
+      "name": 1,
+      "email": "2024-07-25",
+      "password": "Fertilizer",
+      "membership": 3
+    }
   ]
 }
