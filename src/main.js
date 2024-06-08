@@ -41,7 +41,9 @@ import Rating from "primevue/rating";
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import Calendar from "primevue/calendar";
+import Divider from "primevue/divider";
 import SelectButton from "primevue/selectbutton";
+import Password from "primevue/password";
 import i18n from "./i18n.js";
 
 createApp(App)
@@ -52,11 +54,13 @@ createApp(App)
     .use(ConfirmationService)
     .use(i18n)
     .component('apexchart', VueApexCharts)
+    .component('pv-password', Password)
     .component('pv-toolbar',Toolbar)
     .component('pv-tab-view',TabView)
     .component('pv-tab-panel',TabPanel)
     .component('pv-button', Button)
     .component('pv-input-text', InputText)
+    .component('pv-divider', Divider)
     .component('pv-card', Card)
     .component('pv-bar-graph',VueBarGraph)
     .component('pv-data-table', DataTable)

@@ -12,7 +12,7 @@ export default {
   created() {
     const usersService = new UsersApiService();
 
-    usersService.getAll()
+    usersService.getAllSubscriptions()
         .then(response => {
           console.log('Data received from server:', response.data);
           this.memberships = response.data;
