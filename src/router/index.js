@@ -10,6 +10,7 @@ import ForumManagementComponent from "../forum/pages/forum-management.component.
 import AuthenticationPageComponent from "../users/pages/authentication-page.component.vue";
 import MembershipSelectorComponent  from "../users/pages/membership-selector.component.vue";
 import UserProfileEditPageComponent from "../users/pages/user-profile-edit-page.component.vue";
+import PageNotFoundComponent from "../public/pages/page-not-found.component.vue";
 
 const routes = [
     { path: '/', redirect: '/authentication'},
@@ -21,7 +22,8 @@ const routes = [
     { path:'/crop-list-and-registration',component: CropListAndRegistrationManagementComponent},
     { path: '/crop-information/:id', name: 'crop-information', component: CropInformationManagementComponent},
     { path: '/crop-history', component: HistoryTableComponent },
-    { path: '/consultation-forum',component: ForumManagementComponent }
+    { path: '/consultation-forum',component: ForumManagementComponent },
+    { path: '/:pathMatch(.*)*', component: PageNotFoundComponent }
 ];
 
 const router = createRouter({
