@@ -41,14 +41,14 @@ export default {
     <div class="p-fluid">
       <div class="field mt-5">
         <pv-float-label>
-          <label for="crop_name">Crop Name</label>
+          <label for="crop_name">{{$t('cropName')}}</label>
           <pv-input-text id="crop_name" v-model="entity.crop_name" :class="{'p-invalid':!entity.crop_name}"/>
-          <small v-if="!entity.crop_name" class="p-invalid">Name is required.</small>
+          <small v-if="!entity.crop_name" class="p-invalid">{{$t('cropNameRequired')}}</small>
         </pv-float-label>
       </div>
       <div class="p-field mt-5">
         <pv-float-label>
-          <label for="area_land">Area(m2)</label>
+          <label for="area_land">{{$t('areaLand')}}</label>
           <input id="area_land" v-model="entity.area_land" class="p-inputtext p-component" type="number"/>
         </pv-float-label>
       </div>
@@ -63,6 +63,9 @@ export default {
 
 
 </template>
+
+
+
 
 <style scoped>
 

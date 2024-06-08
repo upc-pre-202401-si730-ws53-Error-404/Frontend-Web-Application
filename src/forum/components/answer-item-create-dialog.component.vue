@@ -1,8 +1,7 @@
 <script>
 const defaultStyle = { width: '450px'};
-
 export default {
-  name: "product-create-and-edit-dialog",
+  name: "answer-item-create-dialog",
   props: { entity: null, visible: Boolean, entityName: '', edit: Boolean, size: 'default' },
   methods: {
     onSave() {
@@ -23,12 +22,13 @@ export default {
       dialogStyle = this.size === 'large' ? { width: '900px'} : defaultStyle;
       return dialogStyle;
     }
+
   }
 }
 </script>
 
 <template>
-  <pv-dialog :visible="visible" :modal="true" :style="getDialogStyle()" :closable="false" @hide="onCancel">
+  <pv-dialog v-bind:visible="visible" :modal="true" :style="getDialogStyle()" class="p-fluid" :header="entityName">
     <template #header>
       <div class="flex justify-content-start">
         <div>{{ getHeaderTitle() }}</div>
@@ -37,23 +37,8 @@ export default {
     <div class="p-fluid">
       <div class="field mt-5">
         <pv-float-label>
-          <label for="type">{{$t('type')}}</label>
-          <pv-input-text id="type" v-model="entity.type" :class="{'p-invalid':!entity.type}"/>
-          <small v-if="!entity.type" class="p-invalid">{{$t('typeRequired')}}</small>
-        </pv-float-label>
-      </div>
-      <div class="p-field mt-5">
-        <pv-float-label>
-          <label for="name">{{$t('name')}}</label>
-          <pv-input-text id="name" v-model="entity.name" :class="{'p-invalid':!entity.name}"/>
-          <small v-if="!entity.name" class="p-invalid">{{$t('nameRequired')}}</small>
-        </pv-float-label>
-      </div>
-      <div class="p-field mt-5">
-        <pv-float-label>
-          <label for="quantity">{{$t('quantity')}}</label>
-          <pv-input-text id="quantity" v-model="entity.quantity" :class="{'p-invalid':!entity.quantity}"/>
-          <small v-if="!entity.quantity" class="p-invalid">{{$t('quantityRequired')}}</small>
+          <label for="content">Content</label>
+          <pv-text-area id="content" v-model="entity.content" :class="{'p-invalid':!entity.content}" rows="5" cols="20"/>
         </pv-float-label>
       </div>
     </div>
@@ -66,5 +51,7 @@ export default {
   </pv-dialog>
 </template>
 
+
 <style scoped>
+
 </style>

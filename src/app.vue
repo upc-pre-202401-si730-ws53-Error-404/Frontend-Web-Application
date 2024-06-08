@@ -1,7 +1,6 @@
 <script>
 
 import ToolbarContent from "./public/components/toolbar-content.component.vue";
-import StaticalCard from "./crops/components/crops-amount-stats-card.component.vue";
 import ControlPanelPage
   from "./public/pages/control-panel/components/control-panel-page.component.vue";
 
@@ -12,8 +11,22 @@ export default {
 </script>
 
 <template>
-
-  <toolbar-content></toolbar-content>
-  <router-view></router-view>
+  <div class="app-container">
+    <toolbar-content></toolbar-content>
+    <div class="content-container">
+      <router-view></router-view>
+    </div>
+  </div>
 
 </template>
+
+<style scoped>
+.app-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.content-container {
+  margin-top: 64px;
+}
+</style>

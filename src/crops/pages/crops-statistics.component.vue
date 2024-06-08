@@ -4,6 +4,7 @@ import CropsAmountStatsCard from '/src/crops/components/crops-amount-stats-card.
 import ControlsByCropStats from '/src/crops/components/controls-by-crop-stats-card.component.vue';
 
 export default {
+  name: "crops-statistics",
   components: {
     CropsAmountStatsCard,
     ControlsByCropStats
@@ -12,7 +13,7 @@ export default {
 </script>
 
 <template>
-  <h1>Welcome to the Statistic Control Panel, Roberto Juarez</h1>
+  <h1>{{$t('welcomeStatistics')}}, Roberto Juarez</h1>
   <div class="flex-container">
     <crops-amount-stats-card />
     <controls-by-crop-stats />

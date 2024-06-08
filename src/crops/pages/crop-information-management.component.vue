@@ -27,7 +27,7 @@ export default {
 
 <template>
   <div>
-    <h2 style="color:black;">Crop Information Management</h2>
+    <h2 style="color:black;">{{$t('cropInformationManagement')}}</h2>
     <pv-tab-view>
       <pv-tab-panel header="General Information">
         <general-information :sowing-id="selectedSowingId"/>
@@ -47,6 +47,7 @@ export default {
     </pv-tab-view>
   </div>
 </template>
+
 
 <style scoped>
 

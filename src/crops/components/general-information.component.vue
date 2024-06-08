@@ -42,10 +42,10 @@ export default {
 <template>
   <div class="container">
     <div class="image-container">
-      <img :src="sowing?.crop_info?.image" alt="Crop Image" />
+      <img class="crop-image" :src="sowing?.crop_info?.image" alt="Crop Image"/>
     </div>
     <div class="labels-container">
-      <div class="row" v-for="(row, index) in rows" :key="index">
+     <div class="row" v-for="(row, index) in rows" :key="index">
         <div class="column" v-for="(label, columnIndex) in row" :key="columnIndex"
              :class="{ 'grey-label': columnIndex % 2 === 0, 'green-label': columnIndex % 2 !== 0 }">
           {{ label }}
@@ -110,5 +110,10 @@ export default {
   padding: 10px 20px;
   text-align: center;
   border-radius: 5px;
+}
+.crop-image {
+  width: 400px;
+  height: 400px;
+  border-radius: 20px;
 }
 </style>

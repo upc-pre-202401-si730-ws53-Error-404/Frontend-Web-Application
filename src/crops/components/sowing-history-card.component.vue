@@ -50,6 +50,7 @@ export default {
 </template>
 
 
+
 <style scoped>
 
 .dialog-image {

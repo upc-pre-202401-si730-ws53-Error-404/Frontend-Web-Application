@@ -2,11 +2,12 @@
 import {SowingsApiService} from "../services/sowings-api.service.js";
 import {Sowing} from "../models/sowing.entity.js";
 import SowingItemCreateAndEditDialog from "../components/sowing-item-create-and-edit-dialog.component.vue";
+import ChangePhaseDialog from "../components/change-phase-dialog.component.vue";
 import {FilterMatchMode} from "primevue/api";
 
 export default {
   name: "crop-list-and-registration-management",
-  components: {SowingItemCreateAndEditDialog},
+  components: {SowingItemCreateAndEditDialog, ChangePhaseDialog},
 
   data(){
     return{
@@ -17,6 +18,7 @@ export default {
       cropsService: null,
       sowingService: null,
       createAndEditDialogIsVisible: false,
+      changePhaseDialogVisible: false,
       isEdit: false,
       submitted: false,
       selectedSowingId: null,
@@ -95,6 +97,27 @@ export default {
       });
 },
 
+    changePhenologicalPhase(sowing) {
+      this.sowing = sowing;
+      this.changePhaseDialogVisible = true;
+    },
+    onPhaseChangeCanceled() {
+      this.changePhaseDialogVisible = false;
+    },
+    onPhaseChangeConfirmed() {
+      if (this.sowing.phenological_phase === 'Germination') {
+        this.sowing.phenological_phase = 'Seedling';
+      } else if (this.sowing.phenological_phase === 'Seedling') {
+        this.sowing.phenological_phase = 'VegetativeGrowth';
+      } else if (this.sowing.phenological_phase === 'VegetativeGrowth') {
+        this.sowing.phenological_phase = 'Flowering';
+      } else if (this.sowing.phenological_phase === 'Flowering') {
+        this.sowing.phenological_phase = 'HarvestReady';
+      }
+      this.updateSowing();
+      this.changePhaseDialogVisible = false;
+    },
+
     updateSowing() {
       this.sowing = Sowing.fromDisplayableSowing(this.sowing);
       this.sowingService
@@ -135,11 +158,12 @@ export default {
 }
 </script>
 
+
 <template>
 
   <div>
     <h2>
-      List of Crops in Progress
+      {{$t('listCrops')}}
     </h2>
   </div>
   <div>
@@ -173,6 +197,7 @@ export default {
 
       <pv-column header="Actions" :exportable="false" style="min-width:8rem">
         <template #body="slotProps">
+          <pv-button icon="pi pi-exclamation-triangle" outlined rounded class="mr-2" @click="changePhenologicalPhase(slotProps.data)" />
           <pv-button icon="pi pi-pencil" outlined rounded class="mr-2" @click="onEditItemEventHandler(slotProps.data)" />
           <pv-button icon="pi pi-trash" outlined rounded severity="danger" @click="onDeleteItemEventHandler(slotProps.data)" />
           <pv-button icon="pi pi-eye" outlined rounded class="mr-2" @click="viewSowing(slotProps.data.id)"/>
@@ -180,15 +205,7 @@ export default {
       </pv-column>
     </pv-data-table>
   </div>
-
-  <sowing-item-create-and-edit-dialog
-      :entity="sowing"
-      :visible="createAndEditDialogIsVisible"
-      entityName="Sowing"
-      :edit="isEdit"
-      v-on:canceled="onCanceledEventHandler"
-      v-on:saved="onSavedEventHandler($event)"
-  />
+  <change-phase-dialog :visible.sync="changePhaseDialogVisible" @canceled="onPhaseChangeCanceled" @confirmed="onPhaseChangeConfirmed" />
 </template>
 
 <style scoped>

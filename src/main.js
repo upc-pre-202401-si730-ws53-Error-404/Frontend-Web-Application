@@ -2,6 +2,8 @@ import { createApp } from 'vue'
 import './style.css'
 import App from './app.vue'
 import PrimeVue from "primevue/config";
+import ToastService from "primevue/toastservice";
+
 import Toolbar from "primevue/toolbar";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
@@ -14,7 +16,7 @@ import 'primevue/resources/themes/saga-blue/theme.css';
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
-import 'primevue/resources/themes/saga-blue/theme.css';
+
 import router from "./router/index.js";
 import DialogService from "primevue/dialogservice";
 import ConfirmationService from "primevue/confirmationservice";
@@ -39,18 +41,26 @@ import Rating from "primevue/rating";
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import Calendar from "primevue/calendar";
+import Divider from "primevue/divider";
+import SelectButton from "primevue/selectbutton";
+import Password from "primevue/password";
+import i18n from "./i18n.js";
 
 createApp(App)
     .use(router)
     .use(PrimeVue, {ripple: true})
     .use(DialogService)
+    .use(ToastService)
     .use(ConfirmationService)
+    .use(i18n)
     .component('apexchart', VueApexCharts)
+    .component('pv-password', Password)
     .component('pv-toolbar',Toolbar)
     .component('pv-tab-view',TabView)
     .component('pv-tab-panel',TabPanel)
     .component('pv-button', Button)
     .component('pv-input-text', InputText)
+    .component('pv-divider', Divider)
     .component('pv-card', Card)
     .component('pv-bar-graph',VueBarGraph)
     .component('pv-data-table', DataTable)
@@ -72,4 +82,6 @@ createApp(App)
     .component('pv-checkbox', Checkbox)
     .component('pv-rating', Rating)
     .component('pv-calendar',Calendar)
+    .component('pv-text-area',Textarea)
+    .component('pv-select-button',SelectButton)
     .mount('#app')

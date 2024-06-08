@@ -1,5 +1,4 @@
 <template>
-  <!-- Create Control Dialog -->
   <pv-dialog v-bind:visible="visible" :modal="true" :style="getDialogStyle()" class="p-fluid" :header="entityName">
     <template #header>
       <div class="flex justify-content-start">
@@ -9,23 +8,23 @@
     <div class="p-fluid">
       <div class="field mt-5">
         <pv-float-label>
-          <label for="leave">Leave Description</label>
+          <label for="leave">{{$t('leaveDescription')}}</label>
           <pv-input-text id="leave" v-model="entity.leave" :class="{'p-invalid':!entity.leave}"/>
-          <small v-if="!entity.leave" class="p-invalid">Leave description is required.</small>
+          <small v-if="!entity.leave" class="p-invalid">{{$t('leaveDescriptionRequired')}}</small>
         </pv-float-label>
       </div>
       <div class="p-field mt-5">
         <pv-float-label>
-          <label for="stem">Stem Description</label>
+          <label for="stem">{{$t('stemDescription')}}</label>
           <pv-input-text id="stem" v-model="entity.stem" :class="{'p-invalid':!entity.stem}"/>
-          <small v-if="!entity.stem" class="p-invalid">Stem description is required.</small>
+          <small v-if="!entity.stem" class="p-invalid">{{$t('stemDescriptionRequired')}}</small>
         </pv-float-label>
       </div>
       <div class="p-field mt-5">
         <pv-float-label>
-          <label for="soil">Soil Description</label>
+          <label for="soil">{{$t('soilDescription')}}</label>
           <pv-input-text id="soil" v-model="entity.soil" :class="{'p-invalid':!entity.soil}"/>
-          <small v-if="!entity.soil" class="p-invalid">Soil description is required.</small>
+          <small v-if="!entity.soil" class="p-invalid">{{$t('soilDescriptionRequired')}}</small>
         </pv-float-label>
       </div>
     </div>
@@ -37,6 +36,7 @@
     </template>
   </pv-dialog>
 </template>
+
 
 <script>
 const defaultStyle = { width: '450px'};
