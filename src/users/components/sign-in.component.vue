@@ -8,29 +8,33 @@ export default {
   <div class="login-container">
     <pv-card class="login-card">
       <template #title>
-        <h2>Inicio de Sesión</h2>
+        <h3>Sign-in</h3>
+        <i class="pi pi-user" style="font-size: 32px;"></i>
       </template>
       <template #content>
         <form @submit.prevent="handleLogin">
           <div class="form-group">
-            <label for="email">Correo Electrónico</label>
             <input
                 type="email"
                 id="email"
-                v-model="email"
+                v-model="Email"
+                placeholder="E-mail"
                 required
             />
           </div>
           <div class="form-group">
-            <label for="password">Contraseña</label>
             <input
                 type="password"
                 id="password"
                 v-model="password"
+                placeholder="Password"
                 required
             />
           </div>
-          <button type="submit">Iniciar Sesión</button>
+          <div class="button-container">
+            <button type="submit" class="auth-button">Sign in</button>
+            <button type="button" class="auth-button">Sign up</button>
+          </div>
         </form>
       </template>
     </pv-card>
@@ -38,5 +42,16 @@ export default {
 </template>
 
 <style scoped>
+.button-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
 
+.auth-button {
+  background-color: #005f40;
+  padding: 10px 20px;
+  color: white;
+}
 </style>
