@@ -22,10 +22,15 @@ export default {
           }
         },
         dataLabels: {
-          enabled: false
+          enabled: true
         },
         xaxis: {
           categories: [],
+        },
+        yaxis: {
+          labels: {
+            show: false
+          }
         },
         tooltip: {
           style: {
@@ -34,7 +39,10 @@ export default {
         }
       },
       series: [{
-        data: []
+        name : 'Quantity',
+        data: [
+
+        ]
       }],
     };
   },
@@ -51,9 +59,16 @@ export default {
           cropCounts[sowing.crop_name] = 1;
         }
       });
+      const cropQuantities = Object.values(cropCounts);
+
+      this.series = Object.keys(cropCounts).map(((cropName, index) => {
+        return {
+          name: cropName,
+          data: [cropQuantities[index]]
+        }
+      }));
 
       this.chartOptions.xaxis.categories = Object.keys(cropCounts);
-      this.series[0].data = Object.values(cropCounts);
       this.mostRegisteredCrop = this.chartOptions.xaxis.categories[0];
     });
   },
