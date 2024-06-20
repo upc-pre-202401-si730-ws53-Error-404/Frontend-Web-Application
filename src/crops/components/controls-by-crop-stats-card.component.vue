@@ -36,6 +36,14 @@ export default {
     statisticsAPI.getAllSowings().then(response => {
       const sowings = response.data;
       const controlCounts = {};
+      const cropNames = [];
+      console.log(sowings);
+
+      sowings.forEach(sowing => {
+        if (!cropNames.includes(sowing.crop_name)) {
+          cropNames.push(sowing.crop_name);
+        }
+      });
 
       sowings.forEach(sowing => {
         if (sowing.controls.length > 0) {
@@ -50,7 +58,11 @@ export default {
       const mostControlledCropId = Object.keys(controlCounts).reduce((a, b) => controlCounts[a] > controlCounts[b] ? a : b);
       this.mostControlledCrop = sowings.find(sowing => sowing.id == mostControlledCropId).crop_name;
 
-      this.chartOptions.labels = Object.keys(controlCounts);
+      this.chartOptions = {
+        ...this.chartOptions,
+        labels: [this.mostControlledCrop]
+      };
+
       this.series = Object.values(controlCounts);
     });
   },
