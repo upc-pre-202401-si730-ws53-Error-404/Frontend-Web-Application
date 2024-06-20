@@ -1,6 +1,6 @@
 <!-- authentication-page.component.vue -->
 <script>
-import SignIn from "/src/users/components/sign-in.component.vue";
+import SignIn from "/src/profiles/components/sign-in.component.vue";
 import SignUp from "../components/sign-up.component.vue";
 
 export default {

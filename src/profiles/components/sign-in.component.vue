@@ -23,7 +23,7 @@ export default {
           errorMessage.value = 'Invalid email or password';
         }
       }).catch(error => {
-        console.error('Error getting users:', error);
+        console.error('Error getting profiles:', error);
       });
     };
 

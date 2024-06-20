@@ -7,9 +7,9 @@ import CropInformationManagementComponent from "../crops/pages/crop-information-
 import CropListAndRegistrationManagementComponent from "../crops/pages/crop-list-and-registration-management.component.vue";
 import HistoryTableComponent from "../crops/components/history-table.component.vue";
 import ForumManagementComponent from "../forum/pages/forum-management.component.vue";
-import AuthenticationPageComponent from "../users/pages/authentication-page.component.vue";
-import MembershipSelectorComponent  from "../users/pages/membership-selector.component.vue";
-import UserProfileEditPageComponent from "../users/pages/user-profile-edit-page.component.vue";
+import AuthenticationPageComponent from "../profiles/pages/authentication-page.component.vue";
+import MembershipSelectorComponent  from "../profiles/pages/membership-selector.component.vue";
+import UserProfileEditPageComponent from "../profiles/pages/user-profile-edit-page.component.vue";
 import PageNotFoundComponent from "../public/pages/page-not-found.component.vue";
 
 const routes = [
