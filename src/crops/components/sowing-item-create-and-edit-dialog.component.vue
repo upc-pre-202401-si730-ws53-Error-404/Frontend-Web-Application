@@ -1,11 +1,18 @@
 <script>
 
+import {CropsRecomendationApiService} from "../services/crops-recomendation-api.service.js";
+
 const defaultStyle = { width: '450px'};
 
 export default {
   name: "sowing-item-create-and-edit-dialog",
   props: { entity: null, visible: Boolean, entityName: '', edit: Boolean, size: 'default' },
-
+  data () {
+    return {
+      cropsService: null,
+      cropList : [],
+    }
+  },
 
   methods: {
     onSave() {
@@ -26,7 +33,14 @@ export default {
       dialogStyle = this.size === 'large' ? { width: '900px'} : defaultStyle;
       return dialogStyle;
     }
-
+  }
+  ,
+  async created(){
+    this.cropsService = new CropsRecomendationApiService();
+    const response =  await this.cropsService.getAllCrops();
+    this.cropList = response.data.map(crop => ({ name: crop.name }));
+    console.log(this.cropList);
+    console.log('Created');
   }
 }
 </script>
@@ -42,7 +56,7 @@ export default {
       <div class="field mt-5">
         <pv-float-label>
           <label for="crop_name">{{$t('cropName')}}</label>
-          <pv-input-text id="crop_name" v-model="entity.crop_name" :class="{'p-invalid':!entity.crop_name}"/>
+          <pv-dropdown id="crop_name" v-model="entity.crop_name" :options="cropList" :class="{'p-invalid':!entity.crop_name}" optionLabel="name"/>
           <small v-if="!entity.crop_name" class="p-invalid">{{$t('cropNameRequired')}}</small>
         </pv-float-label>
       </div>

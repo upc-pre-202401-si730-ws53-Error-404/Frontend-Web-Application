@@ -34,7 +34,7 @@ export default {
     },
 
     onNewItemEventHandler() {
-      this.sowing = { area_land: 50 };
+      this.sowing = {};
       this.submitted = false;
       this.isEdit = false;
       this.createAndEditDialogIsVisible = true;
@@ -206,6 +206,16 @@ export default {
     </pv-data-table>
   </div>
   <change-phase-dialog :visible.sync="changePhaseDialogVisible" @canceled="onPhaseChangeCanceled" @confirmed="onPhaseChangeConfirmed" />
+
+  <sowing-item-create-and-edit-dialog
+      :entity="sowing"
+      :visible="createAndEditDialogIsVisible"
+      entityName="Sowing"
+      :edit="isEdit"
+      v-on:canceled="onCanceledEventHandler"
+      v-on:saved="onSavedEventHandler($event)"
+  />
+
 </template>
 
 <style scoped>
