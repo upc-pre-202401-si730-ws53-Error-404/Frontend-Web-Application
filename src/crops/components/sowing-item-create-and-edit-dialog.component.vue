@@ -38,7 +38,7 @@ export default {
   async created(){
     this.cropsService = new CropsRecomendationApiService();
     const response =  await this.cropsService.getAllCrops();
-    this.cropList = response.data.map(crop => ({ name: crop.name }));
+    this.cropList = response.data.map(crop => ({ name: crop.name, id: crop.id }));
     console.log(this.cropList);
     console.log('Created');
   }

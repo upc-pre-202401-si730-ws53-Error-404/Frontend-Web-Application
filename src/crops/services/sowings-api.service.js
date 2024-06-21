@@ -8,8 +8,8 @@ export class SowingsApiService{
     getById(id) {
         return http.get(`/crops/sowings/${id}`);
     }
-    create(tutorialResource) {
-        return http.post('/crops/sowings', tutorialResource);
+    create(sowingResource) {
+        return http.post('/crops/sowings', sowingResource);
     }
 
     update(id, tutorialResource) {
