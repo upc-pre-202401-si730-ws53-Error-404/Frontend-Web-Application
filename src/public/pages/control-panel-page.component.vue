@@ -1,5 +1,5 @@
 <script>
-import {CropsRecomendationApiService} from "../../../../crops/services/crops-recomendation-api.service.js";
+import {CropsRecomendationApiService} from "../../crops/services/crops-recomendation-api.service.js";
 
 export default {
   name: "control-panel-page",
@@ -80,7 +80,7 @@ export default {
         <template #content>
           <h2>{{$t('seasonCropRecommendation')}}</h2>
           <h3>{{ recommendedCrop?.name }}</h3>
-          <img :src="recommendedCrop?.image" alt="Crop image" class="fixed-size-image">
+          <img :src="recommendedCrop?.imageUrl" alt="Crop image" class="fixed-size-image">
           <p>{{ recommendedCrop?.description }}</p>
         </template>
       </pv-card>

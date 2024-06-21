@@ -1,19 +1,10 @@
 <script>
 import LanguageSwitcher from "./language-switcher.component.vue";
+import AuthenticationSection from "../../iam/components/authentication-section.component.vue";
 
 export default {
   name: "toolbar-content",
-  components: {LanguageSwitcher},
-
-  data() {
-    return {
-      isLoggedIn: false,
-    };
-  },
-    methods: {
-      login() { this.isLoggedIn = true; },
-      logout() { this.isLoggedIn = false; },
-    },
+  components: {LanguageSwitcher,AuthenticationSection},
 }
 </script>
 
@@ -49,6 +40,7 @@ export default {
           <p class="ml-3" >Roberto Juarez</p>
         </pv-button>
       </router-link>
+      <authentication-section/>
     </template>
   </pv-toolbar>
 </template>
