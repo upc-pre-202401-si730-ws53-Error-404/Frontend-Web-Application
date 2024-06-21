@@ -1,26 +1,26 @@
 export class Question{
-    constructor(id, userName, ask, category, date){
+    constructor(id, authorId, questionText, categoryId, date){
         this.id = id;
-        this.userName = userName;
-        this.ask = ask;
-        this.category = category;
+        this.authorId = authorId;
+        this.questionText = questionText;
+        this.categoryId = categoryId;
         this.date = date;
     }
     static fromDisplayableQuestion(displayableQuestion) {
         return new Question(
             displayableQuestion.id,
-            displayableQuestion.userName,
-            displayableQuestion.ask,
-            displayableQuestion.category,
+            displayableQuestion.authorId,
+            displayableQuestion.questionText,
+            displayableQuestion.categoryId,
             displayableQuestion.date
         );
     }
     static toDisplayableQuestion(question) {
         return {
             id: question.id,
-            userName: question.userName,
-            ask: question.ask,
-            category: question.category,
+            userName: question.authorId,
+            ask: question.questionText,
+            category: question.categoryId,
             date: question.date
         };
     }

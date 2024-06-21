@@ -42,13 +42,13 @@ export default {
       <div class="field mt-5">
         <pv-float-label>
           <label for="category">{{$t('categoryQuestion')}}</label>
-          <pv-input-text id="category" v-model="entity.category" :class="{'p-invalid':!entity.category}"/>
+          <pv-input-text id="category" v-model="entity.categoryId" :class="{'p-invalid':!entity.categoryId}"/>
         </pv-float-label>
       </div>
       <div class="field mt-5">
         <pv-float-label>
           <label for="ask">{{$t('askQuestion')}}</label>
-          <pv-text-area id="ask" v-model="entity.ask" :class="{'p-invalid':!entity.ask}"/>
+          <pv-text-area id="ask" v-model="entity.questionText" :class="{'p-invalid':!entity.questionText}"/>
         </pv-float-label>
       </div>
     </div>
