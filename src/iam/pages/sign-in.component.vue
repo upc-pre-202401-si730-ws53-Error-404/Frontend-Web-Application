@@ -37,17 +37,14 @@ export default {
             </pv-float-label>
           </div>
           <div class="form-group">
-            <input
-                type="password"
-                id="password"
-                v-model="password"
-                placeholder="Password"
-                required
-            />
+            <pv-float-label>
+              <label for="password">Password</label>
+              <pv-input-text id="password" v-model="password" :class="{'p-invalid': !password}" type="password" />
+              <small v-if="!password" class="p-invalid">Password is required</small>
+            </pv-float-label>
           </div>
           <div class="button-container">
             <button type="submit" class="auth-button">Sign in</button>
-            <button type="button" class="auth-button" @click="handleSignUp">Sign up</button>
           </div>
         </form>
       </template>

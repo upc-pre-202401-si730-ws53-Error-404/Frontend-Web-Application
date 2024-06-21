@@ -1,5 +1,5 @@
 <script>
-import {CropsRecomendationApiService} from "../../../../crops/services/crops-recomendation-api.service.js";
+import {CropsRecomendationApiService} from "../../crops/services/crops-recomendation-api.service.js";
 
 export default {
   name: "control-panel-page",

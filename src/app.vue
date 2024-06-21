@@ -2,7 +2,7 @@
 
 import ToolbarContent from "./public/components/toolbar-content.component.vue";
 import ControlPanelPage
-  from "./public/pages/control-panel/components/control-panel-page.component.vue";
+  from "./public/pages/control-panel-page.component.vue";
 
 export default {
   name: "app",

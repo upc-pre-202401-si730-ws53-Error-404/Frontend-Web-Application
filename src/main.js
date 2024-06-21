@@ -45,9 +45,13 @@ import Divider from "primevue/divider";
 import SelectButton from "primevue/selectbutton";
 import Password from "primevue/password";
 import i18n from "./i18n.js";
+import {createPinia} from "pinia";
+
+const pinia = createPinia();
 
 createApp(App)
     .use(router)
+    .use(pinia)
     .use(PrimeVue, {ripple: true})
     .use(DialogService)
     .use(ToastService)
