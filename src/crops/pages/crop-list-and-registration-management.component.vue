@@ -25,6 +25,19 @@ export default {
     }
   },
   methods:{
+    reloadData() {
+      this.sowingService.getAllFalse()
+          .then((response) => {
+            let sowings = response.data;
+            return Promise.all(sowings.map((sowing) => Sowing.toDisplayableSowing(sowing)));
+          })
+          .then((processedSowings) => {
+            this.sowings = processedSowings;
+          })
+          .catch((error) => {
+            console.error('Error fetching data:', error);
+          });
+    },
 
     initFilters() {
       this.filters = {global: {value: null, matchMode: FilterMatchMode.CONTAINS}};
@@ -64,7 +77,9 @@ export default {
         if (this.sowing.area_land <= 0) {
           this.sowing.area_land = 50;
         }
-        if (item.id) {
+        console.log('item');
+        console.log(item.id);
+        if (item.id && typeof item.id === 'number') {
           this.updateSowing();
         } else {
           this.createSowing();
@@ -104,6 +119,7 @@ export default {
           .then((response) => {
             this.sowing = Sowing.toDisplayableSowing(response.data);
             this.sowings.push(this.sowing);
+            this.reloadData();
           });
     },
 
@@ -130,20 +146,24 @@ export default {
 
     updateSowing() {
       this.sowing = Sowing.fromDisplayableSowing(this.sowing);
+      const updateResource = {
+        areaLand: this.sowing.area_land,
+        cropId: this.sowing.crop_name.id
+      };
+      console.log(updateResource);
       this.sowingService
-          .update(this.sowing.id, this.sowing)
+          .update(this.sowing.id, updateResource)
           .then((response) => {
-            this.sowings[this.findIndexById(response.data.id)] =
-                Sowing.toDisplayableSowing(response.data);
+            this.reloadData();
           });
     },
 
     deleteSowing() {
-      console.log('Deleting sowing with ID:', this.sowing.id);
+      console.log('Deleting sowing with ID:', this.sowing.crop_name.id);
 
       this.sowingService.delete(this.sowing.id)
           .then(() => {
-            this.sowings = this.sowings.filter((s) => s.id !== this.sowing.id);
+            this.reloadData();
             this.sowing = {};
           })
           .catch((error) => {
@@ -153,13 +173,19 @@ export default {
   },
 
   created(){
+    console.log('Tabla creada');
     this.sowingService = new SowingsApiService();
 
-    this.sowingService.getAll()
+    this.sowingService.getAllFalse()
         .then((response) => {
-          console.log(response.data);
           let sowings = response.data;
-          this.sowings = sowings.map((sowing) => Sowing.toDisplayableSowing(sowing));
+          return Promise.all(sowings.map((sowing) => Sowing.toDisplayableSowing(sowing)));
+        })
+        .then((processedSowings) => {
+          this.sowings = processedSowings;
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
         });
 
     this.initFilters();
