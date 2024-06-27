@@ -42,12 +42,12 @@ export default {
         this.sowing = sowingResponse.data;
 
         console.log(sowingResponse);
-        if (!this.sowing.crop_id) {
+        if (!this.sowing.cropId) {
           console.error('Error: crop_id is missing in sowing data');
           return;
         }
 
-        const cropResponse = await cropApiService.getCropById(this.sowing.crop_id);
+        const cropResponse = await cropApiService.getCropById(this.sowing.cropId);
 
         if (!cropResponse || !cropResponse.data) {
           console.error('Error: Crop data not found');
@@ -59,7 +59,7 @@ export default {
         this.rows = [
           ['Crop Name', this.crop ? this.crop.name : 'N/A'],
           ['Date Created', this.sowing.start_date],
-          ['Planted Area (m2)', this.sowing.area_land]
+          ['Planted Area (m2)', this.sowing.areaLand]
         ];
 
       } catch (error) {
