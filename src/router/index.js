@@ -9,6 +9,7 @@ import HistoryTableComponent from "../crops/components/history-table.component.v
 import ForumManagementComponent from "../forum/pages/forum-management.component.vue";
 import MembershipSelectorComponent  from "../profiles/pages/membership-selector.component.vue";
 import UserProfileEditPageComponent from "../profiles/pages/user-profile-edit-page.component.vue";
+import UserProfileCreatePageComponent from "../profiles/pages/user-profile-create-page.component.vue";
 import PageNotFoundComponent from "../public/pages/page-not-found.component.vue";
 import SignUpComponent from "../iam/pages/sign-up.component.vue";
 import SignInComponent from "../iam/pages/sign-in.component.vue";
@@ -19,7 +20,8 @@ const routes = [
     { path: '/', redirect: '/home'},
     { path: '/sign-in', name: 'sign-in',    component: SignInComponent,             meta: { title: 'Sign In' } },
     { path: '/sign-up', name: 'sign-up',    component: SignUpComponent,             meta: { title: 'Sign Up' } },
-    { path: '/user-profile-edit', component: UserProfileEditPageComponent},
+    { path: '/user-profile-edit', name: 'user-profile-edit', component: UserProfileEditPageComponent},
+    { path: '/user-profile-create', name: 'user-profile-create',component: UserProfileCreatePageComponent },
     { path: '/sowing-statistics-reports', component: CropsStatisticsComponent },
     { path: '/control-panel',name: 'control-panel', component: ControlPanelPageComponent},
     { path:'/crop-list-and-registration',component: CropListAndRegistrationManagementComponent},
