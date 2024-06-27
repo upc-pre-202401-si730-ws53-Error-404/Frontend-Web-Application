@@ -5,5 +5,9 @@ export class CropsRecomendationApiService {
     getAllCrops(){
         return http.get('/crops')
     }
+
+    getCropById(id){
+        return http.get(`/crops/${id}`)
+    }
 }
 

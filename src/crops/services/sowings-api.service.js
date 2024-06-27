@@ -3,23 +3,28 @@ import http from "../../shared/services/http-common.js";
 export class SowingsApiService{
 
     getAll(){
-        return http.get("/crops/sowings");
+        return http.get("/sowings");
+    }
+    getAllFalse(){
+        return http.get("/sowings/?status=false");
+
     }
     getById(id) {
         return http.get(`/crops/sowings/${id}`);
     }
+    //This call to method POST at /sowings
     create(sowingResource) {
-        return http.post('/crops/sowings', sowingResource);
+        return http.post('/sowings', sowingResource);
     }
 
     update(id, tutorialResource) {
-        return http.put(`/crops/sowings/${id}`, tutorialResource);
+        return http.put(`/sowings/${id}`, tutorialResource);
     }
 
     delete(id) {
         console.log('Sending delete request for sowing with ID:', id);
 
-        return http.delete(`/crops/sowings/${id}`)
+        return http.delete(`/sowings/${id}`)
             .then((response) => {
                 console.log('Delete request successful:', response);
                 return response;

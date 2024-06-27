@@ -1,3 +1,6 @@
+import moment from 'moment';
+import {CropsRecomendationApiService} from "../services/crops-recomendation-api.service.js";
+
 export class Sowing {
     constructor(id = '', start_date = '', harvest_date = '', area_land = 0, user_id = '', crop_id = '', crop_name = '', phenological_phase = '') {
         this.id = id;
@@ -23,16 +26,26 @@ export class Sowing {
         );
     }
 
-    static toDisplayableSowing(sowing) {
+    static async toDisplayableSowing(sowing) {
+        const cropApiService = new CropsRecomendationApiService();
+        let cropName = '';
+
+        try {
+            const cropResponse = await cropApiService.getCropById(sowing.cropId);
+            cropName = cropResponse.data.name;
+        } catch (error) {
+            console.error('Error fetching crop name:', error);
+        }
+
         return {
             id: sowing.id,
-            start_date: sowing.start_date,
-            harvest_date: sowing.harvest_date,
-            area_land: sowing.area_land,
-            user_id: sowing.user_id,
-            crop_id: sowing.crop_id,
-            crop_name: sowing.crop_name,
-            phenological_phase: sowing.phenological_phase
+            start_date: moment(sowing.startDate).format('YYYY-MM-DD'),
+            harvest_date: moment(sowing.harvestDate).format('YYYY-MM-DD'),
+            area_land: sowing.areaLand,
+            user_id: sowing.user_id, //TODO: How to know the user ¿?
+            crop_id: sowing.cropId,
+            crop_name: cropName, //TODO: How to know the crop name ¿?
+            phenological_phase: sowing.phenologicalPhaseName //TODO: It's a number.
         };
     }
 }
