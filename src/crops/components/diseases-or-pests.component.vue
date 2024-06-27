@@ -1,41 +1,69 @@
+<template>
+  <div>
+    <h2>Enfermedades del Cultivo</h2>
+    <table>
+      <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Solución</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="disease in diseases" :key="disease.id">
+        <td>{{ disease.name }}</td>
+        <td>{{ disease.description }}</td>
+        <td>{{ disease.solution }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
+
 <script>
-import CustomTable from "./custom-table.component.vue";
-import { SowingsApiService } from '../services/sowings-api.service.js';
 import { DiseasesApiService } from '../services/diseases-api.service.js';
 
 export default {
-  name: 'DiseasesOrPests',
-  components: {CustomTable},
-  props: ['sowingId'],
+  name: 'CropDiseases',
+  props: ['cropId'],
   data() {
     return {
-      tableHeaders: ['Name', 'Description', 'Solution'],
-      tableData: []
+      diseases: []
     };
   },
-  created() {
-    const sowingsAPI = new SowingsApiService();
-    const diseasesAPI = new DiseasesApiService();
-    sowingsAPI.getAll().then(response => {
-      const sowings = response.data;
-      const selectedSowing = sowings.find(sowing => Number(sowing.id) === Number(this.sowingId));
-      if (selectedSowing) {
-        diseasesAPI.getAll().then(response => {
-          const diseases = response.data;
-          const selectedDiseases = diseases.filter(disease => Number(disease.crop_id) === Number(selectedSowing.crop_id));
-          this.tableData = selectedDiseases.map(disease => [disease.name, disease.description, disease.solution]);
-        });
+  methods: {
+    async fetchDiseases() {
+      console.log('Fetching diseases for cropId:', this.cropId); // Log cropId
+      try {
+        const diseasesService = new DiseasesApiService();
+        const response = await diseasesService.getByCropId(this.cropId);
+        console.log('Diseases response:', response); // Log full response
+        this.diseases = response.data;
+        console.log('Diseases data:', this.diseases); // Log the data
+      } catch (error) {
+        console.error('Error fetching diseases:', error);
       }
-    });
+    }
+  },
+  created() {
+    this.fetchDiseases();
   }
 };
 </script>
 
-<template>
-  <div>
-    <custom-table class="table" :headers="tableHeaders" :data="tableData" />
-  </div>
-</template>
-
 <style scoped>
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+th {
+  background-color: #f2f2f2;
+  text-align: left;
+}
 </style>

@@ -22,6 +22,7 @@ export default {
       isEdit: false,
       submitted: false,
       selectedSowingId: null,
+      historyService: null
     }
   },
   methods:{
@@ -125,7 +126,40 @@ export default {
 
     changePhenologicalPhase(sowing) {
       this.sowing = sowing;
-      this.changePhaseDialogVisible = true;
+      const phaseValues = {
+        'Germination': 0,
+        'Seedling': 1,
+        'VegetativeGrowth': 2,
+        'Flowering': 3,
+        'HarvestReady': 4
+      };
+      const phaseNames = ['Germination', 'Seedling', 'VegetativeGrowth', 'Flowering', 'HarvestReady'];
+      let phaseValue = phaseValues[this.sowing.phenological_phase];
+
+      if (phaseValue < 4) {
+        phaseValue++;
+      }
+      this.sowing.phenological_phase = phaseNames[phaseValue];
+
+      // Actualizar el sowing en la base de datos
+      this.sowingService.updateSowing(this.sowing)
+          .then(() => {
+            console.log('Sowing updated');
+          })
+          .catch((error) => {
+            console.error('Error updating sowing:', error);
+          });
+
+      this.changePhaseDialogVisible = false;
+      if (this.sowing.phenological_phase === 'HarvestReady') {
+        this.historyService.addToHistory(this.sowing)
+            .then(() => {
+              console.log('Sowing added to history');
+            })
+            .catch((error) => {
+              console.error('Error adding sowing to history:', error);
+            });
+      }
     },
     onPhaseChangeCanceled() {
       this.changePhaseDialogVisible = false;

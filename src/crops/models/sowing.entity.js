@@ -2,7 +2,7 @@ import moment from 'moment';
 import {CropsRecomendationApiService} from "../services/crops-recomendation-api.service.js";
 
 export class Sowing {
-    constructor(id = '', start_date = '', harvest_date = '', area_land = 0, user_id = '', crop_id = '', crop_name = '', phenological_phase = '') {
+    constructor(id = '', start_date = '', harvest_date = '', area_land = 0, user_id = '', crop_id = '', crop_name = '', phenological_phase = 0) {
         this.id = id;
         this.start_date = start_date;
         this.harvest_date = harvest_date;
@@ -37,15 +37,32 @@ export class Sowing {
             console.error('Error fetching crop name:', error);
         }
 
+        const phenologicalPhaseNames = {
+            0: 'Germination',
+            1: 'Seedling',
+            2: 'VegetativeGrowth',
+            3: 'Flowering',
+            4: 'HarvestReady'
+        }
+
+        let phaseName = 'Germination';  // Valor por defecto en caso de que phenological_phase sea undefined
+        if (sowing.phenological_phase !== undefined) {
+            phaseName = phenologicalPhaseNames[sowing.phenological_phase];
+            if (!phaseName) {
+                console.error(`Phenological phase ${sowing.phenological_phase} is not defined in the phase mapping.`);
+                phaseName = 'Germination';
+            }
+        }
+
         return {
             id: sowing.id,
-            start_date: moment(sowing.startDate).format('YYYY-MM-DD'),
-            harvest_date: moment(sowing.harvestDate).format('YYYY-MM-DD'),
+            start_date: moment(sowing.start_date).format('YYYY-MM-DD'),
+            harvest_date: moment(sowing.harvest_date).format('YYYY-MM-DD'),
             area_land: sowing.areaLand,
-            user_id: sowing.user_id, //TODO: How to know the user ¿?
+            user_id: sowing.userId,
             crop_id: sowing.cropId,
-            crop_name: cropName, //TODO: How to know the crop name ¿?
-            phenological_phase: sowing.phenologicalPhaseName //TODO: It's a number.
+            crop_name: cropName,
+            phenological_phase: phaseName
         };
     }
 }

@@ -4,6 +4,7 @@ import CropCare from "../components/crop-care.component.vue";
 import DiseasesOrPests from "../components/diseases-or-pests.component.vue";
 import ProductsUsed from "../components/products-used.component.vue";
 import Controls from "../components/controls.component.vue";
+import {CropsRecomendationApiService} from "../services/crops-recomendation-api.service.js";
 
 export default {
   name: "crop-information-management",
@@ -11,6 +12,7 @@ export default {
   data() {
     return {
       selectedSowingId: this.$route.params.id,
+      crop: null,
     };
   },
   watch: {
@@ -22,12 +24,25 @@ export default {
       }
     }
   },
+  async created() {  // Añade el método created
+    const cropApiService = new CropsRecomendationApiService();
+    try {
+      const response = await cropApiService.getCropById(this.selectedSowingId);
+      this.crop = response.data;
+      this.$parent.provide('crop', this.crop);  // Proporcionar los datos del cultivo
+    } catch (error) {
+      console.error('Error fetching crop:', error);
+    }
+  },
 }
 </script>
 
 <template>
   <div>
     <h2 style="color:black;">{{$t('cropInformationManagement')}}</h2>
+    <div v-if="crop">
+      <h3 style="color:black">{{ crop.name }}</h3>
+    </div>
     <pv-tab-view>
       <pv-tab-panel header="General Information">
         <general-information :sowing-id="selectedSowingId"/>
