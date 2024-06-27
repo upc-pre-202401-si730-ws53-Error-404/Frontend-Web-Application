@@ -58,7 +58,7 @@ export default {
               <i class="pi pi-search" />
             </pv-input-icon>
             <pv-input-text v-model="filters['global'].value" placeholder="Search..." />
-          </pv-icon-field>
+          </pv-icon-field>it
           </div>
       </template>
       <pv-column field="ask" header="Ask" ></pv-column>
