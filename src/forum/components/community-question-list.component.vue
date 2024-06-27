@@ -27,6 +27,9 @@ export default {
     },
     returnQuestionsTable(){
       this.isQuestionSelected = false;
+    },
+    formatDate(value) {
+      return new Date(value).toISOString().split('T')[0];
     }
   },
   created() {
@@ -60,10 +63,14 @@ export default {
       </template>
       <pv-column field="ask" header="Ask" style="min-width:15rem"></pv-column>
       <pv-column field="category" header="Category" style="min-width:8rem"></pv-column>
-      <pv-column field="date" header="Date" style="min-width:8rem"></pv-column>
+      <pv-column field="date" header="Date" style="min-width:8rem">
+        <template #body="slotProps">
+          {{ formatDate(slotProps.data.date) }}
+        </template>
+      </pv-column>
       <pv-column field="userName" header="User Name" style="min-width:12rem"></pv-column>
 
-      <pv-column header="Actions" :exportable="false" style="min-width:5rem">
+      <pv-column header="Actions" :exportable="false" style="min-width:3rem">
         <template #body="slotProps">
           <pv-button icon="pi pi-comments" outlined rounded class="mr-2" @click="rowClick($event,slotProps.data)"/>
         </template>
