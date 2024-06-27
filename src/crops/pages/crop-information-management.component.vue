@@ -23,26 +23,13 @@ export default {
         this.selectedSowingId = newVal;
       }
     }
-  },
-  async created() {  // Añade el método created
-    const cropApiService = new CropsRecomendationApiService();
-    try {
-      const response = await cropApiService.getCropById(this.selectedSowingId);
-      this.crop = response.data;
-      this.$parent.provide('crop', this.crop);  // Proporcionar los datos del cultivo
-    } catch (error) {
-      console.error('Error fetching crop:', error);
-    }
-  },
+  }
 }
 </script>
 
 <template>
   <div>
     <h2 style="color:black;">{{$t('cropInformationManagement')}}</h2>
-    <div v-if="crop">
-      <h3 style="color:black">{{ crop.name }}</h3>
-    </div>
     <pv-tab-view>
       <pv-tab-panel header="General Information">
         <general-information :sowing-id="selectedSowingId"/>
@@ -62,7 +49,6 @@ export default {
     </pv-tab-view>
   </div>
 </template>
-
 
 <style scoped>
 

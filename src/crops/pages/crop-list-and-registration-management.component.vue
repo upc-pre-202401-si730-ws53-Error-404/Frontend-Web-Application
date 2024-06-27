@@ -212,11 +212,13 @@ export default {
 
     this.sowingService.getAllFalse()
         .then((response) => {
+          console.log('Raw sowings data:', response.data);  // Log raw data
           let sowings = response.data;
           return Promise.all(sowings.map((sowing) => Sowing.toDisplayableSowing(sowing)));
         })
         .then((processedSowings) => {
           this.sowings = processedSowings;
+          console.log('Processed sowings data:', this.sowings);  // Log processed data
         })
         .catch((error) => {
           console.error('Error fetching data:', error);

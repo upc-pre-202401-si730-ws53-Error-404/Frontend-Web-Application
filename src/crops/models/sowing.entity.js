@@ -45,7 +45,7 @@ export class Sowing {
             4: 'HarvestReady'
         }
 
-        let phaseName = 'Germination';  // Valor por defecto en caso de que phenological_phase sea undefined
+        let phaseName = 'Germination';
         if (sowing.phenological_phase !== undefined) {
             phaseName = phenologicalPhaseNames[sowing.phenological_phase];
             if (!phaseName) {
@@ -56,8 +56,8 @@ export class Sowing {
 
         return {
             id: sowing.id,
-            start_date: moment(sowing.start_date).format('YYYY-MM-DD'),
-            harvest_date: moment(sowing.harvest_date).format('YYYY-MM-DD'),
+            start_date: moment(sowing.startDate).format('YYYY-MM-DD'),
+            harvest_date: moment(sowing.endDate).format('YYYY-MM-DD'),  // Map endDate to harvest_date
             area_land: sowing.areaLand,
             user_id: sowing.userId,
             crop_id: sowing.cropId,
