@@ -55,6 +55,7 @@ export const useAuthenticationStore = defineStore({
                     this.userId = signInResponse.id;
                     this.username = signInResponse.username;
                     localStorage.setItem('token', signInResponse.token);
+                    localStorage.setItem('userId', signInResponse.id);
                     console.log(signInResponse);
                     router.push({name: 'control-panel'});
                 })
@@ -75,7 +76,22 @@ export const useAuthenticationStore = defineStore({
                 .then(response => {
                     let signUpResponse = new SignUpResponse(response.data.message);
                     console.log(signUpResponse);
-                    router.push({name: 'sign-in'});
+
+                    authenticationService.signIn(signUpRequest)
+                                        .then(response => {
+                                            let signInResponse = new SignInResponse(response.data.id, response.data.username, response.data.token);
+                                            this.signedIn = true;
+                                            this.userId = signInResponse.id;
+                                            this.username = signInResponse.username;
+                                            localStorage.setItem('token', signInResponse.token);
+                                            localStorage.setItem('userId', signInResponse.id);
+                                            console.log(signInResponse);
+                                            router.push({name: 'user-profile-create'});
+                                        })
+                                        .catch(error => {
+                                            console.error(error);
+                                            router.push({name: 'sign-in'});
+                                        });
                 })
                 .catch(error => {
                     console.error(error);
