@@ -5,6 +5,7 @@ import UserQuestionList from "../components/user-question-list.component.vue";
 import CommunityQuestionList from "../components/community-question-list.component.vue";
 import QuestionItemCreateAndEditDialog from "../components/question-item-create-and-edit-dialog.component.vue";
 import SowingItemCreateAndEditDialog from "../../crops/components/sowing-item-create-and-edit-dialog.component.vue";
+import {CategoryApiService} from "../services/category-api.service.js";
 
 
 
@@ -14,10 +15,12 @@ export default {
   data() {
     return {
       questions: [],
+      categories: [],
       question: {},
       selectedQuestion: {},
       filters: {},
       forumService: null,
+      categoryService: null,
       createAndEditDialogIsVisible: false,
       isEdit: false,
       submitted: false,
@@ -28,24 +31,31 @@ export default {
       return this.questions.findIndex((question) => question.id === id);
     },
     createQuestion() {
-      this.question.userName = "Roberto Juarez";
       this.question.date = new Date();
+      this.question.authorId = 1;
       this.question = Question.fromDisplayableQuestion(this.question);
       console.log(this.question);
       this.forumService.createQuestion(this.question)
           .then((response) => {
-            this.question = Question.toDisplayableQuestion(response.data);
+            let buildItemData = this.buildItemData(response.data);
+            this.question = Question.toDisplayableQuestion(buildItemData);
             this.questions.push(this.question);
           });
     },
 
     updateQuestion() {
-      this.question = Question.fromDisplayableQuestion(this.question);
+       let questionUpdate = {
+        categoryId: this.question.categoryId,
+        questionText: this.question.ask
+      };
       this.forumService
-          .updateQuestion(this.question.id, this.question)
+          .updateQuestion(this.question.id, questionUpdate)
           .then((response) => {
-            this.questions[this.findIndexById(response.data.id)] =
-                Question.toDisplayableQuestion(response.data);
+            let buildItemData = this.buildItemData(response.data);
+            console.log(buildItemData);
+            let index = this.findIndexById(buildItemData.questionId);
+            console.log(index);
+            this.questions.splice(index, 1, Question.toDisplayableQuestion(buildItemData));
           });
     },
 
@@ -95,6 +105,7 @@ export default {
           this.createQuestion();
         }
       }
+      this.question = {};
       this.createAndEditDialogIsVisible = false;
       this.isEdit = false;
     },
@@ -111,19 +122,51 @@ export default {
         reject:           () => {}
       });
     },
-    getAllQuestions(){
-      this.forumService.getAllQuestions().then((response) =>{
-        console.log(response.data);
+    buildData() {
+      console.log(this.questions);
+      this.questions = this.questions.map((question) => {
+        const category = this.categories.find((category) => category.categoryId === question.categoryId);
+        return {
+          ...question,
+          category: category?.name
+        };
+      });
+      console.log(this.questions);
+    },
+    buildItemData(data){
+      const category = this.categories.find((category) => category.categoryId === data.categoryId);
+
+      data.category = category?.name;
+      data.ask = data.questionText;
+      return data;
+    },
+    async getAllQuestions(){
+      await this.forumService.getAllQuestions().then((response) =>{
         let questions = response.data;
         this.questions = questions.map((question) => Question.toDisplayableQuestion(question));
-      })
+      });
+      return this.questions;
+    },
+    async getAllCategories(){
+      await this.categoryService.getAllCategories().then((response) =>{
+        this.categories = response.data;
+      });
+      return this.categories;
     }
   },
 
 
   created() {
     this.forumService = new ForumApiService();
-    this.getAllQuestions();
+    this.categoryService = new CategoryApiService();
+    Promise.all([this.getAllCategories(), this.getAllQuestions()])
+        .then(() => {
+          this.buildData();
+          console.log('Todas las categorías y preguntas se han cargado');
+        })
+        .catch((error) => {
+          console.error('Error cargando categorías o preguntas:', error);
+        });
   }
 }
 </script>
@@ -152,6 +195,7 @@ export default {
   <question-item-create-and-edit-dialog
       :entity="question"
       :visible="createAndEditDialogIsVisible"
+      :categories="categories"
       entityName="Question"
       :edit="isEdit"
       v-on:canceled="onCanceledEventHandler"

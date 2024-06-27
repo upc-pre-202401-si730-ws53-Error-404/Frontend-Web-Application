@@ -1,10 +1,9 @@
 <script>
 
-
 const defaultStyle = { width: '450px'};
 export default {
   name: "question-item-create-and-edit-dialog",
-  props: { entity: null, visible: Boolean, entityName: '', edit: Boolean, size: 'default' },
+  props: { entity: null, visible: Boolean, entityName: '', edit: Boolean, size: 'default',categories: Array },
   methods: {
     onSave() {
       this.$emit('saved', this.entity);
@@ -42,13 +41,13 @@ export default {
       <div class="field mt-5">
         <pv-float-label>
           <label for="category">{{$t('categoryQuestion')}}</label>
-          <pv-input-text id="category" v-model="entity.categoryId" :class="{'p-invalid':!entity.categoryId}"/>
+          <pv-dropdown id="category" v-model="entity.categoryId" :options="categories" optionLabel="name" optionValue="categoryId" :class="{'p-invalid':!entity.categoryId}"/>
         </pv-float-label>
       </div>
       <div class="field mt-5">
         <pv-float-label>
           <label for="ask">{{$t('askQuestion')}}</label>
-          <pv-text-area id="ask" v-model="entity.questionText" :class="{'p-invalid':!entity.questionText}"/>
+          <pv-text-area id="ask" v-model="entity.ask" :class="{'p-invalid':!entity.ask}"/>
         </pv-float-label>
       </div>
     </div>

@@ -11,7 +11,7 @@ export class ForumApiService{
     }
 
     updateQuestion(id,question){
-        return http.put("/forum/questions/${id}",question);
+        return http.put(`/forum/questions/${id}`,question);
     }
 
     deleteQuestion(id){
@@ -36,9 +36,13 @@ export class ForumApiService{
         return http.get(`/forum/answers/${id}`);
     }
     getAnswerByQuestionId(id){
-        return http.get(`/forum/answers/?questionId=${id}`);
+        return http.get(`/forum/answers/question/${id}`);
     }
     createAnswer(answer){
         return http.post("/forum/answers",answer);
+    }
+
+    getAllCategories(){
+        return http().get('/forum/categories');
     }
 }
