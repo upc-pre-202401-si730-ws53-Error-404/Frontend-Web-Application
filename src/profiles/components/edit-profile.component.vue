@@ -1,52 +1,68 @@
 <script>
-import { UsersApiService } from "../service/users-api.service.js";
+import { ProfileApiService } from "../service/profile-api.service.js";
+import { Profile } from "../model/profile.entity.js";
+
+const profileApiService = new ProfileApiService();
 
 export default {
   data() {
     return {
-      dataLoaded: false,
       newName: '',
       boolName: true,
+      newSubscription: '',
+      boolSubscription: true,
       newEmail: '',
       boolEmail: true,
       newCountry: null,
       boolCountry: true,
       newCity:null,
       boolCity: true,
-      newPassword: '',
-      boolPassword: true,
-      countries: [],
-      cities: []
+      countries: [
+        { id: 1, name: 'Argentina' },
+        { id: 2, name: 'Bolivia' },
+        { id: 3, name: 'Brasil' },
+        { id: 4, name: 'Chile' },
+        { id: 5, name: 'Colombia' },
+        { id: 6, name: 'Ecuador' },
+        { id: 7, name: 'Guayana Francesa' },
+        { id: 8, name: 'Guyana' },
+        { id: 9, name: 'Paraguay' },
+        { id: 10, name: 'Perú' },
+        { id: 11, name: 'Surinam' },
+        { id: 12, name: 'Uruguay' },
+        { id: 13, name: 'Venezuela' }
+      ],
+      cities: [
+        { id: 1, name: 'Buenos Aires' },
+        { id: 2, name: 'São Paulo' },
+        { id: 3, name: 'Río de Janeiro' },
+        { id: 4, name: 'Lima' },
+        { id: 5, name: 'Bogotá' },
+        { id: 6, name: 'Santiago' },
+        { id: 7, name: 'Caracas' },
+        { id: 8, name: 'Quito' },
+        { id: 9, name: 'Montevideo' },
+        { id: 10, name: 'Asunción' },
+        { id: 11, name: 'La Paz' },
+        { id: 12, name: 'San José' },
+        { id: 13, name: 'Panamá' }
+      ]
     };
   },
   mounted() {
-    const usersService = new UsersApiService();
-    usersService.getUserById(1).then(response => {
-      const user = response.data;
-      this.newName = user.first_name;
-      this.newEmail = user.email;
-      usersService.getAllCountries().then(response => {
-        this.countries = response.data;
-        const userCountry = this.countries.find(country => country.id === user.country_id);
-        if (userCountry) {
-          this.newCountry = userCountry.id; // Asigna el id del país a newCountry
-          this.cities = userCountry.cities; // Asigna las ciudades del país a cities
-        }
-        this.dataLoaded = true;
-      });
+    profileApiService.getProfileById(localStorage.getItem('userId')).then(response => {
+      const prof = response.data;
+      this.newName = prof.fullName;
+      this.newEmail = prof.email;
+      this.newCountry = prof.countryId;
+      this.newCity = prof.cityId;
+      this.newSubscription = prof.subscriptionId;
     }).catch(error => {
-      console.error('Error getting user:', error);
+      console.error('Error getting prof:', error);
     });
   },
   watch: {
-    newCountry(newCountryId) {
-      const selectedCountry = this.countries.find(country => country.id === newCountryId);
-      if (selectedCountry) {
-        this.cities = selectedCountry.cities;
-      } else {
-        this.cities = [];
-      }
-    }
+    
   },
   methods: {
     saveNameChange(newName) {
@@ -84,11 +100,22 @@ export default {
     changePassword() {
       this.boolPassword = false;
     },
-    confirmApply() {
-      this.$router.push('/control-panel');
+    confirmApply() {      
+      const profile = new Profile(localStorage.getItem('userId'), this.newName, this.newEmail, this.newCountry, this.newSubscription, this.newCity);
+
+      console.log(profile);
+
+      profileApiService.update(profile.id, profile).then(response => {
+        console.log(response);
+        this.$router.push('/control-panel');
+        alert('¡Actualización exitosa!');
+      }).catch(error => {
+        console.error('Error getting prof:', error);
+        alert('Error al actualizar.');
+      });
     },
     signOut() {
-      this.$router.push('/authentication');
+      this.$router.push('/sign-in');
     },
 
     updateCities(event) {
@@ -100,10 +127,11 @@ export default {
 </script>
 
 <template>
-  <div class="smaller-div" v-if="dataLoaded">
+  <div class="smaller-div" v-if="true">
     <pv-card class="highlighted-border">
       <template #title>
         <div class="profile-header">
+          <br>
           <h2 class="black">My Profile</h2>
         </div>
       </template>
@@ -129,16 +157,10 @@ export default {
             <a @click="changeCountry()">Change Country</a>
             <pv-divider/>
             <h3>City:</h3>
-            <pv-dropdown v-model="newCity" :options="cities" optionLabel="name" :disabled="boolCity" />
+            <pv-dropdown v-model="newCity" :options="cities" optionLabel="name" optionValue="id" :disabled="boolCity" />
             <pv-button class="green-button" v-if="!boolCity" @click="saveCityChange(newCity)">Check</pv-button>
             <a @click="changeCity()">Change City</a>
             <pv-divider/>
-            <h3>Password:</h3>
-            <pv-password v-model="newPassword" :disabled="boolPassword" />
-            <pv-button class="green-button" v-if="!boolPassword" @click="savePasswordChange(newPassword)">Check</pv-button>
-            <a @click="changePassword()">Change Password</a>
-            <pv-divider/>
-            <h3>Account</h3>
             <pv-button class="green-button" @click="confirmApply">Apply</pv-button>
             <pv-button class="red-button" @click="signOut()">Sign Out</pv-button>
           </div>
