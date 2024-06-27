@@ -21,6 +21,20 @@ export class SowingsApiService{
         return http.put(`/sowings/${id}`, tutorialResource);
     }
 
+    updateSowing(sowing){
+        return new Promise((resolve,reject) =>{
+            http.put(`/sowings/${sowing.id}`, sowing)
+                .then(response => {
+                    console.log('Update request successful:', response);
+                    resolve(response);
+                })
+                .catch(error => {
+                    console.error('Error in update request:', error);
+                    reject(error);
+                });
+        });
+    }
+
     delete(id) {
         console.log('Sending delete request for sowing with ID:', id);
 

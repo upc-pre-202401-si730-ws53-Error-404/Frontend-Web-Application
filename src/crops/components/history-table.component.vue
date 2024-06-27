@@ -2,12 +2,11 @@
 import {SowingsApiService} from "../services/sowings-api.service.js";
 import {Sowing} from "../models/sowing.entity.js";
 import {FilterMatchMode} from "primevue/api";
-import SowingHistoryCard from './sowing-history-card.component.vue'; // Importa el componente
 
 export default {
   name: 'crop-history',
   components: {
-    SowingHistoryCard
+    SowingHistoryCard: () => import('./sowing-history-card.component.vue')
   },
   data(){
     return{
@@ -39,16 +38,32 @@ export default {
 
     this.sowingService.getAll()
         .then((response) => {
-          console.log(response.data);
-          let sowings = response.data;
-          this.sowings = sowings.map((sowing) => Sowing.toDisplayableSowing(sowing));
+          let data;
+          try {
+            data = JSON.parse(response.data);
+          } catch (error) {
+            console.error('Error parsing response.data:', error);
+            return;
+          }
+          console.log('Type of data:', typeof data);
+          console.log('Content of data:', data);
+          if (Array.isArray(data)) {
+            let sowings = data;
+            Promise.all(sowings.map((sowing) => Sowing.toDisplayableSowing(sowing)))
+                .then((displayableSowings) => {
+                  this.sowings = displayableSowings;
+                })
+                .catch((error) => {
+                  console.error('Error converting sowings to displayable format:', error);
+                });
+          } else {
+            console.error('Error: data is not an array');
+          }
         });
-
     this.initFilters();
   }
 }
 </script>
-
 <template>
   <div>
     <h1 class="title"> Crop History</h1>
