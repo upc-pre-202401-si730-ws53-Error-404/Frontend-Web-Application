@@ -12,7 +12,6 @@ export class SowingsApiService{
     getById(id) {
         return http.get(`/crops/sowings/${id}`);
     }
-    //This call to method POST at /sowings
     create(sowingResource) {
         return http.post('/sowings', sowingResource);
     }
