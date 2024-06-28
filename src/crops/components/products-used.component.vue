@@ -16,7 +16,8 @@ export default {
       products: [],
       tableHeaders: ['Date', 'Type', 'Name', 'Quantity', 'Actions'],
       productDialogVisible: false,
-      newProduct: {date: '', type: '', name: '', quantity: '', sowingId: ''}
+      newProduct: {date: '', type: '', name: '', quantity: '', sowingId: ''},
+      productsAvailable:[]
     };
   },
   methods: {
@@ -28,21 +29,118 @@ export default {
       this.productDialogVisible = true;
     },
     onProductSaved(product) {
-      this.products.push(product);
-      this.productDialogVisible = false;
+      console.log(product);
+      const productsAPI = new ProductsApiService();
+      // Check if the product with the selected name exists in productsAvailable
+      const existingProduct = this.productsAvailable.find(p => p.name === product.name);
+
+      // If the product does not exist, create it
+      if (!existingProduct) {
+        const newProduct = {
+          name: product.name,
+          type: product.type
+        };
+        productsAPI.postProduct(newProduct)
+            .then(response => {
+              console.log(response.data);
+              const productId = response.data.id;
+              product.productId = productId;
+              // Update the newProduct object to include the new productId
+              newProduct.id = productId;
+              this.productsAvailable.push(newProduct);
+              // Transform the product object to have the correct structure
+              const productToSend = {
+                sowingId: product.sowingId,
+                productId: product.productId,
+                quantity: parseInt(product.quantity)
+              };
+              console.log(productToSend);
+              productsAPI.addProduct(this.sowingId, productToSend)
+                  .then(response => {
+                    console.log(response.data);
+                    // Get productId from the response data
+                    const productId = response.data.id;
+
+                    console.log(productId);
+                    // Call getProductBySowingInfo to get the date and quantity
+                    productsAPI.getProductBySowingInfo(this.sowingId, productId)
+                        .then(response => {
+                          console.log(response.data);
+                          // Get date and quantity from the response data
+                          const date = response.data.date;
+                          const quantity = response.data.quantity;
+
+                          // Create a new object with the required properties
+                          const newProduct = {
+                            sowingId: product.sowingId,
+                            productId: productId,
+                            type: product.type,
+                            name: product.name,
+                            date: date,
+                            quantity: quantity
+                          };
+
+                          this.products.push(newProduct);
+                          this.productDialogVisible = false;
+                        })
+                        .catch(e => {
+                          console.log(e);
+                        });
+                  })
+                  .catch(e => {
+                    console.log(e);
+                  });
+            })
+            .catch(e => {
+              console.log(e);
+            }); //TODO: Refactor this code :(
+      }
     },
     onProductCanceled() {
       this.productDialogVisible = false;
     },
     onDelete(index) {
-      this.products.splice(index, 1);
+      const productService = new ProductsApiService();
+      console.log(index);
+      console.log(this.productsAvailable);
+      console.log(this.sowingId, this.productsAvailable[index].id );
+      productService.deleteProductBySowing(this.sowingId, this.productsAvailable[index].id)
+          .then(response => {
+            console.log(response.data);
+            // Remove the product from the products and productsAvailable arrays
+            this.products.splice(index, 1);
+            this.productsAvailable.splice(index, 1);
+          })
+          .catch(e => {
+            console.log(e);
+          });
     }
   },
   created() {
     const productsAPI = new ProductsApiService();
-    productsAPI.getAll()
+    productsAPI.getProductsBySowingId(this.sowingId)
         .then(response => {
-          this.products = response.data.filter(product => product.sowing_id === this.sowingId);
+          console.log(response.data);
+          const products = response.data;
+          this.productsAvailable = products;
+
+          // For each product, call getProductBySowingInfo to get the date and quantity
+          products.forEach(product => {
+            productsAPI.getProductBySowingInfo(this.sowingId, product.id)
+                .then(response => {
+                  console.log(response.data);
+                  const date = response.data.date;
+                  const quantity = response.data.quantity;
+
+                  product.date = date;
+                  product.quantity = quantity;
+
+                  this.products.push(product);
+                })
+                .catch(e => {
+                  console.log(e);
+                });
+          });
         })
         .catch(e => {
           console.log(e);
