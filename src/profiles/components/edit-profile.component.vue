@@ -15,38 +15,29 @@ export default {
       boolEmail: true,
       newCountry: null,
       boolCountry: true,
-      newCity:null,
+      newCity: null,
       boolCity: true,
       countries: [
-        { id: 1, name: 'Argentina' },
-        { id: 2, name: 'Bolivia' },
-        { id: 3, name: 'Brasil' },
-        { id: 4, name: 'Chile' },
-        { id: 5, name: 'Colombia' },
-        { id: 6, name: 'Ecuador' },
-        { id: 7, name: 'Guayana Francesa' },
-        { id: 8, name: 'Guyana' },
-        { id: 9, name: 'Paraguay' },
-        { id: 10, name: 'Perú' },
-        { id: 11, name: 'Surinam' },
-        { id: 12, name: 'Uruguay' },
-        { id: 13, name: 'Venezuela' }
+        { id: 1, name: 'Chile', cities: ['Santiago', 'Antofagasta', 'Concepción'] },
+        { id: 2, name: 'Colombia', cities: ['Bogotá', 'Barranquilla', 'Medellin'] },
+        { id: 3, name: 'Ecuador', cities: ['Guayaquil', 'Quito', 'Cuenca'] },
+        { id: 4, name: 'Perú', cities: ['Lima', 'Arequipa', 'Trujillo'] },
       ],
-      cities: [
-        { id: 1, name: 'Buenos Aires' },
-        { id: 2, name: 'São Paulo' },
-        { id: 3, name: 'Río de Janeiro' },
-        { id: 4, name: 'Lima' },
-        { id: 5, name: 'Bogotá' },
-        { id: 6, name: 'Santiago' },
-        { id: 7, name: 'Caracas' },
-        { id: 8, name: 'Quito' },
-        { id: 9, name: 'Montevideo' },
-        { id: 10, name: 'Asunción' },
-        { id: 11, name: 'La Paz' },
-        { id: 12, name: 'San José' },
-        { id: 13, name: 'Panamá' }
-      ]
+      allCities: [
+        { id: 1, name: 'Santiago', countryId: 1 },
+        { id: 2, name: 'Antofagasta', countryId: 1 },
+        { id: 3, name: 'Concepción', countryId: 1 },
+        { id: 4, name: 'Bogotá', countryId: 2 },
+        { id: 5, name: 'Barranquilla', countryId: 2 },
+        { id: 6, name: 'Medellin', countryId: 2 },
+        { id: 7, name: 'Guayaquil', countryId: 3 },
+        { id: 8, name: 'Quito', countryId: 3 },
+        { id: 9, name: 'Cuenca', countryId: 3 },
+        { id: 10, name: 'Lima', countryId: 4 },
+        { id: 11, name: 'Arequipa', countryId: 4 },
+        { id: 12, name: 'Trujillo', countryId: 4 },
+      ],
+      cities: []
     };
   },
   mounted() {
@@ -57,12 +48,15 @@ export default {
       this.newCountry = prof.countryId;
       this.newCity = prof.cityId;
       this.newSubscription = prof.subscriptionId;
+      this.updateCities(this.newCountry); // Update cities when the profile is loaded
     }).catch(error => {
       console.error('Error getting prof:', error);
     });
   },
   watch: {
-    
+    newCountry(newVal) {
+      this.updateCities(newVal);
+    }
   },
   methods: {
     saveNameChange(newName) {
@@ -100,7 +94,7 @@ export default {
     changePassword() {
       this.boolPassword = false;
     },
-    confirmApply() {      
+    confirmApply() {
       const profile = new Profile(localStorage.getItem('userId'), this.newName, this.newEmail, this.newCountry, this.newSubscription, this.newCity);
 
       console.log(profile);
@@ -117,11 +111,9 @@ export default {
     signOut() {
       this.$router.push('/sign-in');
     },
-
-    updateCities(event) {
-      const selectedCountry = this.countries.find(country => country.name === event.value);
-      this.cities = selectedCountry.cities;
-    },
+    updateCities(countryId) {
+      this.cities = this.allCities.filter(city => city.countryId === countryId);
+    }
   },
 };
 </script>

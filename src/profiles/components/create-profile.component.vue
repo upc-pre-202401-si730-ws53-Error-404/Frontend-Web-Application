@@ -11,44 +11,34 @@ export default {
       newSubscription: '',
       newEmail: '',
       newCountry: null,
-      newCity:null,
+      newCity: null,
       countries: [
-        { id: 1, name: 'Argentina' },
-        { id: 2, name: 'Bolivia' },
-        { id: 3, name: 'Brasil' },
-        { id: 4, name: 'Chile' },
-        { id: 5, name: 'Colombia' },
-        { id: 6, name: 'Ecuador' },
-        { id: 7, name: 'Guayana Francesa' },
-        { id: 8, name: 'Guyana' },
-        { id: 9, name: 'Paraguay' },
-        { id: 10, name: 'Perú' },
-        { id: 11, name: 'Surinam' },
-        { id: 12, name: 'Uruguay' },
-        { id: 13, name: 'Venezuela' }
+        { id: 1, name: 'Chile', cities: ['Santiago', 'Antofagasta', 'Concepción'] },
+        { id: 2, name: 'Colombia', cities: ['Bogotá', 'Barranquilla', 'Medellin'] },
+        { id: 3, name: 'Ecuador', cities: ['Guayaquil', 'Quito', 'Cuenca'] },
+        { id: 4, name: 'Perú', cities: ['Lima', 'Arequipa', 'Trujillo'] },
       ],
-      cities: [
-        { id: 1, name: 'Buenos Aires' },
-        { id: 2, name: 'São Paulo' },
-        { id: 3, name: 'Río de Janeiro' },
-        { id: 4, name: 'Lima' },
-        { id: 5, name: 'Bogotá' },
-        { id: 6, name: 'Santiago' },
-        { id: 7, name: 'Caracas' },
-        { id: 8, name: 'Quito' },
-        { id: 9, name: 'Montevideo' },
-        { id: 10, name: 'Asunción' },
-        { id: 11, name: 'La Paz' },
-        { id: 12, name: 'San José' },
-        { id: 13, name: 'Panamá' }
-      ]
+      allCities: [
+        { id: 1, name: 'Santiago', countryId: 1 },
+        { id: 2, name: 'Antofagasta', countryId: 1 },
+        { id: 3, name: 'Concepción', countryId: 1 },
+        { id: 4, name: 'Bogotá', countryId: 2 },
+        { id: 5, name: 'Barranquilla', countryId: 2 },
+        { id: 6, name: 'Medellin', countryId: 2 },
+        { id: 7, name: 'Guayaquil', countryId: 3 },
+        { id: 8, name: 'Quito', countryId: 3 },
+        { id: 9, name: 'Cuenca', countryId: 3 },
+        { id: 10, name: 'Lima', countryId: 4 },
+        { id: 11, name: 'Arequipa', countryId: 4 },
+        { id: 12, name: 'Trujillo', countryId: 4 },
+      ],
+      cities: []
     };
   },
-  mounted() {
-    
-  },
   watch: {
-    
+    newCountry(newVal) {
+      this.updateCities(newVal);
+    }
   },
   methods: {
     saveEmailChange(newEmail) {
@@ -59,15 +49,14 @@ export default {
         alert('Please enter a valid email address');
       }
     },
-    confirmApply() {      
-      const profile = new Profile2(this.newName, '',  this.newEmail, this.newCity, this.newCountry, this.newCountry);
+    confirmApply() {
+      const profile = new Profile2(this.newName, '', this.newEmail, this.newCity, this.newCountry, this.newCountry);
 
       console.log(profile);
 
       profileApiService.create(profile).then(response => {
         console.log(response);
-        alert('Creacion exitosa!');
-        this.$router.push('/control-panel');
+        this.$router.push('/membership-selector');
       }).catch(error => {
         console.error('Error getting prof:', error);
         alert('Error al actualizar.');
@@ -75,11 +64,9 @@ export default {
     },
     signOut() {
     },
-
-    updateCities(event) {
-      const selectedCountry = this.countries.find(country => country.name === event.value);
-      this.cities = selectedCountry.cities;
-    },
+    updateCities(countryId) {
+      this.cities = this.allCities.filter(city => city.countryId === countryId);
+    }
   },
 };
 </script>
@@ -106,10 +93,10 @@ export default {
             <pv-input-text v-model="newEmail" />
             <pv-divider/>
             <h3>Country:</h3>
-            <pv-dropdown v-model="newCountry" :options="countries" optionLabel="name" optionValue="id"  />
+            <pv-dropdown v-model="newCountry" :options="countries" optionLabel="name" optionValue="id" />
             <pv-divider/>
             <h3>City:</h3>
-            <pv-dropdown v-model="newCity" :options="cities" optionLabel="name" optionValue="id"  />
+            <pv-dropdown v-model="newCity" :options="cities" optionLabel="name" optionValue="id" />
             <pv-divider/>
             <pv-button class="green-button" @click="confirmApply">Apply</pv-button>
           </div>
