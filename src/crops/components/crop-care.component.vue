@@ -1,6 +1,6 @@
 <script>
+import http from "../../shared/services/http-common.js";
 import CustomTable from "./custom-table.component.vue";
-import { CaresApiService } from '../services/cares-api.service.js';
 
 export default {
   name: 'CropCare',
@@ -13,13 +13,40 @@ export default {
       tableData: []
     };
   },
-  created() {
-    const caresAPI = new CaresApiService();
-    caresAPI.getAll().then(response => {
-      const cares = response.data;
-      const filteredCares = cares.filter(care => Number(care.sowing_id) === Number(this.sowingId));
-      this.tableData = filteredCares.map(care => [care.date, care.suggestion]);
-    });
+  async created() {
+    const sowingsAPI = new SowingsApiService();
+    const caresAPI = new CropCaresApiService(); // Initialize CropCaresApiService
+
+    try {
+      const sowingResponse = await sowingsAPI.getById(this.sowingId);
+      const selectedSowing = sowingResponse.data;
+      console.log('Sowing Response:', sowingResponse.data);  // Log sowing data
+
+      // Check if selectedSowing is defined
+      if (selectedSowing) {
+        const caresResponse = await caresAPI.getByCropId(selectedSowing.cropId);
+        const cares = caresResponse.data || [];
+        console.log('Cares Response:', cares);  // Log cares data
+
+        // New API request
+        const response = await http.get(`/api/v1/cares/${selectedSowing.cropId}/cares`);
+        const newCares = response.data || [];
+        console.log('New Cares Response:', newCares);  // Log new cares data
+
+        const caresData = cares.map(care => ({
+          date: care.date,
+          suggestion: care.suggestion
+        }));
+        console.log('Cares Data:', caresData);  // Log cares data
+
+        this.tableData = caresData;
+        console.log('Table Data:', this.tableData);
+      } else {
+        console.log('selectedSowing is undefined');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   }
 };
 </script>
@@ -31,11 +58,9 @@ export default {
   </div>
 </template>
 
-
 <style scoped>
   div{
     display: flex;
-
   }
 
   .calendar{
