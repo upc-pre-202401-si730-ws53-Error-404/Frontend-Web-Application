@@ -37,22 +37,7 @@ export class Sowing {
             console.error('Error fetching crop name:', error);
         }
 
-        const phenologicalPhaseNames = {
-            0: 'Germination',
-            1: 'Seedling',
-            2: 'VegetativeGrowth',
-            3: 'Flowering',
-            4: 'HarvestReady'
-        }
-
-        let phaseName = 'Germination';
-        if (sowing.phenological_phase !== undefined) {
-            phaseName = phenologicalPhaseNames[sowing.phenological_phase];
-            if (!phaseName) {
-                console.error(`Phenological phase ${sowing.phenological_phase} is not defined in the phase mapping.`);
-                phaseName = 'Germination';
-            }
-        }
+        const phenologicalPhaseNames = ['Germination', 'Seedling', 'VegetativeGrowth', 'Flowering', 'HarvestReady'];
 
         return {
             id: sowing.id,
@@ -62,7 +47,7 @@ export class Sowing {
             user_id: sowing.userId,
             crop_id: sowing.cropId,
             crop_name: cropName,
-            phenological_phase: phaseName
+            phenological_phase: phenologicalPhaseNames[sowing.phenologicalPhase]
         };
     }
 }

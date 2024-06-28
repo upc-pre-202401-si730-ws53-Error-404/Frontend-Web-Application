@@ -1,16 +1,13 @@
 <script>
 import { SowingsApiService } from "../services/sowings-api.service.js";
-import {CropsRecomendationApiService} from "../services/crops-recomendation-api.service.js";
-
+import { CropsRecomendationApiService } from "../services/crops-recomendation-api.service.js";
 export default {
   name: 'GeneralInformation',
   props: ['sowingId'],
   data() {
     return {
       sowing: null,
-      crop: null,
-      rows: [],
-      sowings: []
+      rows: []
     };
   },
   watch: {
@@ -23,51 +20,35 @@ export default {
     }
   },
   methods: {
-    async loadSowing() {
+    loadSowing() {
       if (!this.sowingId) {
         return;
       }
-
       const sowingService = new SowingsApiService();
       const cropApiService = new CropsRecomendationApiService();
-
-      try {
-        const sowingResponse = await sowingService.getById(this.sowingId);
-
-        if (!sowingResponse || !sowingResponse.data) {
-          console.error('Error: Sowing data not found');
-          return;
-        }
-
-        this.sowing = sowingResponse.data;
-
-        console.log(sowingResponse);
-        if (!this.sowing.cropId) {
-          console.error('Error: crop_id is missing in sowing data');
-          return;
-        }
-
-        const cropResponse = await cropApiService.getCropById(this.sowing.cropId);
-
-        if (!cropResponse || !cropResponse.data) {
-          console.error('Error: Crop data not found');
-          return;
-        }
-
-        this.crop = cropResponse.data;
-
-        this.rows = [
-          ['Crop Name', this.crop ? this.crop.name : 'N/A'],
-          ['Date Created', this.sowing.start_date],
-          ['Planted Area (m2)', this.sowing.areaLand]
-        ];
-
-      } catch (error) {
-        console.error('Error fetching sowing or crop:', error);
-        if (error.response) {
-          console.error('Response error:', error.response.data);
-        }
-      }
+      sowingService.getById(this.sowingId)
+          .then((response) => {
+            this.sowing = response.data;
+            console.log('Received sowing:', this.sowing);
+            if (!this.sowing.cropId) {
+              throw new Error('Crop ID is undefined');
+            }
+            return cropApiService.getCropById(this.sowing.cropId);
+          })
+          .then((response) => {
+            this.sowing.crop_info = response.data;
+            console.log('Received crop:', this.sowing.crop_info);
+            const dateParts = this.sowing.startDate.split('T');
+            const dateOnly = dateParts[0];
+            this.rows = [
+              ['Crop Name', this.sowing.crop_info.name],
+              ['Date Created', dateOnly],
+              ['Planted Area (m2)', this.sowing.areaLand]
+            ];
+          })
+          .catch((error) => {
+            console.error('Error fetching data:', error);
+          });
     }
   }
 };
@@ -76,7 +57,7 @@ export default {
 <template>
   <div class="container">
     <div class="image-container">
-      <img class="crop-image" :src="crop?.imageUrl" alt="Crop Image"/>  <!-- Bind the crop image -->
+      <img :src="sowing?.crop_info?.image" alt="Crop Image"/>
     </div>
     <div class="labels-container">
       <div class="row" v-for="(row, index) in rows" :key="index">
@@ -90,11 +71,64 @@ export default {
   </div>
   <div class="description">
     <p>
-      {{ crop?.description }}
+      {{ sowing?.crop_info?.description }}
     </p>
   </div>
 </template>
 
 <style scoped>
-/* Estilos para el componente */
+.container {
+  display: flex;
+  margin-bottom: 50px;
+}
+
+.image-container {
+  flex: 1;
+  margin-right: 50px;
+}
+
+.image-container img {
+  width: 300px;  /* Adjust as needed */
+  height: 300px; /* Adjust as needed */
+  object-fit: cover; /* This will ensure that the image is scaled to fill the container while maintaining its aspect ratio */
+}
+
+.labels-container {
+  flex: 1;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.column {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.grey-label {
+  background-color: #D9D9D9;
+  color: black;
+}
+
+.green-label {
+  background-color: #005f40;
+  color: white;
+}
+
+.description {
+  background-color: #005f40;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 5px;
+}
 </style>

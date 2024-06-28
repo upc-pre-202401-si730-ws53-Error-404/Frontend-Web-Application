@@ -2,8 +2,6 @@
 import CustomTable from "./custom-table.component.vue";
 import { SowingsApiService } from '../services/sowings-api.service.js';
 import { DiseasesApiService } from '../services/diseases-api.service.js';
-import { PestsApiService } from '../services/pests-api.service.js';
-import {CropPestsApiService} from "../services/crop-pests-api.service.js";
 import {CropDiseasesApiService} from "../services/crop-diseases-api.service.js";
 
 export default {
@@ -20,26 +18,23 @@ export default {
   async created() {
     const sowingsAPI = new SowingsApiService();
     const diseasesAPI = new DiseasesApiService();
-    const pestsAPI = new PestsApiService();
-    const cropDiseasesAPI= new CropDiseasesApiService();
-    const cropPestsAPI= new CropPestsApiService();
+    const cropDiseasesAPI = new CropDiseasesApiService();
 
     try {
       const sowingResponse = await sowingsAPI.getById(this.sowingId);
       const selectedSowing = sowingResponse.data;
-      console.log(sowingResponse.data);
+      console.log('Sowing Response:', sowingResponse.data);  // Log sowing data
 
-      const diseasesResponse = await diseasesAPI.getAll();
-      const diseases = diseasesResponse.data || [];
+      let selectedDiseases = [];  // Initialize selectedDiseases
 
-      const cropDiseasesResponse = await cropDiseasesAPI.getByCropId(selectedSowing.cropId);
-      const cropDiseases = cropDiseasesResponse.data || [];
-      console.log(cropDiseases);
-
-      const cropDiseaseIds = cropDiseases.map(cropDisease => cropDisease.id);
-
-      const selectedDiseases = diseases.filter(disease => cropDiseaseIds.includes(disease.id));
-      console.log('Selected Diseases:', selectedDiseases);
+      // Check if selectedSowing is defined
+      if (selectedSowing) {
+        const cropDiseasesResponse = await cropDiseasesAPI.getByCropId(selectedSowing.cropId);
+        selectedDiseases = cropDiseasesResponse.data || [];
+        console.log('Crop Diseases Response:', selectedDiseases);
+      } else {
+        console.log('selectedSowing is undefined');
+      }
 
       const diseasesData = selectedDiseases.map(disease => ({
         name: disease.name,
@@ -48,22 +43,8 @@ export default {
       }));
       console.log('Diseases Data:', diseasesData);
 
-      const pestsResponse = await pestsAPI.getAll();
-      const pests = pestsResponse.data || [];
-
-      const cropPestsResponse = await cropPestsAPI.getByCropId(selectedSowing.cropId);
-      const cropPests = cropPestsResponse.data || [];
-      console.log(cropPests);
-
-      const cropPestIds = cropPests.map(cropPest => cropPest.id);
-
-      const selectedPests = pests.filter(pest => cropPestIds.includes(pest.id));
-      const pestsData = selectedPests.map(pest => ({
-        name: pest.name,
-        description: pest.description,
-        solution: pest.solution
-      }));
-      this.tableData = [...diseasesData, ...pestsData];
+      this.tableData = diseasesData;
+      console.log('Table Data:', this.tableData);
     } catch (error) {
       console.error('Error:', error);
     }

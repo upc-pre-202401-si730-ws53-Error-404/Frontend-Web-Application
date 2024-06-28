@@ -19,7 +19,9 @@ export class SowingsApiService{
     update(id, tutorialResource) {
         return http.put(`/sowings/${id}`, tutorialResource);
     }
-
+    updatePhenologicalPhase(id) {
+        return http.put(`/sowings/${id}/phenologicalphase`);
+    }
     updateSowing(sowing){
         return new Promise((resolve,reject) =>{
             http.put(`/sowings/${sowing.id}`, sowing)

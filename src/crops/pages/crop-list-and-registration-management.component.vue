@@ -104,9 +104,7 @@ export default {
       this.sowing.harvest_date = new Date(harvestDate.getFullYear(), harvestDate.getMonth(), harvestDate.getDate()).toISOString().split('T')[0];
 
       this.sowing.user_id = 1;
-      this.sowing.phenological_phase = "Germination";
 
-      // Asignar el id del objeto crop_name a crop_id antes de cambiar crop_name a una cadena
       this.sowing.crop_id = this.sowing.crop_name.id;
       this.sowing.crop_name = this.sowing.crop_name.name;
 
@@ -125,56 +123,48 @@ export default {
     },
 
     changePhenologicalPhase(sowing) {
-      this.sowing = sowing;
-      const phaseValues = {
-        'Germination': 0,
-        'Seedling': 1,
-        'VegetativeGrowth': 2,
-        'Flowering': 3,
-        'HarvestReady': 4
-      };
-      const phaseNames = ['Germination', 'Seedling', 'VegetativeGrowth', 'Flowering', 'HarvestReady'];
-      let phaseValue = phaseValues[this.sowing.phenological_phase];
+  this.sowing = sowing;
+  this.changePhaseDialogVisible = true;
+},
 
-      if (phaseValue < 4) {
-        phaseValue++;
-      }
-      this.sowing.phenological_phase = phaseNames[phaseValue];
+onPhaseChangeConfirmed() {
+  const phaseValues = {
+    'Germination': 0,
+    'Seedling': 1,
+    'VegetativeGrowth': 2,
+    'Flowering': 3,
+    'HarvestReady': 4
+  };
+  const phaseNames = ['Germination', 'Seedling', 'VegetativeGrowth', 'Flowering', 'HarvestReady'];
+  let phaseValue = phaseValues[this.sowing.phenological_phase];
 
-      // Actualizar el sowing en la base de datos
-      this.sowingService.updateSowing(this.sowing)
-          .then(() => {
-            console.log('Sowing updated');
-          })
-          .catch((error) => {
-            console.error('Error updating sowing:', error);
-          });
+  if (phaseValue < 4) {
+    phaseValue++;
+  }
+  this.sowing.phenological_phase = phaseNames[phaseValue];
 
-      this.changePhaseDialogVisible = false;
-      if (this.sowing.phenological_phase === 'HarvestReady') {
-        this.historyService.addToHistory(this.sowing)
-            .then(() => {
-              console.log('Sowing added to history');
-            })
-            .catch((error) => {
-              console.error('Error adding sowing to history:', error);
-            });
-      }
-    },
+  // Actualizar el sowing en la base de datos
+  this.sowingService.updatePhenologicalPhase(this.sowing.id)
+    .then(() => {
+      console.log('Sowing updated');
+      this.reloadData();
+    })
+    .catch((error) => {
+      console.error('Error updating sowing:', error);
+    });
+
+  this.changePhaseDialogVisible = false;
+  if (this.sowing.phenological_phase === 'HarvestReady') {
+    this.historyService.addToHistory(this.sowing)
+      .then(() => {
+        console.log('Sowing added to history');
+      })
+      .catch((error) => {
+        console.error('Error adding sowing to history:', error);
+      });
+  }
+},
     onPhaseChangeCanceled() {
-      this.changePhaseDialogVisible = false;
-    },
-    onPhaseChangeConfirmed() {
-      if (this.sowing.phenological_phase === 'Germination') {
-        this.sowing.phenological_phase = 'Seedling';
-      } else if (this.sowing.phenological_phase === 'Seedling') {
-        this.sowing.phenological_phase = 'VegetativeGrowth';
-      } else if (this.sowing.phenological_phase === 'VegetativeGrowth') {
-        this.sowing.phenological_phase = 'Flowering';
-      } else if (this.sowing.phenological_phase === 'Flowering') {
-        this.sowing.phenological_phase = 'HarvestReady';
-      }
-      this.updateSowing();
       this.changePhaseDialogVisible = false;
     },
 
@@ -264,10 +254,8 @@ export default {
       <pv-column field="crop_name" header="Crop" style="min-width:8rem"></pv-column>
       <pv-column field="start_date" header="Planted Date" style="min-width:15rem"></pv-column>
       <pv-column field="harvest_date" header="Harvest Date" style="min-width:15rem"></pv-column>
-      <pv-column field="phenological_phase" header="Phenological Phase" style="min-width:12rem"></pv-column>
-      <pv-column field="area_land" header="Planted Area (m2)" style="min-width:10rem"></pv-column>
-
-      <pv-column header="Actions" :exportable="false" style="min-width:8rem">
+      <pv-column field="phenological_phase" header="Phenological Phase" style="min-width:12rem">
+      </pv-column>      <pv-column header="Actions" :exportable="false" style="min-width:8rem">
         <template #body="slotProps">
           <pv-button icon="pi pi-exclamation-triangle" outlined rounded class="mr-2" @click="changePhenologicalPhase(slotProps.data)" />
           <pv-button icon="pi pi-pencil" outlined rounded class="mr-2" @click="onEditItemEventHandler(slotProps.data)" />
