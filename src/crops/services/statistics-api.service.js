@@ -5,7 +5,7 @@ export class StatisticsApiService {
 
     getAllSowings(status){
         console.log(status);
-        return http.get(`/sowings?status=${status}`);
+        return http.get(`/crops-management/sowings?status=${status}`);
     }
 
 }
