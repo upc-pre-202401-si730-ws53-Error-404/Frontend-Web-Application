@@ -1,6 +1,7 @@
 <script>
 import ProductCreateAndEditDialog from "./product-create-and-edit-dialog.component.vue";
 import { ProductsApiService } from '../services/products-api.service.js';
+import moment from "moment";
 
 export default {
   name: "ProductsUsed",
@@ -31,52 +32,52 @@ export default {
     onProductSaved(product) {
       console.log(product);
       const productsAPI = new ProductsApiService();
-      // Check if the product with the selected name exists in productsAvailable
       const existingProduct = this.productsAvailable.find(p => p.name === product.name);
 
-      // If the product does not exist, create it
       if (!existingProduct) {
         const newProduct = {
           name: product.name,
           type: product.type
         };
+
         productsAPI.postProduct(newProduct)
             .then(response => {
               console.log(response.data);
               const productId = response.data.id;
               product.productId = productId;
-              // Update the newProduct object to include the new productId
               newProduct.id = productId;
               this.productsAvailable.push(newProduct);
-              // Transform the product object to have the correct structure
+
               const productToSend = {
                 sowingId: product.sowingId,
                 productId: product.productId,
                 quantity: parseInt(product.quantity)
               };
+
               console.log(productToSend);
+
               productsAPI.addProduct(this.sowingId, productToSend)
                   .then(response => {
                     console.log(response.data);
-                    // Get productId from the response data
                     const productId = response.data.id;
 
                     console.log(productId);
-                    // Call getProductBySowingInfo to get the date and quantity
+
                     productsAPI.getProductBySowingInfo(this.sowingId, productId)
                         .then(response => {
                           console.log(response.data);
-                          // Get date and quantity from the response data
                           const date = response.data.date;
                           const quantity = response.data.quantity;
 
-                          // Create a new object with the required properties
+                          // Format the date using moment
+                          const formattedDate = moment(date).format('YYYY-MM-DD');
+
                           const newProduct = {
                             sowingId: product.sowingId,
                             productId: productId,
                             type: product.type,
                             name: product.name,
-                            date: date,
+                            date: formattedDate,
                             quantity: quantity
                           };
 
@@ -93,7 +94,7 @@ export default {
             })
             .catch(e => {
               console.log(e);
-            }); //TODO: Refactor this code :(
+            });
       }
     },
     onProductCanceled() {
@@ -131,11 +132,19 @@ export default {
                   console.log(response.data);
                   const date = response.data.date;
                   const quantity = response.data.quantity;
+                  const formattedDate = moment(date).format('YYYY-MM-DD');
 
-                  product.date = date;
-                  product.quantity = quantity;
+                  // Create a new object with the required properties
+                  const newProduct = {
+                    sowingId: product.sowingId,
+                    productId: product.id,
+                    type: product.type,
+                    name: product.name,
+                    date: formattedDate,
+                    quantity: quantity
+                  };
 
-                  this.products.push(product);
+                  this.products.push(newProduct);
                 })
                 .catch(e => {
                   console.log(e);
