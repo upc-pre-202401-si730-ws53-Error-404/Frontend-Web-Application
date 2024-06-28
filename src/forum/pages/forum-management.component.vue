@@ -16,6 +16,7 @@ export default {
     return {
       questions: [],
       categories: [],
+      profiles:[],
       question: {},
       selectedQuestion: {},
       filters: {},
@@ -126,23 +127,28 @@ export default {
       console.log(this.questions);
       this.questions = this.questions.map((question) => {
         const category = this.categories.find((category) => category.categoryId === question.categoryId);
+        const profile = this.profiles.find((profile) => profile.id === question.authorId);
         return {
           ...question,
-          category: category?.name
+          category: category?.name,
+          userName: profile?.fullName
         };
       });
       console.log(this.questions);
     },
     buildItemData(data){
       const category = this.categories.find((category) => category.categoryId === data.categoryId);
+      const profile = this.profiles.find((profile) => profile.id === data.authorId);
 
       data.category = category?.name;
       data.ask = data.questionText;
+      data.userName = profile?.fullName;
       return data;
     },
     async getAllQuestions(){
       await this.forumService.getAllQuestions().then((response) =>{
         let questions = response.data;
+        console.log(questions);
         this.questions = questions.map((question) => Question.toDisplayableQuestion(question));
       });
       return this.questions;
@@ -152,6 +158,13 @@ export default {
         this.categories = response.data;
       });
       return this.categories;
+    },
+    async getAllProfiles(){
+      await this.forumService.getAllProfiles().then((response) =>{
+        this.profiles = response.data;
+        console.log(this.profiles);
+      });
+      return this.profiles;
     }
   },
 
@@ -159,7 +172,7 @@ export default {
   created() {
     this.forumService = new ForumApiService();
     this.categoryService = new CategoryApiService();
-    Promise.all([this.getAllCategories(), this.getAllQuestions()])
+    Promise.all([this.getAllCategories(), this.getAllQuestions(), this.getAllProfiles()])
         .then(() => {
           this.buildData();
           console.log('Todas las categorías y preguntas se han cargado');
