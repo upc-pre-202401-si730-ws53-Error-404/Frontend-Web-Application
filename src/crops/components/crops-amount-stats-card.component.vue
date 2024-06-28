@@ -1,7 +1,6 @@
 <script>
 import VueApexCharts from 'vue3-apexcharts'
-import {SowingsApiService} from '../services/sowings-api.service.js';
-import {CropsRecomendationApiService} from '../services/crops-recomendation-api.service.js';
+import {StatisticsApiService} from '../services/statistics-api.service.js';
 
 export default {
   name: 'crops-amount-stats-card',
@@ -11,9 +10,6 @@ export default {
   data() {
     return {
       showDialog: false,
-      statusSowing: null,
-      sowingsAPI: null,
-      cropsAPI: null,
       mostRegisteredCrop: '',
       chartOptions: {
         chart: {
@@ -26,10 +22,15 @@ export default {
           }
         },
         dataLabels: {
-          enabled: false
+          enabled: true
         },
         xaxis: {
           categories: [],
+        },
+        yaxis: {
+          labels: {
+            show: false
+          }
         },
         tooltip: {
           style: {
@@ -38,16 +39,48 @@ export default {
         }
       },
       series: [{
-        name: 'Crops',
-        data: []
+        name : 'Quantity',
+        data: [
+
+        ]
       }],
     };
   },
   created() {
-    this.sowingsAPI = new SowingsApiService();
-    this.cropsAPI = new CropsRecomendationApiService();
-    this.statusSowing = false;
-    this.getAllSowings();
+    const statisticsAPI = new StatisticsApiService();
+    statisticsAPI.getAllSowings().then(response => {
+      const sowings = response.data;
+      const cropCounts = {};
+
+      sowings.forEach(sowing => {
+        if (sowing.cropId in cropCounts) {
+          cropCounts[sowing.cropId]++;
+        } else {
+          cropCounts[sowing.cropId] = 1;
+        }
+      });
+      const cropQuantities = Object.values(cropCounts);
+
+      Promise.all(
+          Object.keys(cropCounts).map(cropId => statisticsAPI.getCrop(cropId))
+      ).then(crops => {
+        this.series = crops.map((crop, index) => {
+          return {
+            name: crop.data.name, // Use the crop name from the getCrop response
+            data: [cropQuantities[index]]
+          }
+        });
+
+        this.chartOptions.xaxis.categories = this.series.map(series => series.name);
+
+        // Find the cropId with the highest count
+        const mostRegisteredCropId = Object.keys(cropCounts).reduce((a, b) => cropCounts[a] > cropCounts[b] ? a : b);
+        // Find the corresponding crop name in the getCrop response
+        const mostRegisteredCrop = crops.find(crop => crop.data.id == mostRegisteredCropId);
+        // Set the most registered crop
+        this.mostRegisteredCrop = mostRegisteredCrop ? mostRegisteredCrop.data.name : '';
+      });
+    });
   },
   methods: {
     openDialog() {
@@ -55,37 +88,6 @@ export default {
     },
     closeDialog() {
       this.showDialog = false;
-    },
-    getAllSowings(){
-      this.sowingsAPI.getAll().then(response => {
-        const sowings = response.data;
-        const cropCounts = {};
-        sowings.forEach(sowing => {
-          if (sowing.cropId in cropCounts) {
-            cropCounts[sowing.cropId]++;
-          } else {
-            cropCounts[sowing.cropId] = 1;
-          }
-        });
-
-        this.chartOptions.xaxis.categories = Object.keys(cropCounts);
-        this.series[0].data = Object.values(cropCounts);
-
-        // Find the crop with the highest count
-        let mostRegisteredCropId = '';
-        let highestCount = 0;
-        for (const cropId in cropCounts) {
-          if (cropCounts[cropId] > highestCount) {
-            mostRegisteredCropId = cropId;
-            highestCount = cropCounts[cropId];
-          }
-        }
-
-        // Get the name of the most registered crop
-        this.cropsAPI.getCropById(mostRegisteredCropId).then(response => {
-          this.mostRegisteredCrop = response.data.name;
-        });
-      });
     }
   }
 };
