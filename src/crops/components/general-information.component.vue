@@ -41,14 +41,13 @@ export default {
 
         this.sowing = sowingResponse.data;
 
-        console.log('Sowing data:', this.sowing); // Log sowing data
-
+        console.log(sowingResponse);
         if (!this.sowing.cropId) {
           console.error('Error: crop_id is missing in sowing data');
           return;
         }
 
-        const cropResponse = await cropApiService.getCropById(this.sowing.crop_id);
+        const cropResponse = await cropApiService.getCropById(this.sowing.cropId);
 
         if (!cropResponse || !cropResponse.data) {
           console.error('Error: Crop data not found');
@@ -57,12 +56,10 @@ export default {
 
         this.crop = cropResponse.data;
 
-        console.log('Crop data:', this.crop); // Log crop data
-
         this.rows = [
           ['Crop Name', this.crop ? this.crop.name : 'N/A'],
           ['Date Created', this.sowing.start_date],
-          ['Planted Area (m2)', this.sowing.area_land]
+          ['Planted Area (m2)', this.sowing.areaLand]
         ];
 
       } catch (error) {
@@ -99,58 +96,5 @@ export default {
 </template>
 
 <style scoped>
-.container {
-  display: flex;
-  margin-bottom: 50px;
-}
-
-.image-container {
-  flex: 1;
-  margin-right: 50px;
-}
-
-.labels-container {
-  flex: 1;
-  margin-top: auto;
-  margin-bottom: auto;
-  margin-left: 50px;
-  display: flex;
-  flex-direction: column;
-
-}
-
-.row {
-  display: flex;
-  margin-bottom: 10px;
-}
-
-.column {
-  flex: 1;
-  padding: 10px;
-  text-align: center;
-  border-radius: 5px;
-}
-
-.grey-label {
-  background-color: #D9D9D9;
-  color: black;
-}
-
-.green-label {
-  background-color: #005f40;
-  color: white;
-}
-
-.description{
-  background-color: #005f40;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  border-radius: 5px;
-}
-.crop-image {
-  width: 400px;
-  height: 400px;
-  border-radius: 20px;
-}
+/* Estilos para el componente */
 </style>
