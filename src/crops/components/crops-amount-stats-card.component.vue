@@ -1,6 +1,7 @@
 <script>
 import VueApexCharts from 'vue3-apexcharts'
-import {StatisticsApiService} from '../services/statistics-api.service.js';
+import {SowingsApiService} from '../services/sowings-api.service.js';
+import {CropsRecomendationApiService} from '../services/crops-recomendation-api.service.js';
 
 export default {
   name: 'crops-amount-stats-card',
@@ -11,7 +12,7 @@ export default {
     return {
       showDialog: false,
       statusSowing: null,
-      statisticsAPI: null,
+      sowingsAPI: null,
       cropsAPI: null,
       mostRegisteredCrop: '',
       chartOptions: {
@@ -37,13 +38,14 @@ export default {
         }
       },
       series: [{
+        name: 'Crops',
         data: []
       }],
     };
   },
   created() {
-    this.statisticsAPI = new StatisticsApiService();
-    this.cropsAPI =
+    this.sowingsAPI = new SowingsApiService();
+    this.cropsAPI = new CropsRecomendationApiService();
     this.statusSowing = false;
     this.getAllSowings();
   },
@@ -55,22 +57,34 @@ export default {
       this.showDialog = false;
     },
     getAllSowings(){
-      this.statisticsAPI.getAllSowings(this.statusSowing).then(response => {
+      this.sowingsAPI.getAll().then(response => {
         const sowings = response.data;
         const cropCounts = {};
-        console.log(sowings);
         sowings.forEach(sowing => {
-          if (sowing.crop_name in cropCounts) {
-            cropCounts[sowing.crop_name]++;
+          if (sowing.cropId in cropCounts) {
+            cropCounts[sowing.cropId]++;
           } else {
-            cropCounts[sowing.crop_name] = 1;
+            cropCounts[sowing.cropId] = 1;
           }
         });
 
         this.chartOptions.xaxis.categories = Object.keys(cropCounts);
         this.series[0].data = Object.values(cropCounts);
-        console.log(cropCounts);
-        this.mostRegisteredCrop = this.chartOptions.xaxis.categories[0];
+
+        // Find the crop with the highest count
+        let mostRegisteredCropId = '';
+        let highestCount = 0;
+        for (const cropId in cropCounts) {
+          if (cropCounts[cropId] > highestCount) {
+            mostRegisteredCropId = cropId;
+            highestCount = cropCounts[cropId];
+          }
+        }
+
+        // Get the name of the most registered crop
+        this.cropsAPI.getCropById(mostRegisteredCropId).then(response => {
+          this.mostRegisteredCrop = response.data.name;
+        });
       });
     }
   }

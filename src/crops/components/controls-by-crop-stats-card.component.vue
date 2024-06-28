@@ -1,6 +1,8 @@
 <script>
 import VueApexCharts from 'vue3-apexcharts'
-import {StatisticsApiService} from '../services/statistics-api.service.js';
+import {SowingsApiService} from '../services/sowings-api.service.js';
+import {CropsRecomendationApiService} from '../services/crops-recomendation-api.service.js';
+import {ControlsApiService} from '../services/controls-api-service.js';
 
 export default {
   name: "controls-by-crop-stats",
@@ -32,40 +34,31 @@ export default {
       series: [],
     };
   },
-  created() {
-    const statisticsAPI = new StatisticsApiService();
-    statisticsAPI.getAllSowings(false).then(response => {
-      const sowings = response.data;
-      const controlCounts = {};
-      const cropNames = [];
-      console.log(sowings);
+  async created() {
+    const sowingsAPI = new SowingsApiService();
+    const cropsAPI = new CropsRecomendationApiService();
+    const controlsAPI = new ControlsApiService();
 
-      sowings.forEach(sowing => {
-        if (!cropNames.includes(sowing.crop_name)) {
-          cropNames.push(sowing.crop_name);
-        }
-      });
+    const sowings = await sowingsAPI.getAll();
+    const controlCounts = {};
 
-      sowings.forEach(sowing => {
-        if (sowing.controls.length > 0) {
-          if (sowing.id in controlCounts) {
-            controlCounts[sowing.id] += sowing.controls.length;
-          } else {
-            controlCounts[sowing.id] = sowing.controls.length;
-          }
-        }
-      });
+    for (const sowing of sowings.data) {
+      const controls = await controlsAPI.getAllControlsBySowingId(sowing.id);
+      const crop = await cropsAPI.getCropById(sowing.cropId);
+      const cropName = crop.data.name;
 
-      const mostControlledCropId = Object.keys(controlCounts).reduce((a, b) => controlCounts[a] > controlCounts[b] ? a : b);
-      this.mostControlledCrop = sowings.find(sowing => sowing.id == mostControlledCropId).crop_name;
+      if (cropName in controlCounts) {
+        controlCounts[cropName] += controls.data.length;
+      } else {
+        controlCounts[cropName] = controls.data.length;
+      }
+    }
 
-      this.chartOptions = {
-        ...this.chartOptions,
-        labels: [this.mostControlledCrop]
-      };
+    const mostControlledCrop = Object.keys(controlCounts).reduce((a, b) => controlCounts[a] > controlCounts[b] ? a : b);
 
-      this.series = Object.values(controlCounts);
-    });
+    this.mostControlledCrop = mostControlledCrop;
+    this.chartOptions.labels = Object.keys(controlCounts);
+    this.series = Object.values(controlCounts);
   },
   methods: {
     openDialog() {
