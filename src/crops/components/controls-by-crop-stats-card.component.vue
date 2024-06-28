@@ -10,6 +10,7 @@ export default {
   data() {
     return {
       showDialog: false,
+      statusSowing: null,
       mostControlledCrop: '',
       chartOptions: {
         chart: {
@@ -33,7 +34,7 @@ export default {
   },
   created() {
     const statisticsAPI = new StatisticsApiService();
-    statisticsAPI.getAllSowings().then(response => {
+    statisticsAPI.getAllSowings(false).then(response => {
       const sowings = response.data;
       const controlCounts = {};
 
