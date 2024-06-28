@@ -36,7 +36,7 @@ export class ForumApiService{
         return http.get(`/forum/answers/${id}`);
     }
     getAnswerByQuestionId(id){
-        return http.get(`/forum/answers/question/${id}`);
+        return http.get(`/forum/question/${id}/answers`);
     }
     createAnswer(answer){
         return http.post("/forum/answers",answer);

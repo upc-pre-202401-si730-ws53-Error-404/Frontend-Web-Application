@@ -10,6 +10,9 @@ export default {
   data() {
     return {
       showDialog: false,
+      statusSowing: null,
+      statisticsAPI: null,
+      cropsAPI: null,
       mostRegisteredCrop: '',
       chartOptions: {
         chart: {
@@ -22,15 +25,10 @@ export default {
           }
         },
         dataLabels: {
-          enabled: true
+          enabled: false
         },
         xaxis: {
           categories: [],
-        },
-        yaxis: {
-          labels: {
-            show: false
-          }
         },
         tooltip: {
           style: {
@@ -39,38 +37,15 @@ export default {
         }
       },
       series: [{
-        name : 'Quantity',
-        data: [
-
-        ]
+        data: []
       }],
     };
   },
   created() {
-    const statisticsAPI = new StatisticsApiService();
-    statisticsAPI.getAllSowings().then(response => {
-      const sowings = response.data;
-      const cropCounts = {};
-
-      sowings.forEach(sowing => {
-        if (sowing.crop_name in cropCounts) {
-          cropCounts[sowing.crop_name]++;
-        } else {
-          cropCounts[sowing.crop_name] = 1;
-        }
-      });
-      const cropQuantities = Object.values(cropCounts);
-
-      this.series = Object.keys(cropCounts).map(((cropName, index) => {
-        return {
-          name: cropName,
-          data: [cropQuantities[index]]
-        }
-      }));
-
-      this.chartOptions.xaxis.categories = Object.keys(cropCounts);
-      this.mostRegisteredCrop = this.chartOptions.xaxis.categories[0];
-    });
+    this.statisticsAPI = new StatisticsApiService();
+    this.cropsAPI =
+    this.statusSowing = false;
+    this.getAllSowings();
   },
   methods: {
     openDialog() {
@@ -78,6 +53,25 @@ export default {
     },
     closeDialog() {
       this.showDialog = false;
+    },
+    getAllSowings(){
+      this.statisticsAPI.getAllSowings(this.statusSowing).then(response => {
+        const sowings = response.data;
+        const cropCounts = {};
+        console.log(sowings);
+        sowings.forEach(sowing => {
+          if (sowing.crop_name in cropCounts) {
+            cropCounts[sowing.crop_name]++;
+          } else {
+            cropCounts[sowing.crop_name] = 1;
+          }
+        });
+
+        this.chartOptions.xaxis.categories = Object.keys(cropCounts);
+        this.series[0].data = Object.values(cropCounts);
+        console.log(cropCounts);
+        this.mostRegisteredCrop = this.chartOptions.xaxis.categories[0];
+      });
     }
   }
 };

@@ -31,7 +31,7 @@ export default {
       this.isQuestionSelected = false;
     },
     formatDate(value) {
-      return new Date(value).toISOString().split('T')[0];
+      return new Date(value).toLocaleDateString('en-GB');
     }
   },
   created() {
