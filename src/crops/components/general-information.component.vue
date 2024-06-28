@@ -57,7 +57,7 @@ export default {
 <template>
   <div class="container">
     <div class="image-container">
-      <img :src="sowing?.crop_info?.image" alt="Crop Image"/>
+      <img :src="sowing?.crop_info?.imageUrl" alt="Crop Image"/>
     </div>
     <div class="labels-container">
       <div class="row" v-for="(row, index) in rows" :key="index">
