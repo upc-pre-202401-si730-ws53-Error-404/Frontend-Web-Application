@@ -11,6 +11,13 @@ export class StatisticsApiService {
         return http.get(`/crops-management/crops/${id}`);
     }
 
+    getControlsBySowing(sowingId){
+        return http.get(`/crops-management/sowings/${sowingId}/controls`);
+    }
+
+
+
+
 
 }
 

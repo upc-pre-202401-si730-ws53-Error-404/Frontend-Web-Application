@@ -1,8 +1,6 @@
 <script>
 import VueApexCharts from 'vue3-apexcharts'
-import {SowingsApiService} from '../services/sowings-api.service.js';
-import {CropsRecomendationApiService} from '../services/crops-recomendation-api.service.js';
-import {ControlsApiService} from '../services/controls-api-service.js';
+import {StatisticsApiService} from '../services/statistics-api.service.js';
 
 export default {
   name: "controls-by-crop-stats",
@@ -12,7 +10,6 @@ export default {
   data() {
     return {
       showDialog: false,
-      statusSowing: null,
       mostControlledCrop: '',
       chartOptions: {
         chart: {
@@ -31,34 +28,52 @@ export default {
           }
         }]
       },
-      series: [],
+      series: [
+      ]
     };
   },
-  async created() {
-    const sowingsAPI = new SowingsApiService();
-    const cropsAPI = new CropsRecomendationApiService();
-    const controlsAPI = new ControlsApiService();
+  created() {
+    const statisticsAPI = new StatisticsApiService();
+    statisticsAPI.getAllSowings().then(response => {
+      const sowings = response.data;
+      const controlCounts = {};
+      const cropNames = {};
 
-    const sowings = await sowingsAPI.getAll();
-    const controlCounts = {};
+      Promise.all(
+          sowings.map(sowing =>
+              Promise.all([
+                statisticsAPI.getControlsBySowing(sowing.id),
+                statisticsAPI.getCrop(sowing.cropId)
+              ])
+          )
+      ).then(results => {
+        results.forEach(([controls, crop], index) => {
+          if (controls.data.length === 0) {
 
-    for (const sowing of sowings.data) {
-      const controls = await controlsAPI.getAllControlsBySowingId(sowing.id);
-      const crop = await cropsAPI.getCropById(sowing.cropId);
-      const cropName = crop.data.name;
+            return;
+          }
+          if (crop.data.id in controlCounts) {
+            controlCounts[crop.data.id] += controls.data.length;
+          } else {
+            controlCounts[crop.data.id] = controls.data.length;
+            cropNames[crop.data.id] = crop.data.name;
+          }
+        });
 
-      if (cropName in controlCounts) {
-        controlCounts[cropName] += controls.data.length;
-      } else {
-        controlCounts[cropName] = controls.data.length;
-      }
-    }
+        const mostControlledCropId = Object.keys(controlCounts).reduce((a, b) => controlCounts[a] > controlCounts[b] ? a : b);
+        this.mostControlledCrop = cropNames[mostControlledCropId];
 
-    const mostControlledCrop = Object.keys(controlCounts).reduce((a, b) => controlCounts[a] > controlCounts[b] ? a : b);
+        console.log(Object.values(cropNames));
+        console.log(Object.values(controlCounts));
 
-    this.mostControlledCrop = mostControlledCrop;
-    this.chartOptions.labels = Object.keys(controlCounts);
-    this.series = Object.values(controlCounts);
+        this.chartOptions = {
+          ...this.chartOptions,
+          labels: Object.values(cropNames)
+        };
+        this.series = Object.values(controlCounts);
+        console.log(this.series);
+      });
+    });
   },
   methods: {
     openDialog() {
@@ -75,18 +90,18 @@ export default {
   <div class="card-container">
     <pv-card class="bg padded-card">
       <template #header>
-        <h2>{{$t('mostControlledCrops')}}</h2>
+        <h2>{{ $t('mostControlledCrops') }}</h2>
       </template>
       <template #content>
         <apexchart :options="chartOptions" :series="series" type="pie"></apexchart>
-        <button @click="openDialog">{{$t('showCropWithMostControls')}}</button>
+        <button @click="openDialog">{{ $t('showCropWithMostControls') }}</button>
       </template>
     </pv-card>
     <div v-if="showDialog" class="dialog-overlay">
       <div class="dialog">
-        <h3>{{$t('showCropWithMostControls')}}</h3>
+        <h3>{{ $t('showCropWithMostControls') }}</h3>
         <p>{{ mostControlledCrop }}</p>
-        <button @click="closeDialog">{{$t('close')}}</button>
+        <button @click="closeDialog">{{ $t('close') }}</button>
       </div>
     </div>
   </div>
