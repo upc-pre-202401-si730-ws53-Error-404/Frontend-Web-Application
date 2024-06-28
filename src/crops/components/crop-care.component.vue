@@ -1,6 +1,8 @@
 <script>
 import http from "../../shared/services/http-common.js";
 import CustomTable from "./custom-table.component.vue";
+import { SowingsApiService } from '../services/sowings-api.service.js';
+import {CropCaresApiService} from "../services/crop-cares-api.service.js";
 
 export default {
   name: 'CropCare',
@@ -15,7 +17,7 @@ export default {
   },
   async created() {
     const sowingsAPI = new SowingsApiService();
-    const caresAPI = new CropCaresApiService(); // Initialize CropCaresApiService
+    const caresAPI = new CropCaresApiService();
 
     try {
       const sowingResponse = await sowingsAPI.getById(this.sowingId);
@@ -26,18 +28,17 @@ export default {
       if (selectedSowing) {
         const caresResponse = await caresAPI.getByCropId(selectedSowing.cropId);
         const cares = caresResponse.data || [];
-        console.log('Cares Response:', cares);  // Log cares data
+        console.log('Cares Response:', cares);
 
-        // New API request
-        const response = await http.get(`/api/v1/cares/${selectedSowing.cropId}/cares`);
+        const response = await http.get(`/crops/${selectedSowing.cropId}/cares`);
         const newCares = response.data || [];
-        console.log('New Cares Response:', newCares);  // Log new cares data
+        console.log('New Cares Response:', newCares);
 
         const caresData = cares.map(care => ({
           date: care.date,
           suggestion: care.suggestion
         }));
-        console.log('Cares Data:', caresData);  // Log cares data
+        console.log('Cares Data:', caresData);
 
         this.tableData = caresData;
         console.log('Table Data:', this.tableData);
