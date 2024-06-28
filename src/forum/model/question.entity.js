@@ -18,11 +18,12 @@ export class Question{
     static toDisplayableQuestion(question) {
         return {
             id: question.questionId,
-            userName: question.authorId,
+            authorId: question.authorId,
             categoryId: question.categoryId,
             ask: question.questionText,
             date: question.date,
-            category: question.category
+            category: question.category,
+            userName: question.userName
         };
     }
 }

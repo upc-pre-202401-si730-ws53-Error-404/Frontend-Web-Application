@@ -2,6 +2,10 @@ import http from "../../shared/services/http-common.js";
 
 export class ForumApiService{
 
+    getAllProfiles(){
+        return http.get("/profiles");
+    }
+
     getAllQuestions(){
         return http.get("/forum/questions");
     }
